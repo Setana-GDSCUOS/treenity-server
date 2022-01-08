@@ -1,2 +1,2 @@
-# treenity-api
-treenity-api
+# treenity-server
+treenity-server
