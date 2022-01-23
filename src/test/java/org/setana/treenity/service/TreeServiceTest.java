@@ -33,7 +33,7 @@ class TreeServiceTest {
     UserItemRepository userItemRepository;
 
     @Test
-    @DisplayName("트리 생성하기")
+    @DisplayName("나무 심기")
     public void plantTreeTest() {
         // given
         Double longitude = 100D;
@@ -57,6 +57,7 @@ class TreeServiceTest {
         assertEquals(latitude, tree.getLatitude());
         assertEquals(savedUser.getId(), tree.getUser().getId());
         assertEquals(savedItem.getId(), tree.getItem().getId());
+        assertEquals(Boolean.TRUE, savedUserItem.getIsUsed());
     }
 
 

@@ -39,7 +39,7 @@ class TreeRepositoryTest {
     }
 
     @Test
-    @DisplayName("트리 생성하기")
+    @DisplayName("나무 생성하기")
     public void createTreeTest() {
         // given
         User user = new User(100_000L, "userA");

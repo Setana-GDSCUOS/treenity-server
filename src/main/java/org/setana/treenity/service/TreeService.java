@@ -1,6 +1,5 @@
 package org.setana.treenity.service;
 
-import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.entity.Tree;
@@ -29,7 +28,6 @@ public class TreeService {
             .orElseThrow(IllegalStateException::new);
         userItem.consume();
 
-        System.out.println("user :" + userItem.getUser());
         Tree tree = new Tree(location, userItem.getUser(), userItem.getItem());
         return treeRepository.save(tree);
     }
