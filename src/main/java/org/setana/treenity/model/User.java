@@ -46,16 +46,4 @@ public class User extends BaseEntity {
         this.point = point;
     }
 
-    public UserItem createUserItem(Item item) {
-        validatePoint(item);
-
-        point -= item.getCost();
-        return new UserItem(this, item);
-    }
-
-    public void validatePoint(Item item) {
-        if (point < item.getCost())
-            throw new IllegalStateException();
-    }
-
 }

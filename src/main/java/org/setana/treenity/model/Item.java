@@ -45,8 +45,4 @@ public class Item extends BaseEntity {
         this.itemType = itemType;
     }
 
-    public void validateItemType(ItemType itemType) {
-        if (!this.itemType.equals(itemType))
-            throw new IllegalStateException();
-    }
 }
