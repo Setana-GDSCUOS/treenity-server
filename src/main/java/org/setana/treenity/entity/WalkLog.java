@@ -1,4 +1,4 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

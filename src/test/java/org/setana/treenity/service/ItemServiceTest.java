@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.model.Item;
-import org.setana.treenity.model.ItemType;
-import org.setana.treenity.model.User;
-import org.setana.treenity.model.UserItem;
+import org.setana.treenity.entity.Item;
+import org.setana.treenity.entity.ItemType;
+import org.setana.treenity.entity.User;
+import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,11 @@ class ItemServiceTest {
         Integer itemCost = 100;
         Integer userPoint = 200;
 
-        Item savedItem = itemRepository.save(new Item(itemName, ItemType.SEED, itemCost));
-        User savedUser = userRepository.save(new User(100_000L, "userA", userPoint));
+        Item item = new Item(itemName, ItemType.SEED, itemCost);
+        User user = new User(100_000L, "userA", userPoint);
+
+        Item savedItem = itemRepository.save(item);
+        User savedUser = userRepository.save(user);
 
         // when
         UserItem userItem = itemService.purchaseItem(itemName, savedUser.getId());

@@ -6,8 +6,8 @@ import java.util.Random;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.model.Tree;
-import org.setana.treenity.model.User;
+import org.setana.treenity.entity.Tree;
+import org.setana.treenity.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -45,7 +45,7 @@ class TreeRepositoryTest {
         User user = new User(100_000L, "userA");
         User savedUser = userRepository.save(user);
 
-        Tree tree = new Tree(randomLong(), randomLat(), user);
+        Tree tree = new Tree(randomLong(), randomLat(), user, null);
         Tree savedTree = treeRepository.save(tree);
 
         // when

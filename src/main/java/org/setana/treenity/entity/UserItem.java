@@ -1,5 +1,7 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,24 +19,16 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-public class Tree extends BaseEntity {
+public class UserItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tree_id")
+    @Column(name = "user_item_Id")
     private Long id;
 
-    private Double longitude;
+    private LocalDateTime expDate;
 
-    private Double latitude;
-
-    private String description;
-
-    private String imagePath;
-
-    private Integer level = 0;
-
-    private Integer exp = 0;
+    private Boolean isUsed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -44,10 +38,25 @@ public class Tree extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    public Tree(Double longitude, Double latitude, User user) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.user = user;
+    public UserItem(User user, Item item) {
+        this(user, item, null);
     }
 
+    public UserItem(User user, Item item, LocalDateTime expDate) {
+        this.user = user;
+        this.item = item;
+        this.expDate = expDate;
+    }
+
+    public void consume() {
+        validateExpDate();
+        isUsed = true;
+    }
+
+    public void validateExpDate() {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (!Objects.isNull(expDate) && expDate.isAfter(now))
+            throw new IllegalStateException();
+    }
 }

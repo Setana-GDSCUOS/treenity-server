@@ -1,4 +1,4 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 import java.util.ArrayList;
 import java.util.List;
