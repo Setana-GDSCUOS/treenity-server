@@ -4,7 +4,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.UserItem;
-import org.setana.treenity.model.Location;
+import org.setana.treenity.entity.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;

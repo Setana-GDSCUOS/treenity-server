@@ -1,6 +1,7 @@
 package org.setana.treenity.model;
 
 import java.util.List;
+import org.setana.treenity.entity.Location;
 import org.setana.treenity.entity.Tree;
 
 public class TreeCluster {

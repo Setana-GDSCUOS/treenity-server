@@ -2,7 +2,7 @@ package org.setana.treenity.util;
 
 // https://github.com/jasonwinn/haversine/blob/master/Haversine.java
 
-import org.setana.treenity.model.Location;
+import org.setana.treenity.entity.Location;
 
 public class Haversine {
     private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM

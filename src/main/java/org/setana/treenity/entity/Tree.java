@@ -1,6 +1,7 @@
 package org.setana.treenity.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.setana.treenity.model.Location;
 import org.setana.treenity.util.Haversine;
 
 @Entity
@@ -26,9 +26,8 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    private Double longitude;
-
-    private Double latitude;
+    @Embedded
+    private Location location;
 
     private String description;
 
@@ -47,19 +46,13 @@ public class Tree extends BaseEntity {
     private Item item;
 
     public Tree(Location location, User user, Item item) {
-        this(location.getLongitude(), location.getLatitude(), user, item);
-    }
-
-    public Tree(Double longitude, Double latitude, User user, Item item) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.location = location;
         this.user = user;
         this.item = item;
     }
 
-    public void validatePlant(Location location) {
-        Location here = new Location(longitude, latitude);
-        double distance = Haversine.distance(here, location);
+    public void validatePlant(Location other) {
+        double distance = Haversine.distance(location, other);
 
         if (distance > 0.001)
             throw new IllegalStateException();

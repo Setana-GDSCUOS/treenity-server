@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.entity.Tree;
-import org.setana.treenity.model.Location;
+import org.setana.treenity.entity.Location;
 import org.setana.treenity.model.TreeCluster;
 
 import static org.setana.treenity.entity.QTree.*;

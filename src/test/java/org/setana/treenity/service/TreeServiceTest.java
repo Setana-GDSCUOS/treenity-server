@@ -10,7 +10,7 @@ import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
-import org.setana.treenity.model.Location;
+import org.setana.treenity.entity.Location;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
@@ -36,9 +36,7 @@ class TreeServiceTest {
     @DisplayName("나무 심기")
     public void plantTreeTest() {
         // given
-        Double longitude = 100D;
-        Double latitude = 100D;
-        Location location = new Location(longitude, latitude);
+        Location location = new Location(100.0, 100.0);
 
         Item item = new Item("나무A", ItemType.SEED, 100);
         User user = new User(100_000L, "userA", 200);
@@ -53,8 +51,7 @@ class TreeServiceTest {
         Tree tree = treeService.plantTree(location, savedUserItem.getId());
 
         // then
-        assertEquals(longitude, tree.getLongitude());
-        assertEquals(latitude, tree.getLatitude());
+        assertEquals(location, tree.getLocation());
         assertEquals(savedUser.getId(), tree.getUser().getId());
         assertEquals(savedItem.getId(), tree.getItem().getId());
         assertEquals(Boolean.TRUE, savedUserItem.getIsUsed());
