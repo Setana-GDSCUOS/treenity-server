@@ -23,13 +23,27 @@ public class TreeService {
         TreeCluster treeCluster = treeRepository.searchByLocation(location);
         treeCluster.validatePlant();
 
-        // TODO: 유저가 가진 아이템인 UserItem 을 선택해 나무를 생성하는지, 선택하지 않고 자동으로 사용하는지 조사
+        // TODO: UserItem 에서 아이템 타입이 SEED 인 아이템 중 하나를 선택해 나무 심기 필요
         UserItem userItem = userItemRepository.findById(userItemId)
             .orElseThrow(IllegalStateException::new);
         userItem.consume();
 
         Tree tree = new Tree(location, userItem.getUser(), userItem.getItem());
         return treeRepository.save(tree);
+    }
+
+    @Transactional
+    public Tree interactTree(Long treeId, Long userItemId) {
+
+        Tree tree = treeRepository.findById(treeId)
+            .orElseThrow(IllegalStateException::new);
+
+        // TODO: UserItem 에서 아이템 타입이 WATER 인 아이템 중 하나를 선택해 상호작용 필요
+        UserItem userItem = userItemRepository.findById(userItemId)
+            .orElseThrow(IllegalStateException::new);
+        userItem.consume(tree);
+
+        return tree;
     }
 
 }

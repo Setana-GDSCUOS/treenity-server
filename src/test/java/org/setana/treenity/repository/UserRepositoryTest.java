@@ -29,7 +29,7 @@ class UserRepositoryTest {
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
-        assertEquals(findUser.getId(), savedUser.getId());
+        assertEquals(savedUser.getId(), findUser.getId());
     }
 
 }

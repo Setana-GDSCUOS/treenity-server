@@ -56,5 +56,7 @@ class TreeRepositoryTest {
         // then
         assertEquals(savedTree.getId(), findTree.getId());
         assertEquals(savedUser.getId(), findTree.getUser().getId());
+        assertEquals(0, findTree.getLevel());
+        assertEquals(0, findTree.getExp());
     }
 }

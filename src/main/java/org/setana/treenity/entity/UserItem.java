@@ -28,7 +28,7 @@ public class UserItem extends BaseEntity {
 
     private LocalDateTime expDate;
 
-    private Boolean isUsed;
+    private Boolean isUsed = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -39,7 +39,7 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        this(user, item, null);
+        this(user, item, LocalDateTime.now());
     }
 
     public UserItem(User user, Item item, LocalDateTime expDate) {
@@ -51,6 +51,11 @@ public class UserItem extends BaseEntity {
     public void consume() {
         validateExpDate();
         isUsed = true;
+    }
+
+    public void consume(Tree tree) {
+        consume();
+        item.apply(tree);
     }
 
     public void validateExpDate() {

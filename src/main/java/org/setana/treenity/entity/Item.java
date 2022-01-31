@@ -45,4 +45,11 @@ public class Item extends BaseEntity {
         this.itemType = itemType;
     }
 
+    public void apply(Tree tree) {
+        if (itemType == ItemType.WATER) {
+            tree.waterPlant();
+        }
+        // TODO : 물 외에 다른 아이템 사용 시 나무의 성장에 어떤 영향을 줄지 고려
+    }
+
 }

@@ -12,6 +12,7 @@ import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.entity.Location;
 import org.setana.treenity.repository.ItemRepository;
+import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ class TreeServiceTest {
     @Autowired
     ItemRepository itemRepository;
     @Autowired
+    TreeRepository treeRepository;
+    @Autowired
     UserRepository userRepository;
     @Autowired
     UserItemRepository userItemRepository;
@@ -39,7 +42,7 @@ class TreeServiceTest {
         Location location = new Location(100.0, 100.0);
 
         Item item = new Item("나무A", ItemType.SEED, 100);
-        User user = new User(100_000L, "userA", 200);
+        User user = new User(100_000L, "userA");
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -54,8 +57,32 @@ class TreeServiceTest {
         assertEquals(location, tree.getLocation());
         assertEquals(savedUser.getId(), tree.getUser().getId());
         assertEquals(savedItem.getId(), tree.getItem().getId());
-        assertEquals(Boolean.TRUE, savedUserItem.getIsUsed());
+        assertEquals(true, savedUserItem.getIsUsed());
     }
 
+    @Test
+    @DisplayName("나무 상호작용하기")
+    public void interactTreeTest() {
+        // given
+        Location location = new Location(100.0, 100.0);
+
+        Item item = new Item("양동이", ItemType.WATER, 10);
+        User user = new User(100_000L, "userA");
+
+        Item savedItem = itemRepository.save(item);
+        User savedUser = userRepository.save(user);
+        Tree savedTree = treeRepository.save(new Tree(location, user, null));
+
+        UserItem userItem = new UserItem(savedUser, savedItem);
+        UserItem savedUserItem = userItemRepository.save(userItem);
+
+        // when
+        Tree tree = treeService.interactTree(savedTree.getId(), userItem.getId());
+        UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
+
+        // then
+        assertEquals(true, findUserItem.getIsUsed());
+        assertEquals(1, tree.getLevel());
+    }
 
 }
