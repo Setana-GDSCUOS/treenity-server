@@ -77,7 +77,7 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), userItem.getId());
+        Tree tree = treeService.interactTree(savedTree.getId(), savedUserItem.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then

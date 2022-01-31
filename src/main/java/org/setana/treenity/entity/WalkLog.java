@@ -1,5 +1,6 @@
 package org.setana.treenity.entity;
 
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,9 +25,22 @@ public class WalkLog extends BaseEntity {
     @Column(name = "walk_log_id")
     private Long id;
 
+    private LocalDate date;
+
     private Integer walks;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public WalkLog(LocalDate date, Integer walks, User user) {
+        this.date = date;
+        this.walks = walks;
+        this.user = user;
+    }
+
+    public void addWalks(Integer walks) {
+        this.walks += walks;
+    }
+
 }
