@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-01-31T10:36:19.272Z" agent="5.0 (Windows)" etag="wYH16ZgWcbWKEAqYK2vb" version="16.4.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-01-31T13:40:14.938Z" agent="5.0 (Windows)" etag="s5gYg0JSCrEZap6jT3xg" version="16.4.6" type="github">
   <diagram id="Z2XPl6DT5WQDu6Ui0edA" name="Page-1">
-    <mxGraphModel dx="1422" dy="780" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1580" dy="867" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -275,7 +275,7 @@
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-57" value="4. 나무에 변화 줘라" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="1401" y="800" width="111" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-59" value="포인트 전환하기" style="shape=umlFrame;whiteSpace=wrap;html=1;width=150;height=40;" parent="1" vertex="1">
+        <mxCell id="a-PmSQmO3lgv3oIHmwFO-59" value="걷기 추가 및 포인트 전환" style="shape=umlFrame;whiteSpace=wrap;html=1;width=150;height=40;" parent="1" vertex="1">
           <mxGeometry x="1654" y="620" width="690" height="370" as="geometry" />
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-60" value="&lt;font style=&quot;font-size: 48px&quot;&gt;UML Diagram&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
@@ -284,57 +284,26 @@
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-61" value="&lt;font style=&quot;font-size: 48px&quot;&gt;Domain&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="30" y="70" width="227.5" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-62" value="User" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="1814" y="710" width="120" height="60" as="geometry" />
+        <mxCell id="a-PmSQmO3lgv3oIHmwFO-62" value="userService" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1856.5" y="710" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-63" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="a-PmSQmO3lgv3oIHmwFO-62" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1690" y="740" as="sourcePoint" />
-            <mxPoint x="1814" y="739.52" as="targetPoint" />
+            <mxPoint x="1732.5" y="740" as="sourcePoint" />
+            <mxPoint x="1856.5" y="739.52" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-64" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1724" y="730" as="sourcePoint" />
-            <mxPoint x="1784" y="730" as="targetPoint" />
+            <mxPoint x="1766.5" y="730" as="sourcePoint" />
+            <mxPoint x="1826.5" y="730" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-65" value="1. 포인트 전환해라" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1694" y="700" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-66" value="2. 시간 검증해라" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1824" y="820" width="110" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-67" value="&amp;lt;&amp;lt;create&amp;gt;&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="1934" y="700" width="140" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-68" value="UserItem" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="2081" y="710" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-69" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="a-PmSQmO3lgv3oIHmwFO-62" target="a-PmSQmO3lgv3oIHmwFO-68" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1958" y="739.05" as="sourcePoint" />
-            <mxPoint x="2082" y="739.05" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="a-PmSQmO3lgv3oIHmwFO-65" value="1. 걷기 기록 추가해라" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="1732.5" y="700" width="119" height="30" as="geometry" />
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-70" value="아이템 구매하기" style="shape=umlFrame;whiteSpace=wrap;html=1;width=150;height=40;" parent="1" vertex="1">
           <mxGeometry x="1654" y="140" width="690" height="370" as="geometry" />
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-71" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1984" y="730" as="sourcePoint" />
-            <mxPoint x="2044" y="730" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="a-PmSQmO3lgv3oIHmwFO-72" value="" style="curved=1;endArrow=classic;html=1;rounded=0;fontSize=48;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="a-PmSQmO3lgv3oIHmwFO-62" target="a-PmSQmO3lgv3oIHmwFO-62" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="2384" y="900" as="sourcePoint" />
-            <mxPoint x="2434" y="850" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="1814" y="820" />
-              <mxPoint x="1944" y="820" />
-            </Array>
-          </mxGeometry>
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-73" value="User" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="2097.98" y="250" width="120" height="60" as="geometry" />
@@ -525,7 +494,7 @@
           <mxGeometry x="1391.75" y="1360" width="233.5" height="30" as="geometry" />
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-117" value="Walk Log" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fontSize=12;" parent="1" vertex="1">
-          <mxGeometry x="1153" y="1570" width="180" height="130" as="geometry" />
+          <mxGeometry x="1153" y="1570" width="180" height="160" as="geometry" />
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-118" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;fontSize=12;" parent="a-PmSQmO3lgv3oIHmwFO-117" vertex="1">
           <mxGeometry y="30" width="180" height="30" as="geometry" />
@@ -562,6 +531,19 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="a-PmSQmO3lgv3oIHmwFO-126" value="walks" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;fontSize=12;" parent="a-PmSQmO3lgv3oIHmwFO-124" vertex="1">
+          <mxGeometry x="30" width="150" height="30" as="geometry">
+            <mxRectangle width="150" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-18" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;fontSize=12;" vertex="1" parent="a-PmSQmO3lgv3oIHmwFO-117">
+          <mxGeometry y="120" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-19" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;fontSize=12;" vertex="1" parent="j9jvnlLbSwjibqAGqQzT-18">
+          <mxGeometry width="30" height="30" as="geometry">
+            <mxRectangle width="30" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-20" value="date" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;fontSize=12;" vertex="1" parent="j9jvnlLbSwjibqAGqQzT-18">
           <mxGeometry x="30" width="150" height="30" as="geometry">
             <mxRectangle width="150" height="30" as="alternateBounds" />
           </mxGeometry>
@@ -937,6 +919,76 @@
             <mxPoint x="1395" y="785" as="targetPoint" />
             <Array as="points" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-6" value="&lt;div&gt;WalkLogRepository&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1856.5" y="870" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-7" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="j9jvnlLbSwjibqAGqQzT-6" target="a-PmSQmO3lgv3oIHmwFO-62">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1934.48" y="814.5" as="sourcePoint" />
+            <mxPoint x="2081.48" y="814.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-8" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1899.5" y="790" as="sourcePoint" />
+            <mxPoint x="1899.5" y="850" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1899.5" y="820" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-9" value="&lt;div&gt;2. 해당 날짜&lt;/div&gt;&lt;div&gt;걷기 기록 찾아라&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1783.5" y="800" width="111" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-10" value="&lt;div&gt;해당 날짜 &lt;br&gt;&lt;/div&gt;&lt;div&gt;사용자 걷기 기록&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1934.48" y="805" width="111" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-11" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1934.48" y="850" as="sourcePoint" />
+            <mxPoint x="1934.48" y="790" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-14" value="walkLog" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2145.5" y="870" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-15" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" target="j9jvnlLbSwjibqAGqQzT-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1976.5" y="770" as="sourcePoint" />
+            <mxPoint x="2155.5" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-16" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="2035.5" y="790" as="sourcePoint" />
+            <mxPoint x="2105.5" y="830" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2035.5" y="790" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-17" value="&amp;lt;&amp;lt;create&amp;gt;&amp;gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2077.5" y="790" width="66" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-21" value="User" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="2145.5" y="710" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-22" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="j9jvnlLbSwjibqAGqQzT-21">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1976.5" y="740" as="sourcePoint" />
+            <mxPoint x="2108.5" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-23" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="2035.5" y="730" as="sourcePoint" />
+            <mxPoint x="2095.5" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j9jvnlLbSwjibqAGqQzT-24" value="3. 걷기 포인트 전환" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="2001.5" y="700" width="119" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
