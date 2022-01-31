@@ -182,6 +182,6 @@ class UserServiceTest {
 
         assertThat(findWalkLogs).extracting("walks")
             .containsExactly(100, 100, 200, 200, 300);
-
     }
+
 }

@@ -52,5 +52,4 @@ class ItemServiceTest {
         assertEquals(findUser.getPoint(), userPoint - itemCost);
     }
 
-
 }

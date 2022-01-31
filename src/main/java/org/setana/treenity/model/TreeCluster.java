@@ -6,8 +6,8 @@ import org.setana.treenity.entity.Tree;
 
 public class TreeCluster {
 
-    private List<Tree> trees;
-    private Location location;
+    private final List<Tree> trees;
+    private final Location location;
 
     public TreeCluster(List<Tree> trees, Location location) {
         this.trees = trees;

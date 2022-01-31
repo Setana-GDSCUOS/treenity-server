@@ -59,4 +59,5 @@ class TreeRepositoryTest {
         assertEquals(0, findTree.getLevel());
         assertEquals(0, findTree.getExp());
     }
+
 }
