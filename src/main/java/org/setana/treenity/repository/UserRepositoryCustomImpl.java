@@ -6,8 +6,8 @@ import static org.setana.treenity.entity.QUserItem.userItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.dto.QUserFetchDto;
 import org.setana.treenity.dto.MyPageFetchDto;
+import org.setana.treenity.dto.QMyPageFetchDto;
 import org.setana.treenity.entity.ItemType;
 
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     public MyPageFetchDto findMyPageById(Long userId) {
-        MyPageFetchDto dto = queryFactory.select(new QUserFetchDto(user))
+        MyPageFetchDto dto = queryFactory.select(new QMyPageFetchDto(user))
             .from(user)
             .where(user.id.eq(userId))
             .fetchOne();
