@@ -6,6 +6,8 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
+import org.setana.treenity.entity.Location;
+import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
 import org.springframework.stereotype.Component;
@@ -58,6 +60,12 @@ public class InitDb {
             em.persist(userItemE);
             em.persist(userItemF);
 
+            // tree
+            Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436), userA, itemB);
+            Tree treeB = new Tree(new Location(37.58468660084109, 127.05661406751057), userA, itemC);
+
+            em.persist(treeA);
+            em.persist(treeB);
         }
     }
 

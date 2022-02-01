@@ -3,11 +3,14 @@ package org.setana.treenity.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.dto.QTreeFetchDto;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.Location;
 import org.setana.treenity.model.TreeCluster;
 
-import static org.setana.treenity.entity.QTree.*;
+import static org.setana.treenity.entity.QItem.item;
+import static org.setana.treenity.entity.QTree.tree;
 
 @RequiredArgsConstructor
 public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
@@ -22,5 +25,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
             .fetch();
 
         return new TreeCluster(trees, location);
+    }
+
+    public List<TreeFetchDto> findByUserId(Long userId) {
+        return queryFactory.
+            select(new QTreeFetchDto(tree, item))
+            .from(tree)
+            .join(tree.item, item)
+            .where(tree.user.id.eq(userId))
+            .fetch();
     }
 }

@@ -1,18 +1,25 @@
 package org.setana.treenity.service;
 
+import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.dto.ItemFetchDto;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.entity.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class TreeService {
+
+    @Value("${spring.upload.url:${user.home}}")
+    private String imageUrl;
 
     private final TreeRepository treeRepository;
     private final UserItemRepository userItemRepository;
@@ -44,6 +51,15 @@ public class TreeService {
         userItem.consume(tree);
 
         return tree;
+    }
+
+    public List<TreeFetchDto> fetchUserTrees(Long userId) {
+        List<TreeFetchDto> dtos = treeRepository.findByUserId(userId);
+
+        for (TreeFetchDto dto : dtos) {
+            dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
+        }
+        return dtos;
     }
 
 }
