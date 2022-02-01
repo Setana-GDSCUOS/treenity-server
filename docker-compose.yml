@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  database:
+    image: mysql
+    container_name: mysql_server
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - 3306:3306
+    networks:
+      - test_network
+
+  application:
+    build: .
+    container_name: springboot_server
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    networks:
+      - test_network
+    links:
+      - database:database
+    
+networks:
+  test_network:
