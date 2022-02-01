@@ -21,7 +21,7 @@ public class UserService {
     private final WalkLogRepository walkLogRepository;
 
     @Transactional
-    public void convertPoint(Long userId, Map<LocalDate, Integer> dateWalks) {
+    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException {
 
         User user = userRepository.findById(userId)
             .orElseThrow(IllegalArgumentException::new);
@@ -36,7 +36,7 @@ public class UserService {
     }
 
     @Transactional
-    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks) {
+    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException{
 
         LocalDate startDate = dateWalks.keySet().stream()
             .min(LocalDate::compareTo)
@@ -51,7 +51,7 @@ public class UserService {
     }
 
     @Transactional
-    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) {
+    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException {
 
         List<WalkLog> walkLogs = findWalkLogs(user.getId(), dateWalks);
 

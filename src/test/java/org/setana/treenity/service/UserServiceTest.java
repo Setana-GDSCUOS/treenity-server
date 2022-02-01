@@ -53,7 +53,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(
@@ -90,7 +90,7 @@ class UserServiceTest {
             put(LocalDate.of(2022, 1, 3), 100);
         }};
 
-        userService.convertPoint(savedUser.getId(), baseDateWalks);
+        userService.convertToPoint(savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -108,7 +108,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(
@@ -130,7 +130,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("포인트 전환 시 걷기 기록 삽임 및 업데이트")
+    @DisplayName("포인트 전환 시 걷기 기록 삽입 및 업데이트")
     public void convertPointTest_3() {
 
         // given
@@ -144,7 +144,7 @@ class UserServiceTest {
             put(LocalDate.of(2022, 1, 3), 100);
         }};
 
-        userService.convertPoint(savedUser.getId(), baseDateWalks);
+        userService.convertToPoint(savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -162,7 +162,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(

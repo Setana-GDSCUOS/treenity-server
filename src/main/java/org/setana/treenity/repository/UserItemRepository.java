@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserItemRepository extends JpaRepository<UserItem, Long> {
 
-    Optional<UserItem> findById(Long aLong);
+    Optional<UserItem> findById(Long userItemId);
 }

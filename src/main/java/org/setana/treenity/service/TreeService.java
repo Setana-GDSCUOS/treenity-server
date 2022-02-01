@@ -18,14 +18,14 @@ public class TreeService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public Tree plantTree(Location location, Long userItemId) {
+    public Tree plantTree(Location location, Long userItemId) throws IllegalArgumentException {
 
         TreeCluster treeCluster = treeRepository.searchByLocation(location);
         treeCluster.validatePlant();
 
         // TODO: UserItem 에서 아이템 타입이 SEED 인 아이템 중 하나를 선택해 나무 심기 필요
         UserItem userItem = userItemRepository.findById(userItemId)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(IllegalArgumentException::new);
         userItem.consume();
 
         Tree tree = new Tree(location, userItem.getUser(), userItem.getItem());
@@ -33,14 +33,14 @@ public class TreeService {
     }
 
     @Transactional
-    public Tree interactTree(Long treeId, Long userItemId) {
+    public Tree interactTree(Long treeId, Long userItemId) throws IllegalArgumentException {
 
         Tree tree = treeRepository.findById(treeId)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(IllegalArgumentException::new);
 
         // TODO: UserItem 에서 아이템 타입이 WATER 인 아이템 중 하나를 선택해 상호작용 필요
         UserItem userItem = userItemRepository.findById(userItemId)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(IllegalArgumentException::new);
         userItem.consume(tree);
 
         return tree;
