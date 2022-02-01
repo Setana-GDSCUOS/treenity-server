@@ -37,5 +37,6 @@ out/
 .vscode/
 
 ### Custom ###
-application-db.yml
-*.bak
+application-local.yml
+application-prod.yml
+docker-compose.prod.yml
