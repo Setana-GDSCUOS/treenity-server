@@ -11,7 +11,7 @@ services:
       - test_network
 
   application:
-    build: .
+    image: rkckr1/treenity-dev
     container_name: springboot_server
     restart: always
     ports:
