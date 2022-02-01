@@ -8,6 +8,6 @@ public interface ItemRepositoryCustom {
 
     List<ItemFetchDto> findAllItems();
 
-    ItemFetchDto findItemById(Long itemId);
+    ItemFetchDto findByItemId(Long itemId);
 
 }

@@ -14,9 +14,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    @Value("${spring.upload.dir:${user.home}}")
-    private String uploadDir;
-
     public List<ItemFetchDto> findAllItems() {
         return queryFactory
             .select(new QItemFetchDto(
@@ -30,7 +27,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
             .fetch();
     }
 
-    public ItemFetchDto findItemById(Long itemId) {
+    public ItemFetchDto findByItemId(Long itemId) {
         return queryFactory
             .select(new QItemFetchDto(
                 item.id,

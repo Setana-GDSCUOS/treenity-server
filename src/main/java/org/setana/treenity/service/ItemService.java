@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ItemService {
 
+    @Value("${spring.upload.url:${user.home}}")
+    private String imageUrl;
+
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final UserItemRepository userItemRepository;
-
-    @Value("${spring.upload.url:${user.home}}")
-    private String imageUrl;
 
     @Transactional
     public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
@@ -46,7 +46,7 @@ public class ItemService {
     }
 
     public ItemFetchDto fetchItem(Long itemId) {
-        ItemFetchDto dto = itemRepository.findItemById(itemId);
+        ItemFetchDto dto = itemRepository.findByItemId(itemId);
         dto.setImagePath(imageUrl + dto.getImagePath());
         return dto;
     }

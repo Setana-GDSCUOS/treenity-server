@@ -10,7 +10,4 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
 
     Optional<Item> findByItemName(String itemName);
 
-    List<ItemFetchDto> findAllItems();
-
-    ItemFetchDto findItemById(Long itemId);
 }
