@@ -33,6 +33,11 @@ public class Item extends BaseEntity {
 
     private Integer cost;
 
+    @Column(name = "item_image_path")
+    private String imagePath;
+
+    // TODO : preferred_place 추가 논의 필요
+
     @OneToMany(mappedBy = "item")
     List<Tree> trees = new ArrayList<>();
 
