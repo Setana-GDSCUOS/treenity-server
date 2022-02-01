@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
@@ -51,6 +52,14 @@ public class UserService {
     }
 
     @Transactional
+    public void updateDailyWalks(User user, WalkLog walkLog) {
+
+        if (walkLog.getDate().equals(LocalDate.now())) {
+            user.changeDailyWalks(walkLog);
+        }
+    }
+
+    @Transactional
     public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException {
 
         List<WalkLog> walkLogs = findWalkLogs(user.getId(), dateWalks);
@@ -64,15 +73,23 @@ public class UserService {
                 .filter(walkLog -> walkLog.getDate().equals(date))
                 .findAny();
 
+            WalkLog walkLog;
+
             if (optional.isPresent()) {
-                WalkLog walkLog = optional.get();
+                walkLog = optional.get();
                 walkLog.addWalks(dateWalks.get(date));
             } else {
-                WalkLog walkLog = new WalkLog(date, dateWalks.get(date), user);
+                walkLog = new WalkLog(date, dateWalks.get(date), user);
                 walkLogRepository.save(walkLog);
             }
+
+            updateDailyWalks(user, walkLog);
         }
 
+    }
+
+    public MyPageFetchDto fetchMyPage(Long userId) {
+        return userRepository.findMyPageById(userId);
     }
 
 }
