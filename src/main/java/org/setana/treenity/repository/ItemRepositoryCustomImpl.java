@@ -7,7 +7,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.ItemFetchDto;
 import org.setana.treenity.dto.QItemFetchDto;
-import org.springframework.beans.factory.annotation.Value;
 
 @RequiredArgsConstructor
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
@@ -16,26 +15,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     public List<ItemFetchDto> findAllItems() {
         return queryFactory
-            .select(new QItemFetchDto(
-                item.id,
-                item.itemName,
-                item.itemType,
-                item.cost,
-                item.imagePath
-            ))
+            .select(new QItemFetchDto(item))
             .from(item)
             .fetch();
     }
 
     public ItemFetchDto findByItemId(Long itemId) {
         return queryFactory
-            .select(new QItemFetchDto(
-                item.id,
-                item.itemName,
-                item.itemType,
-                item.cost,
-                item.imagePath
-            ))
+            .select(new QItemFetchDto(item))
             .from(item)
             .where(item.id.eq(itemId))
             .fetchOne();
