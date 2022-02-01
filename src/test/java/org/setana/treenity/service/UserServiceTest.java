@@ -35,13 +35,13 @@ class UserServiceTest {
     public void convertPointTest_1() {
 
         // given
-        User user = new User(100_000L, "나무A");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
-            put(LocalDate.of(2022, 1, 1), 100);
-            put(LocalDate.of(2022, 1, 2), 200);
-            put(LocalDate.of(2022, 1, 3), 300);
+            put(LocalDate.now().minusDays(1), 100);
+            put(LocalDate.now(), 200);
+            put(LocalDate.now().plusDays(1), 300);
         }};
 
         LocalDate startDate = dateWalks.keySet().stream()
@@ -61,13 +61,14 @@ class UserServiceTest {
 
         // then
         assertEquals(savedUser.getId(), findUser.getId());
+        assertEquals(200, findUser.getDailyWalks());
         assertEquals(6, findUser.getPoint());
 
         assertThat(findWalkLogs).extracting("date")
             .containsExactly(
-                LocalDate.of(2022, 1, 1),
-                LocalDate.of(2022, 1, 2),
-                LocalDate.of(2022, 1, 3)
+                LocalDate.now().minusDays(1),
+                LocalDate.now(),
+                LocalDate.now().plusDays(1)
             );
 
         assertThat(findWalkLogs).extracting("walks")
@@ -80,23 +81,23 @@ class UserServiceTest {
     public void convertPointTest_2() {
 
         // given
-        User user = new User(100_000L, "나무A");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
         Map<LocalDate, Integer> baseDateWalks = new HashMap<>() {{
-            put(LocalDate.of(2022, 1, 1), 100);
-            put(LocalDate.of(2022, 1, 2), 100);
-            put(LocalDate.of(2022, 1, 3), 100);
+            put(LocalDate.now().minusDays(1), 100);
+            put(LocalDate.now(), 100);
+            put(LocalDate.now().plusDays(1),100);
         }};
 
         userService.convertToPoint(savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
-            put(LocalDate.of(2022, 1, 1), 100);
-            put(LocalDate.of(2022, 1, 2), 200);
-            put(LocalDate.of(2022, 1, 3), 300);
+            put(LocalDate.now().minusDays(1), 100);
+            put(LocalDate.now(), 200);
+            put(LocalDate.now().plusDays(1), 300);
         }};
 
         LocalDate startDate = dateWalks.keySet().stream()
@@ -116,12 +117,13 @@ class UserServiceTest {
 
         // then
         assertEquals(9, findUser.getPoint());
+        assertEquals(300, findUser.getDailyWalks());
 
         assertThat(findWalkLogs).extracting("date")
             .containsExactly(
-                LocalDate.of(2022, 1, 1),
-                LocalDate.of(2022, 1, 2),
-                LocalDate.of(2022, 1, 3)
+                LocalDate.now().minusDays(1),
+                LocalDate.now(),
+                LocalDate.now().plusDays(1)
             );
 
         assertThat(findWalkLogs).extracting("walks")
@@ -134,23 +136,23 @@ class UserServiceTest {
     public void convertPointTest_3() {
 
         // given
-        User user = new User(100_000L, "나무A");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
         Map<LocalDate, Integer> baseDateWalks = new HashMap<>() {{
-            put(LocalDate.of(2022, 1, 1), 100);
-            put(LocalDate.of(2022, 1, 2), 100);
-            put(LocalDate.of(2022, 1, 3), 100);
+            put(LocalDate.now().minusDays(3), 100);
+            put(LocalDate.now().minusDays(2), 100);
+            put(LocalDate.now().minusDays(1), 100);
         }};
 
         userService.convertToPoint(savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
-            put(LocalDate.of(2022, 1, 3), 100);
-            put(LocalDate.of(2022, 1, 4), 200);
-            put(LocalDate.of(2022, 1, 5), 300);
+            put(LocalDate.now().minusDays(1), 100);
+            put(LocalDate.now(), 200);
+            put(LocalDate.now().plusDays(1), 300);
         }};
 
         LocalDate startDate = baseDateWalks.keySet().stream()
@@ -170,14 +172,15 @@ class UserServiceTest {
 
         // then
         assertEquals(9, findUser.getPoint());
+        assertEquals(200, findUser.getDailyWalks());
 
         assertThat(findWalkLogs).extracting("date")
             .containsExactly(
-                LocalDate.of(2022, 1, 1),
-                LocalDate.of(2022, 1, 2),
-                LocalDate.of(2022, 1, 3),
-                LocalDate.of(2022, 1, 4),
-                LocalDate.of(2022, 1, 5)
+                LocalDate.now().minusDays(3),
+                LocalDate.now().minusDays(2),
+                LocalDate.now().minusDays(1),
+                LocalDate.now(),
+                LocalDate.now().plusDays(1)
             );
 
         assertThat(findWalkLogs).extracting("walks")
