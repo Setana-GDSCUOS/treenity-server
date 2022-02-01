@@ -1,6 +1,7 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.setana.treenity.util.Haversine;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,12 +26,12 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    private Double longitude;
-
-    private Double latitude;
+    @Embedded
+    private Location location;
 
     private String description;
 
+    @Column(name = "tree_image_path")
     private String imagePath;
 
     private Integer level = 0;
@@ -44,10 +46,21 @@ public class Tree extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    public Tree(Double longitude, Double latitude, User user) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public Tree(Location location, User user, Item item) {
+        this.location = location;
         this.user = user;
+        this.item = item;
     }
 
+    public void validatePlant(Location other) {
+        double distance = Haversine.distance(location, other);
+
+        if (distance > 0.001)
+            throw new IllegalStateException();
+    }
+
+    public void waterPlant() {
+        // TODO : 나무 성장 시 exp 와 level 상승 고려 필요
+        level += 1;
+    }
 }

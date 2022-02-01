@@ -1,4 +1,6 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
+
+import static org.setana.treenity.entity.QUser.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,23 @@ public class User extends BaseEntity {
         this.googleId = googleId;
         this.username = username;
         this.point = point;
+    }
+
+    public UserItem createUserItem(Item item) {
+        validatePoint(item);
+        point -= item.getCost();
+
+        return new UserItem(this, item);
+    }
+
+    private void validatePoint(Item item) {
+        if (point < item.getCost())
+            throw new IllegalStateException();
+    }
+
+    public void addPoint(Integer walks) {
+        // TODO : 걸음 수를 포인트로 전환 시 비율 논의 필요
+        point += walks / 100;
     }
 
 }

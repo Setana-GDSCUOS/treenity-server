@@ -1,4 +1,4 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 public enum ItemType {
     SEED,

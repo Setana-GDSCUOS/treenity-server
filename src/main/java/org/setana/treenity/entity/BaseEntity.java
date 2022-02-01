@@ -1,4 +1,4 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -16,8 +16,8 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    protected LocalDateTime createdDate;
 
     @LastModifiedBy
-    private LocalDateTime modifiedDate;
+    protected LocalDateTime modifiedDate;
 }

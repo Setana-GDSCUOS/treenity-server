@@ -6,8 +6,9 @@ import java.util.Random;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.model.Tree;
-import org.setana.treenity.model.User;
+import org.setana.treenity.entity.Location;
+import org.setana.treenity.entity.Tree;
+import org.setana.treenity.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -39,13 +40,14 @@ class TreeRepositoryTest {
     }
 
     @Test
-    @DisplayName("트리 생성하기")
+    @DisplayName("나무 생성하기")
     public void createTreeTest() {
         // given
         User user = new User(100_000L, "userA");
         User savedUser = userRepository.save(user);
 
-        Tree tree = new Tree(randomLong(), randomLat(), user);
+        Location location = new Location(randomLong(), randomLat());
+        Tree tree = new Tree(location, user, null);
         Tree savedTree = treeRepository.save(tree);
 
         // when
@@ -54,5 +56,8 @@ class TreeRepositoryTest {
         // then
         assertEquals(savedTree.getId(), findTree.getId());
         assertEquals(savedUser.getId(), findTree.getUser().getId());
+        assertEquals(0, findTree.getLevel());
+        assertEquals(0, findTree.getExp());
     }
+
 }

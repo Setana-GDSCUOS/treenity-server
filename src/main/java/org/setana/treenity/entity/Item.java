@@ -1,4 +1,4 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,11 @@ public class Item extends BaseEntity {
 
     private Integer cost;
 
+    @Column(name = "item_image_path")
+    private String imagePath;
+
+    // TODO : preferred_place 추가 논의 필요
+
     @OneToMany(mappedBy = "item")
     List<Tree> trees = new ArrayList<>();
 
@@ -43,6 +48,13 @@ public class Item extends BaseEntity {
         this.itemName = itemName;
         this.cost = cost;
         this.itemType = itemType;
+    }
+
+    public void apply(Tree tree) {
+        if (itemType == ItemType.WATER) {
+            tree.waterPlant();
+        }
+        // TODO : 물 외에 다른 아이템 사용 시 나무의 성장에 어떤 영향을 줄지 고려
     }
 
 }

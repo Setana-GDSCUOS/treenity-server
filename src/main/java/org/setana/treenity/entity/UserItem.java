@@ -1,5 +1,7 @@
-package org.setana.treenity.model;
+package org.setana.treenity.entity;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,6 +26,10 @@ public class UserItem extends BaseEntity {
     @Column(name = "user_item_Id")
     private Long id;
 
+    private LocalDateTime expDate;
+
+    private Boolean isUsed = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -33,8 +39,29 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        this.user = user;
-        this.item = item;
+        this(user, item, LocalDateTime.now());
     }
 
+    public UserItem(User user, Item item, LocalDateTime expDate) {
+        this.user = user;
+        this.item = item;
+        this.expDate = expDate;
+    }
+
+    public void consume() {
+        validateExpDate();
+        isUsed = true;
+    }
+
+    public void consume(Tree tree) {
+        consume();
+        item.apply(tree);
+    }
+
+    public void validateExpDate() {
+        LocalDateTime now = LocalDateTime.now();
+
+        if (!Objects.isNull(expDate) && expDate.isAfter(now))
+            throw new IllegalStateException();
+    }
 }
