@@ -62,7 +62,7 @@ public class UserItem extends BaseEntity {
     public void validateExpDate() {
         LocalDateTime now = LocalDateTime.now();
 
-        if (!Objects.isNull(expDate) && expDate.isAfter(now))
+        if (!Objects.isNull(expDate) && expDate.isBefore(now))
             throw new IllegalStateException();
     }
 }

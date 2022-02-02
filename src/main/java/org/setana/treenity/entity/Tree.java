@@ -55,7 +55,7 @@ public class Tree extends BaseEntity {
     public void validatePlant(Location other) {
         double distance = Haversine.distance(location, other);
 
-        if (distance > 0.001)
+        if (distance <= 0.001)
             throw new IllegalStateException();
     }
 
