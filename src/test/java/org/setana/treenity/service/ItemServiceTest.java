@@ -31,12 +31,12 @@ class ItemServiceTest {
     @DisplayName("아이템 구매")
     public void purchaseItemTest() {
         // given
-        String itemName = "나무A";
+        String itemName = "아이템B";
         Integer itemCost = 100;
         Integer userPoint = 200;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost);
-        User user = new User(100_000L, "userA", userPoint);
+        User user = new User(100_000L, "유저D", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);

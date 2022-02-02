@@ -22,7 +22,7 @@ class UserRepositoryTest {
     @DisplayName("유저 생성하기")
     public void testUser() {
         // given
-        User user = new User(100_000L, "userA");
+        User user = new User(100_000L, "유저C");
         User savedUser = userRepository.save(user);
 
         // when

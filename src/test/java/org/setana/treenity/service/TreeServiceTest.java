@@ -15,6 +15,7 @@ import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
+import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -39,10 +40,10 @@ class TreeServiceTest {
     @DisplayName("나무 심기")
     public void plantTreeTest() {
         // given
-        Location location = new Location(100.0, 100.0);
+        Location location = new Location(Random.randomLong(), Random.randomLat());
 
-        Item item = new Item("나무A", ItemType.SEED, 100);
-        User user = new User(100_000L, "userA");
+        Item item = new Item("아이템C", ItemType.SEED, 100);
+        User user = new User(100_000L, "유저E");
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -66,8 +67,8 @@ class TreeServiceTest {
         // given
         Location location = new Location(100.0, 100.0);
 
-        Item item = new Item("양동이", ItemType.WATER, 10);
-        User user = new User(100_000L, "userA");
+        Item item = new Item("아이템D", ItemType.WATER, 10);
+        User user = new User(100_000L, "유저F");
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);

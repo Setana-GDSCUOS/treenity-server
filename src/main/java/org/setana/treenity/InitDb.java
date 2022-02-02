@@ -32,26 +32,26 @@ public class InitDb {
 
         public void init() {
             // user
-            User userA = new User(100_000L, "유저A", 1_000);
+            User user0 = new User(100_000L, "유저0", 1_000);
 
-            em.persist(userA);
+            em.persist(user0);
 
             // item
             Item itemA = new Item("water", ItemType.WATER, 30, "bucket.jpg");
             Item itemB = new Item("sprout", ItemType.SEED, 20, "sprout.png");
-            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.png");
+            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.jpg");
 
             em.persist(itemA);
             em.persist(itemB);
             em.persist(itemC);
 
             // userItem (3 buckets, 2 sprout, 1 bud tree)
-            UserItem userItemA = new UserItem(userA, itemA);
-            UserItem userItemB = new UserItem(userA, itemA);
-            UserItem userItemC = new UserItem(userA, itemA);
-            UserItem userItemD = new UserItem(userA, itemB);
-            UserItem userItemE = new UserItem(userA, itemB);
-            UserItem userItemF = new UserItem(userA, itemC);
+            UserItem userItemA = new UserItem(user0, itemA);
+            UserItem userItemB = new UserItem(user0, itemA);
+            UserItem userItemC = new UserItem(user0, itemA);
+            UserItem userItemD = new UserItem(user0, itemB);
+            UserItem userItemE = new UserItem(user0, itemB);
+            UserItem userItemF = new UserItem(user0, itemC);
 
             em.persist(userItemA);
             em.persist(userItemB);
@@ -61,8 +61,8 @@ public class InitDb {
             em.persist(userItemF);
 
             // tree
-            Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436), userA, itemB);
-            Tree treeB = new Tree(new Location(37.58468660084109, 127.05661406751057), userA, itemC);
+            Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436), user0, itemB);
+            Tree treeB = new Tree(new Location(37.58468660084109, 127.05661406751057), user0, itemC);
 
             em.persist(treeA);
             em.persist(treeB);
