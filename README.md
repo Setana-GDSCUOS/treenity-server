@@ -9,11 +9,11 @@ $ gradlew build
 ### docker build & push (Local, WSL)
 
 ```shell
-$ bash docker-push.sh
+$ bash docker/push.sh
 ```
 
 ### docker pull & run (Prod, Linux)
 
 ```shell
-$ bash docker-pull.sh
+$ bash docker/pull.sh
 ```
