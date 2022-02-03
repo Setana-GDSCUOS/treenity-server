@@ -11,3 +11,8 @@ spring:
 
   jackson:
     default-property-inclusion: non_null
+
+  # https://stackoverflow.com/questions/40241843/failed-to-start-bean-documentationpluginsbootstrapper-in-spring-data-rest
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
