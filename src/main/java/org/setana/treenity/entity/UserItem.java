@@ -39,7 +39,8 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        this(user, item, LocalDateTime.now());
+        // TODO : expDate (만료일) 논의 필요, 현재 item 추가로부터 1주일로 설정
+        this(user, item, LocalDateTime.now().plusWeeks(1));
     }
 
     public UserItem(User user, Item item, LocalDateTime expDate) {
@@ -61,7 +62,7 @@ public class UserItem extends BaseEntity {
     public void validateExpDate() {
         LocalDateTime now = LocalDateTime.now();
 
-        if (!Objects.isNull(expDate) && expDate.isAfter(now))
+        if (!Objects.isNull(expDate) && expDate.isBefore(now))
             throw new IllegalStateException();
     }
 }

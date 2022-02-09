@@ -29,8 +29,8 @@ class UserItemRepositoryTest {
     @DisplayName("유저아이템 생성하기")
     public void testUserItem() {
         // given
-        User user = new User(100_000L, "userA");
-        Item item = new Item("나무A", ItemType.SEED, 100);
+        User user = new User(100_000L, "유저B");
+        Item item = new Item("아이템A", ItemType.SEED, 100);
 
         User savedUser = userRepository.save(user);
         Item savedItem = itemRepository.save(item);

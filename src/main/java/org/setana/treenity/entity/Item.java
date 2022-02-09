@@ -45,9 +45,14 @@ public class Item extends BaseEntity {
     List<UserItem> userItems = new ArrayList<>();
 
     public Item(String itemName, ItemType itemType, Integer cost) {
+        this(itemName, itemType, cost, null);
+    }
+
+    public Item(String itemName, ItemType itemType, Integer cost, String imagePath) {
         this.itemName = itemName;
         this.cost = cost;
         this.itemType = itemType;
+        this.imagePath = imagePath;
     }
 
     public void apply(Tree tree) {

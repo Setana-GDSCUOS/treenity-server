@@ -32,6 +32,8 @@ public class User extends BaseEntity {
 
     private Integer point = 0;
 
+    private Integer dailyWalks = 0;
+
     @OneToMany(mappedBy = "user")
     List<WalkLog> walkLogs = new ArrayList<>();
 
@@ -63,6 +65,10 @@ public class User extends BaseEntity {
     public void addPoint(Integer walks) {
         // TODO : 걸음 수를 포인트로 전환 시 비율 논의 필요
         point += walks / 100;
+    }
+
+    public void changeDailyWalks(WalkLog walkLog) {
+        this.dailyWalks = walkLog.getWalks();
     }
 
 }

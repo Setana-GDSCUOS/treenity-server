@@ -1,11 +1,19 @@
 # treenity-server
 
-## Running the app with docker
-
-### production
+### gradle build (Local, Windows)
 
 ```shell
-$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+$ gradlew build
 ```
 
+### docker build & push (Local, WSL)
 
+```shell
+$ bash docker/push.sh
+```
+
+### docker pull & run (Prod, Linux)
+
+```shell
+$ bash docker/pull.sh
+```
