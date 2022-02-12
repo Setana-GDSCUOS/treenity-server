@@ -25,8 +25,8 @@ public class ItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
-        Item item = itemRepository.findByItemName(itemName)
+    public UserItem purchaseItem(String name, Long userId) throws IllegalStateException {
+        Item item = itemRepository.findByName(name)
             .orElseThrow(IllegalStateException::new);
 
         User user = userRepository.findById(userId)

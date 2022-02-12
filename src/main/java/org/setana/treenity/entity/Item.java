@@ -48,22 +48,27 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item")
     List<UserItem> userItems = new ArrayList<>();
 
-    public Item(String itemName, ItemType itemType, Integer cost) {
-        this(itemName, itemType, cost, null);
+    public Item(String name, ItemType itemType, Integer cost) {
+        this(name, itemType, cost, null);
     }
 
-    public Item(String itemName, ItemType itemType, Integer cost, String imagePath) {
-        this.itemName = itemName;
+    public Item(String name, ItemType itemType, Integer cost, String imagePath) {
+        this(name, itemType, cost, imagePath, null);
+    }
+
+    public Item(String name, ItemType itemType, Integer cost, String imagePath,
+        Integer purchaseLimit) {
+        this.name = name;
+        this.imagePath = imagePath;
         this.cost = cost;
         this.itemType = itemType;
-        this.imagePath = imagePath;
+        this.purchaseLimit = purchaseLimit;
     }
 
     public void apply(Tree tree) {
         if (itemType == ItemType.WATER) {
             tree.waterPlant();
         }
-        // TODO : 물 외에 다른 아이템 사용 시 나무의 성장에 어떤 영향을 줄지 고려
     }
 
 }

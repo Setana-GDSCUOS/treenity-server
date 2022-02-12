@@ -19,7 +19,7 @@ public class ItemFetchDto {
     @QueryProjection
     public ItemFetchDto(Item item) {
         this.itemId = item.getId();
-        this.itemName = item.getItemName();
+        this.itemName = item.getName();
         this.itemType = item.getItemType();
         this.cost = item.getCost();
         this.imagePath = item.getImagePath();

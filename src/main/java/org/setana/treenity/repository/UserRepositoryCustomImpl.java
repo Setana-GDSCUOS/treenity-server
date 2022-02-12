@@ -21,14 +21,14 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .where(user.id.eq(userId))
             .fetchOne();
 
-        Long buckets = queryFactory.select(userItem.count())
-            .from(userItem)
-            .where(userItem.user.id.eq(userId)
-                .and(userItem.item.itemType.eq(ItemType.WATER))
-                .and(userItem.expDate.after(LocalDateTime.now())))
-            .fetchOne();
-
-        dto.setBuckets(buckets);
+//        Long buckets = queryFactory.select(userItem.count())
+//            .from(userItem)
+//            .where(userItem.user.id.eq(userId)
+//                .and(userItem.item.itemType.eq(ItemType.WATER))
+//                .and(userItem.expDate.after(LocalDateTime.now())))
+//            .fetchOne();
+//
+//        dto.setBuckets(buckets);
         return dto;
     }
 }

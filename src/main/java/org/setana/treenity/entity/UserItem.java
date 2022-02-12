@@ -26,11 +26,11 @@ public class UserItem extends BaseEntity {
     @Column(name = "user_item_Id")
     private Long id;
 
-    private Integer totalCount;
+    private Integer totalCount = 1;
 
-    private Integer purchaseCount;
+    private Integer purchaseCount = 1;
 
-    private LocalDateTime purchaseDate;
+    private LocalDateTime purchaseDate = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -41,19 +41,18 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        // TODO : expDate (만료일) 논의 필요, 현재 item 추가로부터 1주일로 설정
-        this(user, item, LocalDateTime.now().plusWeeks(1));
-    }
-
-    public UserItem(User user, Item item, LocalDateTime expDate) {
         this.user = user;
         this.item = item;
-        this.expDate = expDate;
     }
 
     public void consume() {
-        validateExpDate();
-        isUsed = true;
+        validateCount();
+        totalCount -= 1;
+    }
+
+    private void validateCount() {
+        if (totalCount <= 0)
+            throw new IllegalStateException();
     }
 
     public void consume(Tree tree) {
@@ -61,10 +60,4 @@ public class UserItem extends BaseEntity {
         item.apply(tree);
     }
 
-    public void validateExpDate() {
-        LocalDateTime now = LocalDateTime.now();
-
-        if (!Objects.isNull(expDate) && expDate.isBefore(now))
-            throw new IllegalStateException();
-    }
 }

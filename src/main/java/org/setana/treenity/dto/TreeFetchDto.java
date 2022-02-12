@@ -14,7 +14,7 @@ public class TreeFetchDto {
     private String description;
     private String imagePath;
     private Integer level;
-    private Integer exp;
+    private Integer bucket;
 
     // item
     private ItemFetchDto item;
@@ -27,7 +27,7 @@ public class TreeFetchDto {
         this.description = tree.getDescription();
         this.imagePath = tree.getImagePath();
         this.level = tree.getLevel();
-        this.exp = tree.getExp();
+        this.bucket = tree.getBucket();
 
         this.item = new ItemFetchDto(item);
     }

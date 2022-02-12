@@ -58,7 +58,6 @@ class TreeServiceTest {
         assertEquals(location, tree.getLocation());
         assertEquals(savedUser.getId(), tree.getUser().getId());
         assertEquals(savedItem.getId(), tree.getItem().getId());
-        assertEquals(true, savedUserItem.getIsUsed());
     }
 
     @Test
@@ -82,8 +81,7 @@ class TreeServiceTest {
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
-        assertEquals(true, findUserItem.getIsUsed());
-        assertEquals(1, tree.getLevel());
+        assertEquals(1, tree.getBucket());
     }
 
 }

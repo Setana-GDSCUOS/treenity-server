@@ -65,7 +65,7 @@ public class User extends BaseEntity {
     }
 
     public void addPoint(Integer walks) {
-        // TODO : 걸음 수를 포인트로 전환 시 비율 논의 필요
+        // 걸음수 대 포인트 전환 비율 = 100 : 1
         point += walks / 100;
     }
 

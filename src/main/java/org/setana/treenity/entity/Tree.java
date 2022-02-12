@@ -64,7 +64,6 @@ public class Tree extends BaseEntity {
     }
 
     public void waterPlant() {
-        // TODO : 나무 성장 시 exp 와 level 상승 고려 필요
-        level += 1;
+        bucket += 1;
     }
 }

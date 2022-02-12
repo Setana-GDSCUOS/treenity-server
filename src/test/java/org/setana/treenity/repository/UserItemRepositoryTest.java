@@ -43,7 +43,6 @@ class UserItemRepositoryTest {
 
         // then
         assertEquals(savedUserItem.getId(), findUserItem.getId());
-        assertEquals(false, findUserItem.getIsUsed());
         assertEquals(savedUser.getId(), findUserItem.getUser().getId());
         assertEquals(savedItem.getId(), findUserItem.getItem().getId());
     }
