@@ -33,7 +33,7 @@ public class UserService {
             .reduce(Integer::sum)
             .orElseThrow(IllegalArgumentException::new);
 
-        user.addPoint(totalWalks);
+        user.updateTotalWalksAndPoint(totalWalks);
     }
 
     @Transactional
