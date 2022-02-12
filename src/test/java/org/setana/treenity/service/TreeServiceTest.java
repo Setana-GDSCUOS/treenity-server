@@ -42,7 +42,7 @@ class TreeServiceTest {
         // given
         Location location = new Location(Random.randomLong(), Random.randomLat());
 
-        Item item = new Item("아이템C", ItemType.SEED, 100);
+        Item item = new Item("아이템D", ItemType.SEED, 100);
         User user = new User(100_000L, "유저E");
 
         Item savedItem = itemRepository.save(item);
@@ -66,7 +66,7 @@ class TreeServiceTest {
         // given
         Location location = new Location(100.0, 100.0);
 
-        Item item = new Item("아이템D", ItemType.WATER, 10);
+        Item item = new Item("아이템", ItemType.WATER, 10);
         User user = new User(100_000L, "유저F");
 
         Item savedItem = itemRepository.save(item);

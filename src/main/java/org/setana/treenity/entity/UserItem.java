@@ -1,5 +1,6 @@
 package org.setana.treenity.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ public class UserItem extends BaseEntity {
 
     private Integer purchaseCount = 1;
 
-    private LocalDateTime purchaseDate = LocalDateTime.now();
+    private LocalDate purchaseDate = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -50,14 +51,34 @@ public class UserItem extends BaseEntity {
         totalCount -= 1;
     }
 
-    private void validateCount() {
-        if (totalCount <= 0)
-            throw new IllegalStateException();
-    }
-
     public void consume(Tree tree) {
         consume();
         item.apply(tree);
     }
 
+    private void validateCount() {
+        if (totalCount <= 0)
+            throw new IllegalStateException();
+    }
+
+    public void purchase() {
+        validateLimit();
+        user.purchaseItem(item);
+
+        totalCount += 1;
+        purchaseCount = Objects.isNull(item.getPurchaseLimit())
+            ? (purchaseCount + 1)
+            : (purchaseCount + 1) % item.getPurchaseLimit();
+        purchaseDate = LocalDate.now();
+    }
+
+    private void validateLimit() {
+        Integer purchaseLimit = item.getPurchaseLimit();
+
+        if (!Objects.isNull(purchaseLimit)
+            && purchaseCount >= purchaseLimit
+            && purchaseDate.isEqual(LocalDate.now()))
+            throw new IllegalStateException();
+
+    }
 }

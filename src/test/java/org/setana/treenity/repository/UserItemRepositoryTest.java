@@ -30,7 +30,7 @@ class UserItemRepositoryTest {
     public void testUserItem() {
         // given
         User user = new User(100_000L, "유저B");
-        Item item = new Item("아이템A", ItemType.SEED, 100);
+        Item item = new Item("아이템A", ItemType.SEED, 100, null);
 
         User savedUser = userRepository.save(user);
         Item savedItem = itemRepository.save(item);

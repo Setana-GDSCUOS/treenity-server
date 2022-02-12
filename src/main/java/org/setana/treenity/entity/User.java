@@ -53,10 +53,13 @@ public class User extends BaseEntity {
     }
 
     public UserItem createUserItem(Item item) {
+        purchaseItem(item);
+        return new UserItem(this, item);
+    }
+
+    public void purchaseItem(Item item) {
         validatePoint(item);
         point -= item.getCost();
-
-        return new UserItem(this, item);
     }
 
     private void validatePoint(Item item) {
@@ -64,9 +67,10 @@ public class User extends BaseEntity {
             throw new IllegalStateException();
     }
 
-    public void addPoint(Integer walks) {
+    public void updateTotalWalksAndPoint(Integer walks) {
         // 걸음수 대 포인트 전환 비율 = 100 : 1
         point += walks / 100;
+        totalWalks += walks;
     }
 
     public void changeDailyWalks(WalkLog walkLog) {

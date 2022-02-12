@@ -1,6 +1,7 @@
 package org.setana.treenity.service;
 
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.ItemFetchDto;
@@ -25,8 +26,21 @@ public class ItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public UserItem purchaseItem(String name, Long userId) throws IllegalStateException {
-        Item item = itemRepository.findByName(name)
+    public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
+
+        Optional<UserItem> findUserItem = userItemRepository.searchByItemNameAndUserId(itemName, userId);
+
+        if (findUserItem.isPresent()) {
+            UserItem userItem = findUserItem.get();
+            userItem.purchase();
+            return userItem;
+        } else {
+            return createUserItem(itemName, userId);
+        }
+    }
+
+    private UserItem createUserItem(String itemName, Long userId) throws IllegalStateException {
+        Item item = itemRepository.findByName(itemName)
             .orElseThrow(IllegalStateException::new);
 
         User user = userRepository.findById(userId)
@@ -39,7 +53,7 @@ public class ItemService {
     public List<ItemFetchDto> fetchItems() {
         List<ItemFetchDto> dtos = itemRepository.findAllItems();
 
-        for (ItemFetchDto dto: dtos) {
+        for (ItemFetchDto dto : dtos) {
             dto.setImagePath(imageUrl + dto.getImagePath());
         }
         return dtos;

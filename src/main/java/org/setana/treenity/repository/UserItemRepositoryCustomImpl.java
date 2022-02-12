@@ -6,9 +6,11 @@ import static org.setana.treenity.entity.QItem.item;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.QUserItemFetchDto;
 import org.setana.treenity.dto.UserItemFetchDto;
+import org.setana.treenity.entity.UserItem;
 
 @RequiredArgsConstructor
 public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
@@ -27,5 +29,15 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
             .join(userItem.item, item)
             .where(userItem.user.id.eq(userId))
             .fetch();
+    }
+
+    public Optional<UserItem> searchByItemNameAndUserId(String itemName, Long userId) {
+        return Optional.ofNullable(queryFactory
+            .selectFrom(userItem)
+            .join(userItem.user, user)
+            .join(userItem.item, item)
+            .where(userItem.user.id.eq(userId)
+                .and(userItem.item.name.eq(itemName)))
+            .fetchOne());
     }
 }

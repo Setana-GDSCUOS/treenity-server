@@ -26,7 +26,7 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-    @Column(name = "item_name")
+    @Column(unique = true, name = "item_name")
     private String name;
 
     @Column(name = "item_description")
@@ -59,9 +59,9 @@ public class Item extends BaseEntity {
     public Item(String name, ItemType itemType, Integer cost, String imagePath,
         Integer purchaseLimit) {
         this.name = name;
-        this.imagePath = imagePath;
-        this.cost = cost;
         this.itemType = itemType;
+        this.cost = cost;
+        this.imagePath = imagePath;
         this.purchaseLimit = purchaseLimit;
     }
 
