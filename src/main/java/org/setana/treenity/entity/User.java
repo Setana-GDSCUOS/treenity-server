@@ -34,6 +34,8 @@ public class User extends BaseEntity {
 
     private Integer dailyWalks = 0;
 
+    private Integer totalWalks = 0;
+
     @OneToMany(mappedBy = "user")
     List<WalkLog> walkLogs = new ArrayList<>();
 

@@ -26,17 +26,21 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-    private String itemName;
+    @Column(name = "item_name")
+    private String name;
+
+    @Column(name = "item_description")
+    private String description;
+
+    @Column(name = "item_image_path")
+    private String imagePath;
 
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
     private Integer cost;
 
-    @Column(name = "item_image_path")
-    private String imagePath;
-
-    // TODO : preferred_place 추가 논의 필요
+    private Integer purchaseLimit;
 
     @OneToMany(mappedBy = "item")
     List<Tree> trees = new ArrayList<>();

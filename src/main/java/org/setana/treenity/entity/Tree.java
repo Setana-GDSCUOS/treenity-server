@@ -26,17 +26,21 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    @Embedded
-    private Location location;
+    @Column(name = "tree_name")
+    private String name;
 
+    @Column(name = "tree_description")
     private String description;
 
     @Column(name = "tree_image_path")
     private String imagePath;
 
+    @Embedded
+    private Location location;
+
     private Integer level = 0;
 
-    private Integer exp = 0;
+    private Integer bucket = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

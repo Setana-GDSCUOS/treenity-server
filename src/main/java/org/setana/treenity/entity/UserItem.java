@@ -26,9 +26,11 @@ public class UserItem extends BaseEntity {
     @Column(name = "user_item_Id")
     private Long id;
 
-    private LocalDateTime expDate;
+    private Integer totalCount;
 
-    private Boolean isUsed = false;
+    private Integer purchaseCount;
+
+    private LocalDateTime purchaseDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

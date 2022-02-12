@@ -25,9 +25,10 @@ public class WalkLog extends BaseEntity {
     @Column(name = "walk_log_id")
     private Long id;
 
-    private LocalDate date;
-
     private Integer walks;
+
+    @Column(name = "walk_log_date")
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
