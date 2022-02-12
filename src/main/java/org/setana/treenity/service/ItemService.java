@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.ItemFetchDto;
+import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
@@ -28,7 +29,11 @@ public class ItemService {
     @Transactional
     public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
 
-        Optional<UserItem> findUserItem = userItemRepository.searchByItemNameAndUserId(itemName, userId);
+        UserItemSearchCondition condition = new UserItemSearchCondition();
+        condition.setUserId(userId);
+        condition.setItemName(itemName);
+
+        Optional<UserItem> findUserItem = userItemRepository.search(condition);
 
         if (findUserItem.isPresent()) {
             UserItem userItem = findUserItem.get();

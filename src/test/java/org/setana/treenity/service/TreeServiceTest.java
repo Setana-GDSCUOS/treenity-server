@@ -77,11 +77,12 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), savedUserItem.getId());
+        Tree tree = treeService.interactTree(savedTree.getId(), savedUser.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
         assertEquals(1, tree.getBucket());
+        assertEquals(0, findUserItem.getTotalCount());
     }
 
 }

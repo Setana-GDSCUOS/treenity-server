@@ -3,13 +3,17 @@ package org.setana.treenity.repository;
 import static org.setana.treenity.entity.QUserItem.userItem;
 import static org.setana.treenity.entity.QUser.user;
 import static org.setana.treenity.entity.QItem.item;
+import static org.springframework.util.StringUtils.isEmpty;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.QUserItemFetchDto;
 import org.setana.treenity.dto.UserItemFetchDto;
+import org.setana.treenity.dto.UserItemSearchCondition;
+import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.UserItem;
 
 @RequiredArgsConstructor
@@ -31,13 +35,26 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
             .fetch();
     }
 
-    public Optional<UserItem> searchByItemNameAndUserId(String itemName, Long userId) {
+    public Optional<UserItem> search(UserItemSearchCondition condition) {
         return Optional.ofNullable(queryFactory
             .selectFrom(userItem)
             .join(userItem.user, user)
             .join(userItem.item, item)
-            .where(userItem.user.id.eq(userId)
-                .and(userItem.item.name.eq(itemName)))
+            .where(userIdEq(condition.getUserId()),
+                itemNameEq(condition.getItemName()),
+                itemTypeEq(condition.getItemType()))
             .fetchOne());
+    }
+
+    private BooleanExpression userIdEq(Long userId) {
+        return userId == null ? null : userItem.user.id.eq(userId);
+    }
+
+    private BooleanExpression itemNameEq(String itemName) {
+        return isEmpty(itemName) ? null : userItem.item.name.eq(itemName);
+    }
+
+    private BooleanExpression itemTypeEq(ItemType itemType) {
+        return isEmpty(itemType) ? null : userItem.item.itemType.eq(itemType);
     }
 }
