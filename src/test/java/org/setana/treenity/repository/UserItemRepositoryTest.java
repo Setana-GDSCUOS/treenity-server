@@ -11,11 +11,9 @@ import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
 class UserItemRepositoryTest {
 
     @Autowired
@@ -29,7 +27,7 @@ class UserItemRepositoryTest {
     @DisplayName("유저아이템 생성하기")
     public void testUserItem() {
         // given
-        User user = new User(100_000L, "유저B");
+        User user = new User(100_000L, "유저A");
         Item item = new Item("아이템A", ItemType.SEED, 100, null);
 
         User savedUser = userRepository.save(user);

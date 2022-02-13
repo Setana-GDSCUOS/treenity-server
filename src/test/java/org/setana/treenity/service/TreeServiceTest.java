@@ -41,8 +41,8 @@ class TreeServiceTest {
         // given
         Location location = new Location(Random.randomLong(), Random.randomLat());
 
-        Item item = new Item("아이템D", ItemType.SEED, 100);
-        User user = new User(100_000L, "유저E");
+        Item item = new Item("아이템A", ItemType.SEED, 100);
+        User user = new User(100_000L, "유저A");
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);

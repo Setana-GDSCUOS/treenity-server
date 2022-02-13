@@ -11,11 +11,9 @@ import org.setana.treenity.entity.User;
 import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
 class TreeRepositoryTest {
 
     @Autowired
@@ -40,7 +38,7 @@ class TreeRepositoryTest {
         // then
         assertEquals(savedTree.getId(), findTree.getId());
         assertEquals(savedUser.getId(), findTree.getUser().getId());
-        assertEquals(0, findTree.getLevel());
+        assertEquals(1, findTree.getLevel());
         assertEquals(0, findTree.getBucket());
     }
 
