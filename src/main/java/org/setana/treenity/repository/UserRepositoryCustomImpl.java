@@ -13,17 +13,35 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.QMyPageFetchDto;
 import org.setana.treenity.dto.QTreeFetchDto;
+import org.setana.treenity.dto.QUserFetchDto;
 import org.setana.treenity.dto.QWalkLogFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.dto.WalkLogFetchDto;
 import org.setana.treenity.entity.ItemType;
 
 @RequiredArgsConstructor
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
+    @Override
+    public UserFetchDto searchUserById(Long userId) {
+        return queryFactory
+            .select(new QUserFetchDto(
+                user.id,
+                user.username,
+                user.point,
+                user.dailyWalks,
+                userItem.totalCount))
+            .from(user)
+            .leftJoin(user.userItems, userItem)
+            .join(userItem.item, item).on(item.itemType.eq(ItemType.WATER))
+            .where(user.id.eq(userId))
+            .fetchOne();
+    }
+
     private final JPAQueryFactory queryFactory;
 
-    public MyPageFetchDto findMyPageById(Long userId) {
+    public MyPageFetchDto searchMyPageById(Long userId) {
         MyPageFetchDto myPageFetchDto = queryFactory
             .select(new QMyPageFetchDto(
                 user.id,
@@ -58,4 +76,5 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         return myPageFetchDto;
     }
+
 }

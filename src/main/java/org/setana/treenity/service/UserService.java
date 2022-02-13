@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
+import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
@@ -88,8 +89,12 @@ public class UserService {
 
     }
 
+    public UserFetchDto fetchUser(Long userId) {
+        return userRepository.searchUserById(userId);
+    }
+
     public MyPageFetchDto fetchMyPage(Long userId) {
-        return userRepository.findMyPageById(userId);
+        return userRepository.searchMyPageById(userId);
     }
 
 }

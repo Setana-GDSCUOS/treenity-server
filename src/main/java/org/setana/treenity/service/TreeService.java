@@ -14,6 +14,7 @@ import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,8 +59,8 @@ public class TreeService {
         return tree;
     }
 
-    public List<TreeFetchDto> fetchUserTrees(Long userId) {
-        List<TreeFetchDto> dtos = treeRepository.findByUserId(userId);
+    public List<TreeFetchDto> fetchUserTrees(Long userId, Pageable pageable) {
+        List<TreeFetchDto> dtos = treeRepository.findByUserId(userId, pageable);
 
         for (TreeFetchDto dto : dtos) {
             dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());

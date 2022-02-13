@@ -15,13 +15,14 @@ import org.setana.treenity.dto.UserItemFetchDto;
 import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.UserItem;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public List<UserItemFetchDto> findByUserId(Long userId) {
+    public List<UserItemFetchDto> findByUserId(Long userId, Pageable pageable) {
         return queryFactory
             .select(new QUserItemFetchDto(
                 userItem.id,
@@ -32,6 +33,8 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
             .join(userItem.user, user)
             .join(userItem.item, item)
             .where(userItem.user.id.eq(userId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
             .fetch();
     }
 

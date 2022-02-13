@@ -1,5 +1,6 @@
 package org.setana.treenity.repository;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.Location;
 import org.setana.treenity.model.TreeCluster;
+import org.springframework.data.domain.Pageable;
 
 import static org.setana.treenity.entity.QItem.item;
 import static org.setana.treenity.entity.QTree.tree;
@@ -27,12 +29,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return new TreeCluster(trees, location);
     }
 
-    public List<TreeFetchDto> findByUserId(Long userId) {
+    public List<TreeFetchDto> findByUserId(Long userId, Pageable pageable) {
         return queryFactory.
             select(new QTreeFetchDto(tree))
             .from(tree)
             .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
             .fetch();
     }
 }
