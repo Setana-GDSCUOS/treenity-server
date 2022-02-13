@@ -1,8 +1,8 @@
 package org.setana.treenity.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDate;
 import lombok.Data;
-import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.Tree;
 
 @Data
@@ -31,4 +31,5 @@ public class TreeFetchDto {
 
         this.item = new ItemFetchDto(tree.getItem());
     }
+
 }

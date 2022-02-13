@@ -12,9 +12,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.locationtech.jts.geom.Point;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.util.GeometryUtil;
-import org.springframework.data.geo.Point;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +26,9 @@ public class Tree extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tree_id")
     private Long id;
+
+    @Column(name="tree_name")
+    private String name;
 
     private Point point;
 
@@ -58,7 +61,7 @@ public class Tree extends BaseEntity {
 
     public void validatePlant(Location other) {
         Location location = new Location(point.getX(), point.getY());
-        double distance = GeometryUtil.calculateDistance(location, other);
+        double distance = GeometryUtil.toDistance(location, other);
 
         if (distance <= 0.001)
             throw new IllegalStateException();

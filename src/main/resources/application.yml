@@ -8,6 +8,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
 
   jackson:
     default-property-inclusion: non_null
@@ -16,6 +17,3 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-
-hibernate:
-  dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect

@@ -1,10 +1,10 @@
 package org.setana.treenity.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.dto.TreeListFetchDto;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.model.Location;
@@ -12,7 +12,6 @@ import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,7 +27,7 @@ public class TreeService {
     @Transactional
     public Tree plantTree(Location location, Long userItemId) throws IllegalArgumentException {
 
-        TreeCluster treeCluster = treeRepository.searchByLocation(location);
+        TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
         treeCluster.validatePlant();
 
         // TODO: UserItem 에서 아이템 타입이 SEED 인 아이템 중 하나를 선택해 나무 심기 필요
@@ -54,11 +53,8 @@ public class TreeService {
         return tree;
     }
 
-    public List<TreeFetchDto> fetchAll() {
-        return treeRepository.findAll()
-            .stream()
-            .map(TreeFetchDto::new)
-            .collect(Collectors.toList());
+    public List<TreeListFetchDto> fetchByLocation(Location location) {
+        return treeRepository.searchByLocation(location);
     }
 
     public List<TreeFetchDto> fetchUserTrees(Long userId) {

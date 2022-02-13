@@ -3,7 +3,8 @@ package org.setana.treenity.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Point;
+import org.setana.treenity.util.GeometryUtil;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +27,14 @@ public class Location {
     }
 
     public Point toPoint() {
-        return new Point(longitude, latitude);
+        return GeometryUtil.createPoint(longitude, latitude);
     }
 
+    @Override
+    public String toString() {
+        return "Location{" +
+            "longitude=" + longitude +
+            ", latitude=" + latitude +
+            '}';
+    }
 }

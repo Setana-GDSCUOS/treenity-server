@@ -1,28 +1,37 @@
 package org.setana.treenity.util;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.setana.treenity.model.Location;
 
 
 public class GeometryUtil {
 
-    private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM
+    private static final double EARTH_RADIUS = 6371.01; // Approx Earth radius in KM
 
 // https://wooody92.github.io/project/JPA%EC%99%80-MySQL%EB%A1%9C-%EC%9C%84%EC%B9%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8B%A4%EB%A3%A8%EA%B8%B0/
+    public static Location makeLocation(double baseLatitude, double baseLongitude,
+        double distance, double bearing) {
+        double radianLatitude = toRadian(baseLatitude);
+        double radianLongitude = toRadian(baseLongitude);
+        double radianAngle = toRadian(bearing);
+        double distanceRadius = distance / EARTH_RADIUS;
 
-    public static Location calculateLocation(Double baseLatitude, Double baseLongitude,
-        Double distance, Double bearing) {
-        Double radianLatitude = toRadian(baseLatitude);
-        Double radianLongitude = toRadian(baseLongitude);
-        Double radianAngle = toRadian(bearing);
-        Double distanceRadius = distance / 6371.01;
-
-        Double latitude = Math.asin(sin(radianLatitude) * cos(distanceRadius) +
+        double latitude = Math.asin(sin(radianLatitude) * cos(distanceRadius) +
             cos(radianLatitude) * sin(distanceRadius) * cos(radianAngle));
-        Double longitude = radianLongitude + Math.atan2(sin(radianAngle) * sin(distanceRadius) *
+        double longitude = radianLongitude + Math.atan2(sin(radianAngle) * sin(distanceRadius) *
             cos(radianLatitude), cos(distanceRadius) - sin(radianLatitude) * sin(latitude));
 
         longitude = normalizeLongitude(longitude);
-        return new Location(toDegree(latitude), toDegree(longitude));
+        return new Location(toDegree(longitude), toDegree(latitude));
+    }
+
+    public static Location makeLocation(Location location, double distance, double bearing) {
+        return makeLocation(location.getLatitude(),
+            location.getLongitude(),
+            distance,
+            bearing);
     }
 
     private static Double toRadian(Double coordinate) {
@@ -46,8 +55,7 @@ public class GeometryUtil {
     }
 
     // https://github.com/jasonwinn/haversine/blob/master/Haversine.java
-
-    public static double calculateDistance(double startLat, double startLong, double endLat,
+    public static double toDistance(double startLat, double startLong, double endLat,
         double endLong) {
 
         double dLat = Math.toRadians((endLat - startLat));
@@ -62,8 +70,8 @@ public class GeometryUtil {
         return EARTH_RADIUS * c; // <-- d
     }
 
-    public static double calculateDistance(Location start, Location end) {
-        return calculateDistance(start.getLatitude(),
+    public static double toDistance(Location start, Location end) {
+        return toDistance(start.getLatitude(),
             start.getLongitude(),
             end.getLatitude(),
             end.getLongitude());
@@ -71,5 +79,10 @@ public class GeometryUtil {
 
     public static double haversine(double val) {
         return Math.pow(Math.sin(val / 2), 2);
+    }
+
+    public static Point createPoint(double lon, double lat) {
+        GeometryFactory gf = new GeometryFactory();
+        return gf.createPoint(new Coordinate(lon, lat));
     }
 }
