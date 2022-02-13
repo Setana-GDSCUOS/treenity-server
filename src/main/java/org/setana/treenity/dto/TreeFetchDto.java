@@ -2,7 +2,6 @@ package org.setana.treenity.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
-import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.Tree;
 
 @Data
@@ -20,7 +19,7 @@ public class TreeFetchDto {
     private ItemFetchDto item;
 
     @QueryProjection
-    public TreeFetchDto(Tree tree, Item item) {
+    public TreeFetchDto(Tree tree) {
         this.treeId = tree.getId();
         this.longitude = tree.getLocation().getLongitude();
         this.latitude = tree.getLocation().getLatitude();
@@ -29,6 +28,6 @@ public class TreeFetchDto {
         this.level = tree.getLevel();
         this.bucket = tree.getBucket();
 
-        this.item = new ItemFetchDto(item);
+        this.item = new ItemFetchDto(tree.getItem());
     }
 }

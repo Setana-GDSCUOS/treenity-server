@@ -42,6 +42,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     List<UserItem> userItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    List<Tree> trees = new ArrayList<>();
+
     public User(Long googleId, String username) {
         this(googleId, username, 0);
     }

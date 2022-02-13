@@ -29,9 +29,9 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
 
     public List<TreeFetchDto> findByUserId(Long userId) {
         return queryFactory.
-            select(new QTreeFetchDto(tree, item))
+            select(new QTreeFetchDto(tree))
             .from(tree)
-            .join(tree.item, item)
+            .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))
             .fetch();
     }

@@ -1,8 +1,8 @@
 package org.setana.treenity.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.util.List;
 import lombok.Data;
-import org.setana.treenity.entity.User;
 
 @Data
 public class MyPageFetchDto {
@@ -11,14 +11,20 @@ public class MyPageFetchDto {
     private String username;
     private Integer point;
     private Integer dailyWalks;
-    private Long buckets;
+    private Integer totalWalks;
+    private Integer bucket;
+    private List<TreeFetchDto> trees;
+    private List<WalkLogFetchDto> walkLogs;
 
     @QueryProjection
-    public MyPageFetchDto(User user) {
-        this.userId = user.getId();
-        this.username = user.getUsername();
-        this.point = user.getPoint();
-        this.dailyWalks = user.getDailyWalks();
+    public MyPageFetchDto(Long userId, String username, Integer point, Integer dailyWalks,
+        Integer totalWalks, Integer bucket) {
+        this.userId = userId;
+        this.username = username;
+        this.point = point;
+        this.dailyWalks = dailyWalks;
+        this.totalWalks = totalWalks;
+        this.bucket = bucket;
     }
 
 }

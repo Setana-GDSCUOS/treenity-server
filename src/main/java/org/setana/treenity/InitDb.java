@@ -1,5 +1,6 @@
 package org.setana.treenity;
 
+import java.time.LocalDate;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.setana.treenity.entity.Location;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.entity.WalkLog;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -45,20 +47,13 @@ public class InitDb {
             em.persist(itemB);
             em.persist(itemC);
 
-            // userItem (3 buckets, 2 sprout, 1 bud tree)
             UserItem userItemA = new UserItem(user0, itemA);
-            UserItem userItemB = new UserItem(user0, itemA);
-            UserItem userItemC = new UserItem(user0, itemA);
-            UserItem userItemD = new UserItem(user0, itemB);
-            UserItem userItemE = new UserItem(user0, itemB);
-            UserItem userItemF = new UserItem(user0, itemC);
+            UserItem userItemB = new UserItem(user0, itemB);
+            UserItem userItemC = new UserItem(user0, itemC);
 
             em.persist(userItemA);
             em.persist(userItemB);
             em.persist(userItemC);
-            em.persist(userItemD);
-            em.persist(userItemE);
-            em.persist(userItemF);
 
             // tree
             Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436), user0, itemB);
@@ -66,6 +61,16 @@ public class InitDb {
 
             em.persist(treeA);
             em.persist(treeB);
+
+            // walkLog
+            WalkLog walkLogA = new WalkLog(LocalDate.now().minusDays(1), 10_000, user0);
+            WalkLog walkLogB = new WalkLog(LocalDate.now(), 10_000, user0);
+            WalkLog walkLogC = new WalkLog(LocalDate.now().plusDays(1), 10_000, user0);
+
+            em.persist(walkLogA);
+            em.persist(walkLogB);
+            em.persist(walkLogC);
+
         }
     }
 
