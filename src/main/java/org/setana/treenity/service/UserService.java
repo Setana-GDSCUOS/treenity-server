@@ -7,17 +7,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.dto.ItemFetchDto;
 import org.setana.treenity.dto.MyPageFetchDto;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    @Value("${spring.upload.url:${user.home}}")
+    private String imageUrl;
 
     private final UserRepository userRepository;
     private final WalkLogRepository walkLogRepository;
@@ -94,7 +100,15 @@ public class UserService {
     }
 
     public MyPageFetchDto fetchMyPage(Long userId) {
-        return userRepository.searchMyPageById(userId);
+        MyPageFetchDto myPageDto = userRepository.searchMyPageById(userId);
+
+        for (TreeFetchDto treeDto: myPageDto.getTrees()) {
+            if (treeDto.getImagePath() != null)
+                treeDto.setImagePath(imageUrl + treeDto.getImagePath());
+
+            treeDto.getItem().setImagePath(imageUrl + treeDto.getItem().getImagePath());
+        }
+        return myPageDto;
     }
 
 }
