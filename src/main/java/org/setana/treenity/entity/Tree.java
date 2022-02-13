@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.setana.treenity.util.Calculate;
 import org.setana.treenity.util.Haversine;
 
 @Entity
@@ -38,7 +39,7 @@ public class Tree extends BaseEntity {
     @Embedded
     private Location location;
 
-    private Integer level = 0;
+    private Integer level = 1;
 
     private Integer bucket = 0;
 
@@ -64,6 +65,11 @@ public class Tree extends BaseEntity {
     }
 
     public void waterPlant() {
-        bucket += 1;
+        int multiple = Calculate.getMultiple(item.getCost());
+        int perLevel = multiple * level;
+
+        level += (bucket + 1) / perLevel;
+        bucket += (bucket + 1) % perLevel;
     }
+
 }

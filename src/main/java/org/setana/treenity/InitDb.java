@@ -37,9 +37,9 @@ public class InitDb {
             em.persist(user0);
 
             // item
-            Item itemA = new Item("water", ItemType.WATER, 30, "bucket.jpg");
-            Item itemB = new Item("sprout", ItemType.SEED, 20, "sprout.png");
-            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.jpg");
+            Item itemA = new Item("water", ItemType.WATER, 100, "bucket.jpg");
+            Item itemB = new Item("tutorial", ItemType.SEED, 100, "tutorial.png");
+            Item itemC = new Item("basic", ItemType.SEED, 300, "basic.jpg");
 
             em.persist(itemA);
             em.persist(itemB);

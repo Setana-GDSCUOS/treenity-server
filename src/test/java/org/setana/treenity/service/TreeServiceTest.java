@@ -22,7 +22,6 @@ import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
 class TreeServiceTest {
 
     @Autowired
@@ -61,19 +60,21 @@ class TreeServiceTest {
     }
 
     @Test
-    @DisplayName("나무 상호작용하기")
+    @DisplayName("나무 상호작용하기 - 레벨업 이전")
     public void interactTreeTest() {
         // given
         Location location = new Location(100.0, 100.0);
 
-        Item item = new Item("아이템", ItemType.WATER, 10);
-        User user = new User(100_000L, "유저F");
+        Item water = new Item("아이템A", ItemType.WATER, 100);
+        Item seed = new Item("아이템B", ItemType.SEED, 200);
+        User user = new User(100_000L, "유저A");
 
-        Item savedItem = itemRepository.save(item);
+        Item savedWater = itemRepository.save(water);
+        Item savedSeed = itemRepository.save(seed);
         User savedUser = userRepository.save(user);
-        Tree savedTree = treeRepository.save(new Tree(location, user, null));
+        Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
 
-        UserItem userItem = new UserItem(savedUser, savedItem);
+        UserItem userItem = new UserItem(savedUser, savedWater);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
@@ -81,8 +82,38 @@ class TreeServiceTest {
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
-        assertEquals(1, tree.getBucket());
         assertEquals(0, findUserItem.getTotalCount());
+        assertEquals(1, tree.getLevel());
+        assertEquals(1, tree.getBucket());
+
+    }
+
+    @Test
+    @DisplayName("나무 상호작용하기 - 레벨업 성공")
+    public void interactTreeTest_2() {
+        // given
+        Location location = new Location(100.0, 100.0);
+
+        Item water = new Item("아이템A", ItemType.WATER, 100);
+        Item seed = new Item("아이템B", ItemType.SEED, 100);
+        User user = new User(100_000L, "유저A");
+
+        Item savedWater = itemRepository.save(water);
+        Item savedSeed = itemRepository.save(seed);
+        User savedUser = userRepository.save(user);
+        Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
+
+        UserItem userItem = new UserItem(savedUser, savedWater);
+        UserItem savedUserItem = userItemRepository.save(userItem);
+
+        // when
+        Tree tree = treeService.interactTree(savedTree.getId(), savedUser.getId());
+        UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
+
+        // then
+        assertEquals(0, findUserItem.getTotalCount());
+        assertEquals(2, tree.getLevel());
+        assertEquals(0, tree.getBucket());
     }
 
 }
