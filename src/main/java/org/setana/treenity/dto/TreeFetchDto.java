@@ -20,7 +20,7 @@ public class TreeFetchDto {
     private ItemFetchDto item;
 
     @QueryProjection
-    public TreeFetchDto(Tree tree, Item item) {
+    public TreeFetchDto(Tree tree) {
         this.treeId = tree.getId();
         this.longitude = tree.getLocation().getLongitude();
         this.latitude = tree.getLocation().getLatitude();
@@ -29,6 +29,6 @@ public class TreeFetchDto {
         this.level = tree.getLevel();
         this.exp = tree.getExp();
 
-        this.item = new ItemFetchDto(item);
+        this.item = new ItemFetchDto(tree.getItem());
     }
 }

@@ -1,14 +1,11 @@
-package org.setana.treenity.entity;
+package org.setana.treenity.model;
 
-import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-// 값 타입의 불변성을 위해 Setter 설정 X
+import org.springframework.data.geo.Point;
 
 @Getter
-@Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
 
@@ -26,6 +23,10 @@ public class Location {
         return ((Location)object).longitude == this.longitude &&
             ((Location)object).latitude == this.latitude;
 
+    }
+
+    public Point toPoint() {
+        return new Point(longitude, latitude);
     }
 
 }

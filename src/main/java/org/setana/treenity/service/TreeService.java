@@ -1,17 +1,18 @@
 package org.setana.treenity.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.dto.ItemFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.UserItem;
-import org.setana.treenity.entity.Location;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,6 +52,13 @@ public class TreeService {
         userItem.consume(tree);
 
         return tree;
+    }
+
+    public List<TreeFetchDto> fetchAll() {
+        return treeRepository.findAll()
+            .stream()
+            .map(TreeFetchDto::new)
+            .collect(Collectors.toList());
     }
 
     public List<TreeFetchDto> fetchUserTrees(Long userId) {

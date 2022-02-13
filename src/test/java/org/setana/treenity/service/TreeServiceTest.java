@@ -10,7 +10,7 @@ import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
-import org.setana.treenity.entity.Location;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;

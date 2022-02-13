@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.entity.Location;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.util.Random;

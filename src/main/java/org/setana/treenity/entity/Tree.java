@@ -1,7 +1,6 @@
 package org.setana.treenity.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +12,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.setana.treenity.util.Haversine;
+import org.setana.treenity.model.Location;
+import org.setana.treenity.util.GeometryUtil;
+import org.springframework.data.geo.Point;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,8 +27,7 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    @Embedded
-    private Location location;
+    private Point point;
 
     private String description;
 
@@ -47,13 +47,18 @@ public class Tree extends BaseEntity {
     private Item item;
 
     public Tree(Location location, User user, Item item) {
-        this.location = location;
+        this.point = location.toPoint();
         this.user = user;
         this.item = item;
     }
 
+    public Location getLocation() {
+        return new Location(point.getX(), point.getY());
+    }
+
     public void validatePlant(Location other) {
-        double distance = Haversine.distance(location, other);
+        Location location = new Location(point.getX(), point.getY());
+        double distance = GeometryUtil.calculateDistance(location, other);
 
         if (distance <= 0.001)
             throw new IllegalStateException();

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.QTreeFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.entity.Tree;
-import org.setana.treenity.entity.Location;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 
 import static org.setana.treenity.entity.QItem.item;
@@ -29,9 +29,9 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
 
     public List<TreeFetchDto> findByUserId(Long userId) {
         return queryFactory.
-            select(new QTreeFetchDto(tree, item))
+            select(new QTreeFetchDto(tree))
             .from(tree)
-            .join(tree.item, item)
+            .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))
             .fetch();
     }
