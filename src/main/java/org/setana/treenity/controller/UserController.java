@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping("/{id}/items")
     public List<UserItemFetchDto> getUserItems(
         @PathVariable(value = "id") Long userId,
-        @PageableDefault(size = 10) Pageable pageable
+        @PageableDefault Pageable pageable
         ) {
         return userItemService.fetchUserItems(userId, pageable);
     }
@@ -40,7 +40,7 @@ public class UserController {
     @GetMapping("/{id}/trees")
     public List<TreeFetchDto> getUserTrees(
         @PathVariable(value = "id") Long userId,
-        @PageableDefault(size = 10) Pageable pageable
+        @PageableDefault Pageable pageable
     ) {
         return treeService.fetchUserTrees(userId, pageable);
     }
