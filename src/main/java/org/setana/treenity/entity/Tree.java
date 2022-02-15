@@ -1,7 +1,6 @@
 package org.setana.treenity.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    @Column(name="tree_name")
+    @Column(name = "tree_name")
     private String name;
 
     private Point point;

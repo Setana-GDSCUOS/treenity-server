@@ -6,7 +6,6 @@ import static org.setana.treenity.entity.QTree.tree;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
@@ -56,7 +55,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
                 + " tree.created_date,"
                 + " user.user_id,"
                 + " user.username,"
-                + " ST_Distance_Sphere("+ centre + ", tree.point) AS distance"
+                + " ST_Distance_Sphere(" + centre + ", tree.point) AS distance"
                 + " FROM tree"
                 + " JOIN user ON tree.user_id = user.user_id"
                 + " WHERE MBRContains(" + line + ", tree.point)");

@@ -1,7 +1,6 @@
 package org.setana.treenity.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,8 +56,9 @@ public class UserItem extends BaseEntity {
     }
 
     private void validateCount() {
-        if (totalCount <= 0)
+        if (totalCount <= 0) {
             throw new IllegalStateException();
+        }
     }
 
     public void purchase() {
@@ -77,8 +77,9 @@ public class UserItem extends BaseEntity {
 
         if (!Objects.isNull(purchaseLimit)
             && purchaseCount >= purchaseLimit
-            && purchaseDate.isEqual(LocalDate.now()))
+            && purchaseDate.isEqual(LocalDate.now())) {
             throw new IllegalStateException();
+        }
 
     }
 }

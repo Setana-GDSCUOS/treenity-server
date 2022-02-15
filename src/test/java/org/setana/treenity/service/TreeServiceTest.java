@@ -20,7 +20,6 @@ import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional

@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.dto.ItemFetchDto;
 import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.UserFetchDto;
@@ -29,7 +28,8 @@ public class UserService {
     private final WalkLogRepository walkLogRepository;
 
     @Transactional
-    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException {
+    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks)
+        throws IllegalArgumentException {
 
         User user = userRepository.findById(userId)
             .orElseThrow(IllegalArgumentException::new);
@@ -44,7 +44,8 @@ public class UserService {
     }
 
     @Transactional
-    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException{
+    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks)
+        throws IllegalArgumentException {
 
         LocalDate startDate = dateWalks.keySet().stream()
             .min(LocalDate::compareTo)
@@ -67,7 +68,8 @@ public class UserService {
     }
 
     @Transactional
-    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) throws IllegalArgumentException {
+    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks)
+        throws IllegalArgumentException {
 
         List<WalkLog> walkLogs = findWalkLogs(user.getId(), dateWalks);
 
@@ -102,9 +104,10 @@ public class UserService {
     public MyPageFetchDto fetchMyPage(Long userId) {
         MyPageFetchDto myPageDto = userRepository.searchMyPageById(userId);
 
-        for (TreeFetchDto treeDto: myPageDto.getTrees()) {
-            if (treeDto.getImagePath() != null)
+        for (TreeFetchDto treeDto : myPageDto.getTrees()) {
+            if (treeDto.getImagePath() != null) {
                 treeDto.setImagePath(imageUrl + treeDto.getImagePath());
+            }
 
             treeDto.getItem().setImagePath(imageUrl + treeDto.getItem().getImagePath());
         }

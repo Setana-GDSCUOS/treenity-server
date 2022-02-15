@@ -3,7 +3,6 @@ package org.setana.treenity.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.ItemFetchDto;
-import org.setana.treenity.entity.Item;
 import org.setana.treenity.service.ItemService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

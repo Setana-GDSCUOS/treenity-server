@@ -1,6 +1,6 @@
 package org.setana.treenity.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;

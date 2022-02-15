@@ -16,10 +16,11 @@ public class Location {
     }
 
     public boolean equals(Object object) {
-        if (object == null || object.getClass() != this.getClass())
+        if (object == null || object.getClass() != this.getClass()) {
             return false;
-        return ((Location)object).longitude == this.longitude &&
-            ((Location)object).latitude == this.latitude;
+        }
+        return ((Location) object).longitude == this.longitude &&
+            ((Location) object).latitude == this.latitude;
 
     }
 

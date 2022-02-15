@@ -1,7 +1,5 @@
 package org.setana.treenity.entity;
 
-import static org.setana.treenity.entity.QUser.user;
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -66,8 +64,9 @@ public class User extends BaseEntity {
     }
 
     private void validatePoint(Item item) {
-        if (point < item.getCost())
+        if (point < item.getCost()) {
             throw new IllegalStateException();
+        }
     }
 
     public void updateTotalWalksAndPoint(Integer walks) {

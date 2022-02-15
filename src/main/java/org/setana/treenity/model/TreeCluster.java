@@ -17,8 +17,9 @@ public class TreeCluster {
 
     public void validatePlant() {
         for (TreeListFetchDto tree : trees) {
-            if (tree.getDistance() < 1)
+            if (tree.getDistance() < 1) {
                 throw new IllegalStateException();
+            }
         }
     }
 

@@ -1,13 +1,13 @@
 package org.setana.treenity.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.model.Location;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

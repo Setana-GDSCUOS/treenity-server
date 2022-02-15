@@ -10,7 +10,7 @@ public class GeometryUtil {
 
     private static final double EARTH_RADIUS = 6371.01; // Approx Earth radius in KM
 
-// https://wooody92.github.io/project/JPA%EC%99%80-MySQL%EB%A1%9C-%EC%9C%84%EC%B9%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8B%A4%EB%A3%A8%EA%B8%B0/
+    // https://wooody92.github.io/project/JPA%EC%99%80-MySQL%EB%A1%9C-%EC%9C%84%EC%B9%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8B%A4%EB%A3%A8%EA%B8%B0/
     public static Location makeLocation(double baseLatitude, double baseLongitude,
         double distance, double bearing) {
         double radianLatitude = toRadian(baseLatitude);

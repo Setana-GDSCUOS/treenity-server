@@ -22,6 +22,6 @@ public class TreeController {
         @RequestParam Double longitude,
         @RequestParam Double latitude
     ) {
-      return treeService.fetchByLocation(new Location(longitude, latitude));
+        return treeService.fetchByLocation(new Location(longitude, latitude));
     }
 }
