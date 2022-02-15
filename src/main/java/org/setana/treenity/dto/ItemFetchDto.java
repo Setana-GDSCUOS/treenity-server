@@ -11,7 +11,8 @@ public class ItemFetchDto {
 
     // item
     private Long itemId;
-    private String itemName;
+    private String name;
+    private String description;
     private ItemType itemType;
     private Integer cost;
     private String imagePath;
@@ -19,7 +20,8 @@ public class ItemFetchDto {
     @QueryProjection
     public ItemFetchDto(Item item) {
         this.itemId = item.getId();
-        this.itemName = item.getName();
+        this.name = item.getName();
+        this.description = item.getDescription();
         this.itemType = item.getItemType();
         this.cost = item.getCost();
         this.imagePath = item.getImagePath();

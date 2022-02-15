@@ -49,16 +49,18 @@ public class Item extends BaseEntity {
     List<UserItem> userItems = new ArrayList<>();
 
     public Item(String name, ItemType itemType, Integer cost) {
-        this(name, itemType, cost, null);
-    }
-
-    public Item(String name, ItemType itemType, Integer cost, String imagePath) {
-        this(name, itemType, cost, imagePath, null);
+        this(name, itemType, cost, null, null);
     }
 
     public Item(String name, ItemType itemType, Integer cost, String imagePath,
         Integer purchaseLimit) {
+        this(name, null, itemType, cost, imagePath, purchaseLimit);
+    }
+
+    public Item(String name, String description, ItemType itemType, Integer cost, String imagePath,
+        Integer purchaseLimit) {
         this.name = name;
+        this.description = description;
         this.itemType = itemType;
         this.cost = cost;
         this.imagePath = imagePath;

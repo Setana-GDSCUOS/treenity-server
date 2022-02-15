@@ -39,9 +39,12 @@ public class InitDb {
             em.persist(user0);
 
             // item
-            Item itemA = new Item("water", ItemType.WATER, 100, "bucket.jpg");
-            Item itemB = new Item("tutorial", ItemType.SEED, 100, "tutorial.png");
-            Item itemC = new Item("basic", ItemType.SEED, 300, "basic.jpg");
+            Item itemA = new Item("water", "water 에 대한 설명", ItemType.WATER, 100, "bucket.jpg",
+                3);
+            Item itemB = new Item("tutorial", "tutorial 아이템에 대한 설명", ItemType.SEED, 100,
+                "tutorial.png", null);
+            Item itemC = new Item("basic", "basic 아이템에 대한 설명", ItemType.SEED, 300, "basic.jpg",
+                null);
 
             em.persist(itemA);
             em.persist(itemB);
@@ -56,20 +59,38 @@ public class InitDb {
             em.persist(userItemC);
 
             // tree
-            Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436), user0, itemB);
-            Tree treeB = new Tree(new Location(37.58468660084109, 127.05661406751057), user0, itemC);
+            Tree treeA = new Tree(new Location(37.55637513168705, 127.02988185288436),
+                "treeA 나무에 대한 설명", user0, itemB);
+            Tree treeB = new Tree(new Location(37.58468660084109, 127.05661406751057),
+                "treeB 나무에 대한 설명", user0, itemC);
 
             em.persist(treeA);
             em.persist(treeB);
 
             // walkLog
-            WalkLog walkLogA = new WalkLog(LocalDate.now().minusDays(1), 10_000, user0);
-            WalkLog walkLogB = new WalkLog(LocalDate.now(), 10_000, user0);
-            WalkLog walkLogC = new WalkLog(LocalDate.now().plusDays(1), 10_000, user0);
+            WalkLog walkLogA = new WalkLog(LocalDate.now().minusDays(5), 6_000, user0);
+            WalkLog walkLogB = new WalkLog(LocalDate.now().minusDays(4), 7_000, user0);
+            WalkLog walkLogC = new WalkLog(LocalDate.now().minusDays(3), 8_000, user0);
+            WalkLog walkLogD = new WalkLog(LocalDate.now().minusDays(2), 9_000, user0);
+            WalkLog walkLogE = new WalkLog(LocalDate.now().minusDays(1), 10_000, user0);
+            WalkLog walkLogF = new WalkLog(LocalDate.now(), 10_000, user0);
+            WalkLog walkLogG = new WalkLog(LocalDate.now().plusDays(1), 11_000, user0);
+            WalkLog walkLogH = new WalkLog(LocalDate.now().plusDays(2), 12_000, user0);
+            WalkLog walkLogI = new WalkLog(LocalDate.now().plusDays(3), 13_000, user0);
+            WalkLog walkLogJ = new WalkLog(LocalDate.now().plusDays(4), 14_000, user0);
+            WalkLog walkLogK = new WalkLog(LocalDate.now().plusDays(5), 15_000, user0);
 
             em.persist(walkLogA);
             em.persist(walkLogB);
             em.persist(walkLogC);
+            em.persist(walkLogD);
+            em.persist(walkLogE);
+            em.persist(walkLogF);
+            em.persist(walkLogG);
+            em.persist(walkLogH);
+            em.persist(walkLogI);
+            em.persist(walkLogJ);
+            em.persist(walkLogK);
 
         }
     }

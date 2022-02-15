@@ -52,7 +52,12 @@ public class Tree extends BaseEntity {
     private Item item;
 
     public Tree(Location location, User user, Item item) {
+        this(location, null, user, item);
+    }
+
+    public Tree(Location location, String description, User user, Item item) {
         this.location = location;
+        this.description = description;
         this.user = user;
         this.item = item;
     }
