@@ -39,9 +39,12 @@ public class InitDb {
             em.persist(user0);
 
             // item
-            Item itemA = new Item("water", ItemType.WATER, 30, "bucket.jpg", 3);
-            Item itemB = new Item("sprout", ItemType.SEED, 20, "sprout.png", null);
-            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.jpg", null);
+            Item itemA = new Item("water", "water 에 대한 설명", ItemType.WATER, 100, "bucket.jpg",
+                3);
+            Item itemB = new Item("tutorial", "tutorial 아이템에 대한 설명", ItemType.SEED, 100,
+                "tutorial.png", null);
+            Item itemC = new Item("basic", "basic 아이템에 대한 설명", ItemType.SEED, 300, "basic.jpg",
+                null);
 
             em.persist(itemA);
             em.persist(itemB);
@@ -49,18 +52,12 @@ public class InitDb {
 
             // userItem (3 buckets, 2 sprout, 1 bud tree)
             UserItem userItemA = new UserItem(user0, itemA);
-            UserItem userItemB = new UserItem(user0, itemA);
-            UserItem userItemC = new UserItem(user0, itemA);
-            UserItem userItemD = new UserItem(user0, itemB);
-            UserItem userItemE = new UserItem(user0, itemB);
-            UserItem userItemF = new UserItem(user0, itemC);
+            UserItem userItemB = new UserItem(user0, itemB);
+            UserItem userItemC = new UserItem(user0, itemC);
 
             em.persist(userItemA);
             em.persist(userItemB);
             em.persist(userItemC);
-            em.persist(userItemD);
-            em.persist(userItemE);
-            em.persist(userItemF);
 
             // tree
             Tree treeA = new Tree(new Location(127.02988185288436, 37.55637513168705),

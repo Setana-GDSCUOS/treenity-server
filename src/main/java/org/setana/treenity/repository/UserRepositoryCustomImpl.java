@@ -45,6 +45,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         int DEFAULT_PAGE_SIZE = 10;
 
+        // WARNING: 유저 별로 ItemType 이 WATER 인 userItem 이 반드시 1개씩만 존재
         MyPageFetchDto myPageFetchDto = queryFactory
             .select(new QMyPageFetchDto(
                 user.id,
