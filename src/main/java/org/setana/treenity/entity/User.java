@@ -34,11 +34,16 @@ public class User extends BaseEntity {
 
     private Integer dailyWalks = 0;
 
+    private Integer totalWalks = 0;
+
     @OneToMany(mappedBy = "user")
     List<WalkLog> walkLogs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     List<UserItem> userItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Tree> trees = new ArrayList<>();
 
     public User(Long googleId, String username) {
         this(googleId, username, 0);
@@ -51,10 +56,13 @@ public class User extends BaseEntity {
     }
 
     public UserItem createUserItem(Item item) {
+        purchaseItem(item);
+        return new UserItem(this, item);
+    }
+
+    public void purchaseItem(Item item) {
         validatePoint(item);
         point -= item.getCost();
-
-        return new UserItem(this, item);
     }
 
     private void validatePoint(Item item) {
@@ -62,9 +70,10 @@ public class User extends BaseEntity {
             throw new IllegalStateException();
     }
 
-    public void addPoint(Integer walks) {
-        // TODO : 걸음 수를 포인트로 전환 시 비율 논의 필요
+    public void updateTotalWalksAndPoint(Integer walks) {
+        // 걸음수 대 포인트 전환 비율 = 100 : 1
         point += walks / 100;
+        totalWalks += walks;
     }
 
     public void changeDailyWalks(WalkLog walkLog) {

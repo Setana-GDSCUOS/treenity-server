@@ -23,7 +23,7 @@ public class UserItemFetchDto {
     public UserItemFetchDto(Long userItemId, Item item, LocalDateTime createdDate) {
         this.userItemId = userItemId;
         this.itemId = item.getId();
-        this.itemName = item.getItemName();
+        this.itemName = item.getName();
         this.itemType = item.getItemType();
         this.imagePath = item.getImagePath();
         this.createdDate = createdDate;
