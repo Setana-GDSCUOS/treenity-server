@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositoryCustom {
 
-    Optional<Item> findByItemName(String itemName);
+    Optional<Item> findByName(String name);
 
 }

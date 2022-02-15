@@ -1,6 +1,7 @@
 package org.setana.treenity.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.locationtech.jts.geom.Point;
 import org.setana.treenity.model.Location;
-import org.setana.treenity.util.GeometryUtil;
+import org.setana.treenity.util.Calculate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,14 +33,15 @@ public class Tree extends BaseEntity {
 
     private Point point;
 
+    @Column(name = "tree_description")
     private String description;
 
     @Column(name = "tree_image_path")
     private String imagePath;
 
-    private Integer level = 0;
+    private Integer level = 1;
 
-    private Integer exp = 0;
+    private Integer bucket = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -50,7 +52,12 @@ public class Tree extends BaseEntity {
     private Item item;
 
     public Tree(Location location, User user, Item item) {
+        this(location, null, user, item);
+    }
+
+    public Tree(Location location, String description, User user, Item item) {
         this.point = location.toPoint();
+        this.description = description;
         this.user = user;
         this.item = item;
     }
@@ -59,16 +66,12 @@ public class Tree extends BaseEntity {
         return new Location(point.getX(), point.getY());
     }
 
-    public void validatePlant(Location other) {
-        Location location = new Location(point.getX(), point.getY());
-        double distance = GeometryUtil.toDistance(location, other);
-
-        if (distance <= 0.001)
-            throw new IllegalStateException();
-    }
-
     public void waterPlant() {
-        // TODO : 나무 성장 시 exp 와 level 상승 고려 필요
-        level += 1;
+        int multiple = Calculate.getMultiple(item.getCost());
+        int perLevel = multiple * level;
+
+        level += (bucket + 1) / perLevel;
+        bucket += (bucket + 1) % perLevel;
     }
+
 }

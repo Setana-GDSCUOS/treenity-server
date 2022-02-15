@@ -19,6 +19,7 @@ import org.setana.treenity.model.Direction;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.util.GeometryUtil;
+import org.springframework.data.domain.Pageable;
 
 @RequiredArgsConstructor
 public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
@@ -79,12 +80,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return new TreeCluster(dtos, location);
     }
 
-    public List<TreeFetchDto> findByUserId(Long userId) {
+    public List<TreeFetchDto> findByUserId(Long userId, Pageable pageable) {
         return queryFactory.
             select(new QTreeFetchDto(tree))
             .from(tree)
             .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
             .fetch();
     }
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.UserItemFetchDto;
 import org.setana.treenity.repository.UserItemRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,8 +17,8 @@ public class UserItemService {
 
     private final UserItemRepository userItemRepository;
 
-    public List<UserItemFetchDto> fetchUserItems(Long userId) {
-        List<UserItemFetchDto> dtos = userItemRepository.findByUserId(userId);
+    public List<UserItemFetchDto> fetchUserItems(Long userId, Pageable pageable) {
+        List<UserItemFetchDto> dtos = userItemRepository.findByUserId(userId, pageable);
 
         for (UserItemFetchDto dto : dtos) {
             dto.setImagePath(imageUrl + dto.getImagePath());

@@ -1,7 +1,7 @@
 package org.setana.treenity.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Data;
 import org.setana.treenity.entity.Tree;
 
@@ -14,10 +14,13 @@ public class TreeFetchDto {
     private String description;
     private String imagePath;
     private Integer level;
-    private Integer exp;
+    private Integer bucket;
 
     // item
     private ItemFetchDto item;
+
+    // base entity
+    private LocalDateTime createdDate;
 
     @QueryProjection
     public TreeFetchDto(Tree tree) {
@@ -27,7 +30,8 @@ public class TreeFetchDto {
         this.description = tree.getDescription();
         this.imagePath = tree.getImagePath();
         this.level = tree.getLevel();
-        this.exp = tree.getExp();
+        this.bucket = tree.getBucket();
+        this.createdDate = tree.getCreatedDate();
 
         this.item = new ItemFetchDto(tree.getItem());
     }

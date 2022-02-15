@@ -16,11 +16,9 @@ import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
-@Rollback(false)
 class UserServiceTest {
 
     @Autowired
@@ -35,7 +33,7 @@ class UserServiceTest {
     public void convertPointTest_1() {
 
         // given
-        User user = new User(100_000L, "유저G");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -62,6 +60,7 @@ class UserServiceTest {
         // then
         assertEquals(savedUser.getId(), findUser.getId());
         assertEquals(200, findUser.getDailyWalks());
+        assertEquals(600, findUser.getTotalWalks());
         assertEquals(6, findUser.getPoint());
 
         assertThat(findWalkLogs).extracting("date")
@@ -81,7 +80,7 @@ class UserServiceTest {
     public void convertPointTest_2() {
 
         // given
-        User user = new User(100_000L, "유저H");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
@@ -116,8 +115,9 @@ class UserServiceTest {
             savedUser.getId(), startDate, endDate);
 
         // then
-        assertEquals(9, findUser.getPoint());
         assertEquals(300, findUser.getDailyWalks());
+        assertEquals(900, findUser.getTotalWalks());
+        assertEquals(9, findUser.getPoint());
 
         assertThat(findWalkLogs).extracting("date")
             .containsExactly(
@@ -136,7 +136,7 @@ class UserServiceTest {
     public void convertPointTest_3() {
 
         // given
-        User user = new User(100_000L, "유저I");
+        User user = new User(100_000L, "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
@@ -171,8 +171,9 @@ class UserServiceTest {
             savedUser.getId(), startDate, endDate);
 
         // then
-        assertEquals(9, findUser.getPoint());
         assertEquals(200, findUser.getDailyWalks());
+        assertEquals(900, findUser.getTotalWalks());
+        assertEquals(9, findUser.getPoint());
 
         assertThat(findWalkLogs).extracting("date")
             .containsExactly(

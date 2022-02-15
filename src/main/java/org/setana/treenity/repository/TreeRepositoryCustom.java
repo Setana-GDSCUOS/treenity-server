@@ -5,6 +5,7 @@ import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeListFetchDto;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
+import org.springframework.data.domain.Pageable;
 
 public interface TreeRepositoryCustom {
 
@@ -12,5 +13,5 @@ public interface TreeRepositoryCustom {
 
     TreeCluster searchTreeCluster(Location location);
 
-    List<TreeFetchDto> findByUserId(Long userId);
+    List<TreeFetchDto> findByUserId(Long userId, Pageable pageable);
 }

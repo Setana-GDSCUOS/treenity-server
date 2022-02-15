@@ -26,17 +26,21 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-    private String itemName;
+    @Column(unique = true, name = "item_name")
+    private String name;
+
+    @Column(name = "item_description")
+    private String description;
+
+    @Column(name = "item_image_path")
+    private String imagePath;
 
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
     private Integer cost;
 
-    @Column(name = "item_image_path")
-    private String imagePath;
-
-    // TODO : preferred_place 추가 논의 필요
+    private Integer purchaseLimit;
 
     @OneToMany(mappedBy = "item")
     List<Tree> trees = new ArrayList<>();
@@ -44,22 +48,29 @@ public class Item extends BaseEntity {
     @OneToMany(mappedBy = "item")
     List<UserItem> userItems = new ArrayList<>();
 
-    public Item(String itemName, ItemType itemType, Integer cost) {
-        this(itemName, itemType, cost, null);
+    public Item(String name, ItemType itemType, Integer cost) {
+        this(name, itemType, cost, null, null);
     }
 
-    public Item(String itemName, ItemType itemType, Integer cost, String imagePath) {
-        this.itemName = itemName;
-        this.cost = cost;
+    public Item(String name, ItemType itemType, Integer cost, String imagePath,
+        Integer purchaseLimit) {
+        this(name, null, itemType, cost, imagePath, purchaseLimit);
+    }
+
+    public Item(String name, String description, ItemType itemType, Integer cost, String imagePath,
+        Integer purchaseLimit) {
+        this.name = name;
+        this.description = description;
         this.itemType = itemType;
+        this.cost = cost;
         this.imagePath = imagePath;
+        this.purchaseLimit = purchaseLimit;
     }
 
     public void apply(Tree tree) {
         if (itemType == ItemType.WATER) {
             tree.waterPlant();
         }
-        // TODO : 물 외에 다른 아이템 사용 시 나무의 성장에 어떤 영향을 줄지 고려
     }
 
 }

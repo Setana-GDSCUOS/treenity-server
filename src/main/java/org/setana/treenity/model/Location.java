@@ -1,17 +1,14 @@
 package org.setana.treenity.model;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.setana.treenity.util.GeometryUtil;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
 
-    private double longitude;
-    private double latitude;
+    private final double longitude;
+    private final double latitude;
 
     public Location(Double longitude, Double latitude) {
         this.longitude = longitude;

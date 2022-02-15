@@ -37,9 +37,9 @@ public class InitDb {
             em.persist(user0);
 
             // item
-            Item itemA = new Item("water", ItemType.WATER, 30, "bucket.jpg");
-            Item itemB = new Item("sprout", ItemType.SEED, 20, "sprout.png");
-            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.jpg");
+            Item itemA = new Item("water", ItemType.WATER, 30, "bucket.jpg", 3);
+            Item itemB = new Item("sprout", ItemType.SEED, 20, "sprout.png", null);
+            Item itemC = new Item("bud tree", ItemType.SEED, 70, "bud_tree.jpg", null);
 
             em.persist(itemA);
             em.persist(itemB);
@@ -61,8 +61,10 @@ public class InitDb {
             em.persist(userItemF);
 
             // tree
-            Tree treeA = new Tree(new Location(127.02988185288436, 37.55637513168705), user0, itemB);
-            Tree treeB = new Tree(new Location(127.05661406751057, 37.58468660084109), user0, itemC);
+            Tree treeA = new Tree(new Location(127.02988185288436, 37.55637513168705),
+                "treeA 나무에 대한 설명", user0, itemB);
+            Tree treeB = new Tree(new Location(127.05661406751057, 37.58468660084109),
+                "treeB 나무에 대한 설명", user0, itemC);
 
             em.persist(treeA);
             em.persist(treeB);

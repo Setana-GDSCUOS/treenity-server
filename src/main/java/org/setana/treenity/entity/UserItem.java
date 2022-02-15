@@ -1,5 +1,6 @@
 package org.setana.treenity.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -26,9 +27,11 @@ public class UserItem extends BaseEntity {
     @Column(name = "user_item_Id")
     private Long id;
 
-    private LocalDateTime expDate;
+    private Integer totalCount = 1;
 
-    private Boolean isUsed = false;
+    private Integer purchaseCount = 1;
+
+    private LocalDate purchaseDate = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -39,19 +42,13 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        // TODO : expDate (만료일) 논의 필요, 현재 item 추가로부터 1주일로 설정
-        this(user, item, LocalDateTime.now().plusWeeks(1));
-    }
-
-    public UserItem(User user, Item item, LocalDateTime expDate) {
         this.user = user;
         this.item = item;
-        this.expDate = expDate;
     }
 
     public void consume() {
-        validateExpDate();
-        isUsed = true;
+        validateCount();
+        totalCount -= 1;
     }
 
     public void consume(Tree tree) {
@@ -59,10 +56,29 @@ public class UserItem extends BaseEntity {
         item.apply(tree);
     }
 
-    public void validateExpDate() {
-        LocalDateTime now = LocalDateTime.now();
-
-        if (!Objects.isNull(expDate) && expDate.isBefore(now))
+    private void validateCount() {
+        if (totalCount <= 0)
             throw new IllegalStateException();
+    }
+
+    public void purchase() {
+        validateLimit();
+        user.purchaseItem(item);
+
+        totalCount += 1;
+        purchaseCount = Objects.isNull(item.getPurchaseLimit())
+            ? (purchaseCount + 1)
+            : (purchaseCount + 1) % item.getPurchaseLimit();
+        purchaseDate = LocalDate.now();
+    }
+
+    private void validateLimit() {
+        Integer purchaseLimit = item.getPurchaseLimit();
+
+        if (!Objects.isNull(purchaseLimit)
+            && purchaseCount >= purchaseLimit
+            && purchaseDate.isEqual(LocalDate.now()))
+            throw new IllegalStateException();
+
     }
 }
