@@ -23,6 +23,8 @@ import org.setana.treenity.entity.ItemType;
 @RequiredArgsConstructor
 public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
+    private final JPAQueryFactory queryFactory;
+
     @Override
     public UserFetchDto searchUserById(Long userId) {
         return queryFactory
@@ -39,9 +41,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .fetchOne();
     }
 
-    private final JPAQueryFactory queryFactory;
-
     public MyPageFetchDto searchMyPageById(Long userId) {
+
+        int DEFAULT_PAGE_SIZE = 10;
+
         MyPageFetchDto myPageFetchDto = queryFactory
             .select(new QMyPageFetchDto(
                 user.id,
@@ -66,9 +69,11 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         // TODO: user 데이터 쿼리와 함께 작성 필요
         List<WalkLogFetchDto> walkLogs = queryFactory
-            .select(new QWalkLogFetchDto(walkLog.walks, walkLog.date))
+            .select(new QWalkLogFetchDto(walkLog.id, walkLog.walks, walkLog.date))
             .from(walkLog)
             .where(walkLog.user.id.eq(userId))
+            .orderBy(walkLog.date.asc())
+            .limit(DEFAULT_PAGE_SIZE)
             .fetch();
 
         myPageFetchDto.setTrees(treeFetchDtos);

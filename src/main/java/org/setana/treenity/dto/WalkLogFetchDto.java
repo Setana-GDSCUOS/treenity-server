@@ -7,11 +7,13 @@ import lombok.Data;
 @Data
 public class WalkLogFetchDto {
 
+    private Long walkLogId;
     private Integer walks;
     private LocalDate date;
 
     @QueryProjection
-    public WalkLogFetchDto(Integer walks, LocalDate date) {
+    public WalkLogFetchDto(Long walkLogId, Integer walks, LocalDate date) {
+        this.walkLogId = walkLogId;
         this.walks = walks;
         this.date = date;
     }
