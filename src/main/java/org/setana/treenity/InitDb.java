@@ -1,6 +1,9 @@
 package org.setana.treenity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -32,6 +35,8 @@ public class InitDb {
 
         private final EntityManager em;
 
+        private final Random random = new Random();
+
         public void init() {
             // user
             User user0 = new User(100_000L, "유저0", 1_000);
@@ -60,13 +65,20 @@ public class InitDb {
             em.persist(userItemC);
 
             // tree
-            Tree treeA = new Tree(new Location(127.02988185288436, 37.55637513168705),
-                "treeA 나무에 대한 설명", user0, itemB);
-            Tree treeB = new Tree(new Location(127.05661406751057, 37.58468660084109),
-                "treeB 나무에 대한 설명", user0, itemC);
+            Location baseLoc = new Location(127.154, 37.603);
+            int numTrees = 10;
 
-            em.persist(treeA);
-            em.persist(treeB);
+            List<Tree> trees = createRandomTrees(user0, itemB, baseLoc, numTrees);
+            trees.forEach(em::persist);
+
+//            Tree treeA = new Tree(new Location(127.02988185288436, 37.55637513168705),
+//                "treeA 나무에 대한 설명", user0, itemB);
+//            Tree treeB = new Tree(new Location(127.05661406751057, 37.58468660084109),
+//                "treeB 나무에 대한 설명", user0, itemC);
+//
+//
+//            em.persist(treeA);
+//            em.persist(treeB);
 
             // walkLog
             WalkLog walkLogA = new WalkLog(LocalDate.now().minusDays(5), 6_000, user0);
@@ -93,6 +105,22 @@ public class InitDb {
             em.persist(walkLogJ);
             em.persist(walkLogK);
 
+        }
+
+        private List<Tree> createRandomTrees(User user, Item item, Location baseLoc, int size) {
+            List<Tree> trees = new ArrayList<>();
+
+            double baseLong = baseLoc.getLongitude();
+            double baseLat = baseLoc.getLatitude();
+
+            for (int ind = 0; ind < size; ind++) {
+                double longitude = baseLong + random.nextDouble() / 1_000;
+                double latitude = baseLat + random.nextDouble() / 1_000;
+
+                Location location = new Location(longitude, latitude);
+                trees.add(new Tree(location, String.format("트리_%d에 대한 설명", ind), user, item));
+            }
+            return trees;
         }
     }
 
