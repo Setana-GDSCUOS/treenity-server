@@ -10,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @MappedSuperclass
-@EntityListeners(value = {AuditingEntityListener.class })
+@EntityListeners(value = {AuditingEntityListener.class})
 @Getter
 public class BaseEntity {
 

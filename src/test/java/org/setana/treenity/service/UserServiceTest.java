@@ -87,7 +87,7 @@ class UserServiceTest {
         Map<LocalDate, Integer> baseDateWalks = new HashMap<>() {{
             put(LocalDate.now().minusDays(1), 100);
             put(LocalDate.now(), 100);
-            put(LocalDate.now().plusDays(1),100);
+            put(LocalDate.now().plusDays(1), 100);
         }};
 
         userService.convertToPoint(savedUser.getId(), baseDateWalks);

@@ -1,10 +1,10 @@
 package org.setana.treenity.repository;
 
 
-import static org.setana.treenity.entity.QUserItem.userItem;
-import static org.setana.treenity.entity.QUser.user;
-import static org.setana.treenity.entity.QTree.tree;
 import static org.setana.treenity.entity.QItem.item;
+import static org.setana.treenity.entity.QTree.tree;
+import static org.setana.treenity.entity.QUser.user;
+import static org.setana.treenity.entity.QUserItem.userItem;
 import static org.setana.treenity.entity.QWalkLog.walkLog;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -45,6 +45,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         int DEFAULT_PAGE_SIZE = 10;
 
+        // WARNING: 유저 별로 ItemType 이 WATER 인 userItem 이 반드시 1개씩만 존재
         MyPageFetchDto myPageFetchDto = queryFactory
             .select(new QMyPageFetchDto(
                 user.id,

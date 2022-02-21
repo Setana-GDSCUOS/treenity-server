@@ -1,16 +1,18 @@
 package org.setana.treenity.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.setana.treenity.dto.TreeListFetchDto;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
-import org.setana.treenity.entity.Location;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
@@ -18,7 +20,6 @@ import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
@@ -114,6 +115,17 @@ class TreeServiceTest {
         assertEquals(0, findUserItem.getTotalCount());
         assertEquals(2, tree.getLevel());
         assertEquals(0, tree.getBucket());
+    }
+
+    @Test
+    @DisplayName("위치정보로 주변 나무 조회하기")
+    public void searchByLocationTest() {
+
+        Location location = new Location(127.02988185288436, 37.55637513168705);
+
+        List<TreeListFetchDto> dtos = treeService.fetchByLocation(location);
+
+        System.out.println("treeListFetchDtos=" + dtos);
     }
 
 }

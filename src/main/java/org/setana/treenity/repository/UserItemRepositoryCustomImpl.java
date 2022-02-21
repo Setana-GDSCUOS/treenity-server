@@ -1,8 +1,8 @@
 package org.setana.treenity.repository;
 
-import static org.setana.treenity.entity.QUserItem.userItem;
-import static org.setana.treenity.entity.QUser.user;
 import static org.setana.treenity.entity.QItem.item;
+import static org.setana.treenity.entity.QUser.user;
+import static org.setana.treenity.entity.QUserItem.userItem;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import com.querydsl.core.types.dsl.BooleanExpression;

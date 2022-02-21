@@ -35,4 +35,5 @@ public class TreeFetchDto {
 
         this.item = new ItemFetchDto(tree.getItem());
     }
+
 }
