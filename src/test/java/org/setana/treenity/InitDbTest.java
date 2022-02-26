@@ -54,7 +54,7 @@ public class InitDbTest {
     @DisplayName("랜덤 좌표 생성")
     @Rollback(false)
     public void randomPointTest() {
-        User user = new User(100_000L, "유저A");
+        User user = new User("example_uid", "uid@example.com", "유저A");
         Item item = new Item("아이템A", ItemType.SEED, 100);
 
         em.persist(user);

@@ -39,7 +39,7 @@ public class InitDb {
 
         public void init() {
             // user
-            User user0 = new User(100_000L, "유저0", 1_000);
+            User user0 = new User("example_uid", "email@example.com", "유저0", 1_000);
 
             em.persist(user0);
 

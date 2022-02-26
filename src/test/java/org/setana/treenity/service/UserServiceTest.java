@@ -33,7 +33,7 @@ class UserServiceTest {
     public void convertPointTest_1() {
 
         // given
-        User user = new User(100_000L, "유저A");
+        User user = new User("example_uid", "uid@example.com", "유저A");
         User savedUser = userRepository.save(user);
 
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -80,7 +80,7 @@ class UserServiceTest {
     public void convertPointTest_2() {
 
         // given
-        User user = new User(100_000L, "유저A");
+        User user = new User("example_uid", "uid@example.com", "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
@@ -136,7 +136,7 @@ class UserServiceTest {
     public void convertPointTest_3() {
 
         // given
-        User user = new User(100_000L, "유저A");
+        User user = new User("example_uid", "uid@example.com", "유저A");
         User savedUser = userRepository.save(user);
 
         // 각 날짜마다 걷기 100 저장
