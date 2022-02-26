@@ -24,8 +24,13 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
-    private Long googleId;
+    @Column(unique = true)
+    private String uid;
 
+    @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
     private String username;
 
     private Integer point = 0;
@@ -43,12 +48,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     List<Tree> trees = new ArrayList<>();
 
-    public User(Long googleId, String username) {
-        this(googleId, username, 0);
+    public User(String uid, String email, String username) {
+        this(uid, email, username, 0);
     }
 
-    public User(Long googleId, String username, Integer point) {
-        this.googleId = googleId;
+    public User(String uid, String email, String username, Integer point) {
+        this.uid = uid;
+        this.email = email;
         this.username = username;
         this.point = point;
     }
