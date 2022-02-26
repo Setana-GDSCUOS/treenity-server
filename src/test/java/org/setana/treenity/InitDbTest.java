@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.Rollback;
 
 @SpringBootTest
 @Transactional
@@ -52,9 +51,8 @@ public class InitDbTest {
 
     @Test
     @DisplayName("랜덤 좌표 생성")
-    @Rollback(false)
     public void randomPointTest() {
-        User user = new User("example_uid", "uid@example.com", "유저A");
+        User user = new User("test", "test@example.com", "유저A");
         Item item = new Item("아이템A", ItemType.SEED, 100);
 
         em.persist(user);
