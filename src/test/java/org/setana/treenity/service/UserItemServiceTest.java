@@ -18,10 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @Transactional
-class ItemServiceTest {
+class UserItemServiceTest {
 
     @Autowired
-    ItemService itemService;
+    UserItemService userItemService;
     @Autowired
     ItemRepository itemRepository;
     @Autowired
@@ -42,7 +42,7 @@ class ItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem = itemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem = userItemService.purchaseItem(itemName, savedUser.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -70,8 +70,8 @@ class ItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem_A = itemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_B = itemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_A = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_B = userItemService.purchaseItem(itemName, savedUser.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -90,7 +90,7 @@ class ItemServiceTest {
         // given
         String itemName = "아이템A";
         Integer itemCost = 100;
-        Integer userPoint = 300;
+        Integer userPoint = 400;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost, null, 3);
         User user = new User(100_000L, "유저A", userPoint);
@@ -99,13 +99,13 @@ class ItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        itemService.purchaseItem(itemName, savedUser.getId());
-        itemService.purchaseItem(itemName, savedUser.getId());
-        itemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> itemService.purchaseItem(itemName, savedUser.getId()));
+            () -> userItemService.purchaseItem(itemName, savedUser.getId()));
     }
 
     @Test
@@ -123,10 +123,10 @@ class ItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem_A = itemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_B = itemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_C = itemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_D = itemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_A = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_B = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_C = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_D = userItemService.purchaseItem(itemName, savedUser.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -155,13 +155,13 @@ class ItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        itemService.purchaseItem(itemName, savedUser.getId());
-        itemService.purchaseItem(itemName, savedUser.getId());
-        itemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(itemName, savedUser.getId());
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> itemService.purchaseItem(itemName, savedUser.getId()));
+            () -> userItemService.purchaseItem(itemName, savedUser.getId()));
     }
 
 }
