@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/swagger-ui/**")
             .antMatchers(HttpMethod.POST, "/auth")
-            .antMatchers("/resources/**");
+            .antMatchers("/images/**", "/favicon.ico");
     }
 
     @Bean
