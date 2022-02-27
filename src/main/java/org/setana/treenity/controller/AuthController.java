@@ -3,6 +3,10 @@ package org.setana.treenity.controller;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.security.message.request.RegisterInfo;
 import org.setana.treenity.security.message.response.UserInfo;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/auth")
@@ -48,7 +53,8 @@ public class AuthController {
     }
 
     @GetMapping
-    public UserInfo login(Authentication authentication) {
+    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class)
+    public UserInfo login(@ApiIgnore Authentication authentication) {
         CustomUser customUser = ((CustomUser) authentication.getPrincipal());
         return new UserInfo(customUser);
     }
