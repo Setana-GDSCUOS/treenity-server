@@ -34,14 +34,10 @@ public class ItemService {
         condition.setItemName(itemName);
 
         Optional<UserItem> findUserItem = userItemRepository.search(condition);
+        UserItem userItem = findUserItem.orElseGet(() -> createUserItem(itemName, userId));
 
-        if (findUserItem.isPresent()) {
-            UserItem userItem = findUserItem.get();
-            userItem.purchase();
-            return userItem;
-        } else {
-            return createUserItem(itemName, userId);
-        }
+        userItem.purchase();
+        return userItem;
     }
 
     private UserItem createUserItem(String itemName, Long userId) throws IllegalStateException {
@@ -51,7 +47,7 @@ public class ItemService {
         User user = userRepository.findById(userId)
             .orElseThrow(IllegalStateException::new);
 
-        UserItem userItem = user.createUserItem(item);
+        UserItem userItem = new UserItem(user, item);
         return userItemRepository.save(userItem);
     }
 

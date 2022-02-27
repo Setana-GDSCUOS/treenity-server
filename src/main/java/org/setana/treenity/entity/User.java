@@ -1,5 +1,6 @@
 package org.setana.treenity.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -39,6 +40,8 @@ public class User extends BaseEntity {
 
     private Integer totalWalks = 0;
 
+    private LocalDateTime lastLogin;
+
     @OneToMany(mappedBy = "user")
     List<WalkLog> walkLogs = new ArrayList<>();
 
@@ -57,11 +60,6 @@ public class User extends BaseEntity {
         this.email = email;
         this.username = username;
         this.point = point;
-    }
-
-    public UserItem createUserItem(Item item) {
-        purchaseItem(item);
-        return new UserItem(this, item);
     }
 
     public void purchaseItem(Item item) {
@@ -85,4 +83,7 @@ public class User extends BaseEntity {
         this.dailyWalks = walkLog.getWalks();
     }
 
+    public void updateLastLogin() {
+        lastLogin = LocalDateTime.now();
+    }
 }

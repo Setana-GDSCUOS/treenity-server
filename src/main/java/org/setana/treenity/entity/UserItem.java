@@ -1,6 +1,7 @@
 package org.setana.treenity.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,11 +27,11 @@ public class UserItem extends BaseEntity {
     @Column(name = "user_item_Id")
     private Long id;
 
-    private Integer totalCount = 1;
+    private Integer totalCount;
 
-    private Integer purchaseCount = 1;
+    private Integer purchaseCount;
 
-    private LocalDate purchaseDate = LocalDate.now();
+    private LocalDate purchaseDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -41,18 +42,24 @@ public class UserItem extends BaseEntity {
     private Item item;
 
     public UserItem(User user, Item item) {
-        this.user = user;
-        this.item = item;
+        this(user, item, 0, 0);
     }
 
-    public void consume() {
-        validateCount();
-        totalCount -= 1;
+    public UserItem(User user, Item item, int totalCount, int purchaseCount) {
+        this.user = user;
+        this.item = item;
+        this.totalCount = totalCount;
+        this.purchaseCount = purchaseCount;
     }
 
     public void consume(Tree tree) {
         consume();
         item.apply(tree);
+    }
+
+    public void consume() {
+        validateCount();
+        totalCount -= 1;
     }
 
     private void validateCount() {
@@ -80,6 +87,14 @@ public class UserItem extends BaseEntity {
             && purchaseDate.isEqual(LocalDate.now())) {
             throw new IllegalStateException();
         }
+    }
 
+    public void provide() {
+        LocalDateTime lastLogin = user.getLastLogin();
+        LocalDate today = LocalDate.now();
+
+        if (lastLogin == null || !lastLogin.toLocalDate().equals(today)) {
+            totalCount += 1;
+        }
     }
 }

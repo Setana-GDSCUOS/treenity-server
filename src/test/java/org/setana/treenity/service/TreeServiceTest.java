@@ -48,7 +48,7 @@ class TreeServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
-        UserItem userItem = new UserItem(savedUser, savedItem);
+        UserItem userItem = new UserItem(savedUser, savedItem, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
@@ -75,7 +75,7 @@ class TreeServiceTest {
         User savedUser = userRepository.save(user);
         Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
 
-        UserItem userItem = new UserItem(savedUser, savedWater);
+        UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
@@ -104,7 +104,7 @@ class TreeServiceTest {
         User savedUser = userRepository.save(user);
         Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
 
-        UserItem userItem = new UserItem(savedUser, savedWater);
+        UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
