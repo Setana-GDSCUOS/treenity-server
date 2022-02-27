@@ -28,7 +28,8 @@ public class TreeService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public Tree plantTree(Location location, Long userItemId) throws IllegalArgumentException {
+    public Tree plantTree(Location location, String cloudAnchorId, Long userItemId)
+        throws IllegalArgumentException {
 
         TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
         treeCluster.validatePlant();
@@ -38,15 +39,17 @@ public class TreeService {
             .orElseThrow(IllegalArgumentException::new);
         userItem.consume();
 
-        Tree tree = new Tree(location, userItem.getUser(), userItem.getItem());
+        Tree tree = new Tree(location, cloudAnchorId, userItem.getUser(), userItem.getItem());
         return treeRepository.save(tree);
     }
 
     @Transactional
-    public Tree interactTree(Long treeId, Long userId) throws IllegalArgumentException {
+    public Tree interactTree(Long treeId, String cloudAnchorId, Long userId)
+        throws IllegalArgumentException {
 
         Tree tree = treeRepository.findById(treeId)
             .orElseThrow(IllegalArgumentException::new);
+        tree.updateCloudAnchorId(cloudAnchorId);
 
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
