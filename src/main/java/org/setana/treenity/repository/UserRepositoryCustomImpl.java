@@ -38,6 +38,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
                 user.username,
                 user.point,
                 user.dailyWalks,
+                user.totalWalks,
                 userItem.totalCount))
             .from(user)
             .leftJoin(user.userItems, userItem)

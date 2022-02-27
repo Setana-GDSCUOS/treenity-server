@@ -12,17 +12,19 @@ public class UserFetchDto {
     private String username;
     private Integer point;
     private Integer dailyWalks;
+    private Integer totalWalks;
     private Integer buckets;
 
     @QueryProjection
     public UserFetchDto(Long userId, String uid, String email, String username, Integer point,
-        Integer dailyWalks, Integer buckets) {
+        Integer dailyWalks, Integer totalWalks, Integer buckets) {
         this.userId = userId;
         this.uid = uid;
         this.email = email;
         this.username = username;
         this.point = point;
         this.dailyWalks = dailyWalks;
+        this.totalWalks = totalWalks;
         this.buckets = buckets;
     }
 }
