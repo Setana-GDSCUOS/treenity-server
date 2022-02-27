@@ -4,12 +4,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.security.message.request.RegisterInfo;
-import org.setana.treenity.security.message.response.UserInfo;
+import org.setana.treenity.security.message.RegisterInfo;
+import org.setana.treenity.security.message.UserInfo;
 import org.setana.treenity.security.model.CustomUser;
 import org.setana.treenity.security.service.CustomUserService;
 import org.setana.treenity.security.util.RequestUtil;
@@ -47,15 +44,15 @@ public class AuthController {
         }
 
         CustomUser registeredUser = customUserService.register(
-            decodedToken.getUid(), decodedToken.getEmail(), registerInfo.getUsername()
-        );
+            decodedToken.getUid(), decodedToken.getEmail(), registerInfo.getUsername());
+
         return new UserInfo(registeredUser);
     }
 
     @GetMapping
     @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class)
     public UserInfo login(@ApiIgnore Authentication authentication) {
-        CustomUser customUser = ((CustomUser) authentication.getPrincipal());
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
         return new UserInfo(customUser);
     }
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.UserFetchDto;
+import org.setana.treenity.dto.UserSearchCondition;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
@@ -98,7 +99,11 @@ public class UserService {
     }
 
     public UserFetchDto fetchUser(Long userId) {
-        return userRepository.searchUserById(userId);
+        UserSearchCondition condition = new UserSearchCondition();
+        condition.setUserId(userId);
+
+        return userRepository.searchUserByCondition(condition)
+            .orElseThrow(IllegalArgumentException::new);
     }
 
     public MyPageFetchDto fetchMyPage(Long userId) {

@@ -1,4 +1,4 @@
-package org.setana.treenity.security.message.request;
+package org.setana.treenity.security.message;
 
 import lombok.Data;
 
