@@ -27,8 +27,6 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_id")
     private Long id;
 
-    private String cloudAnchorId;
-
     @Column(name = "tree_name")
     private String name;
 
@@ -56,13 +54,8 @@ public class Tree extends BaseEntity {
         this(location, null, user, item);
     }
 
-    public Tree(Location location, String cloudAnchorId, User user, Item item) {
-        this(location, cloudAnchorId, null, user, item);
-    }
-
-    public Tree(Location location, String cloudAnchorId, String description, User user, Item item) {
+    public Tree(Location location, String description, User user, Item item) {
         this.point = location.toPoint();
-        this.cloudAnchorId = cloudAnchorId;
         this.description = description;
         this.user = user;
         this.item = item;
@@ -80,7 +73,4 @@ public class Tree extends BaseEntity {
         bucket += (bucket + 1) % perLevel;
     }
 
-    public void updateCloudAnchorId(String cloudAnchorId) {
-        this.cloudAnchorId = cloudAnchorId;
-    }
 }

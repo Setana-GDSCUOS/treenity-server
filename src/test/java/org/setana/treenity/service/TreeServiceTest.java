@@ -52,7 +52,7 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.plantTree(location, null, savedUserItem.getId());
+        Tree tree = treeService.plantTree(location, savedUserItem.getId());
 
         // then
         assertEquals(location, tree.getLocation());
@@ -79,7 +79,7 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), null, savedUser.getId());
+        Tree tree = treeService.interactTree(savedTree.getId(), savedUser.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
@@ -108,7 +108,7 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), null, savedUser.getId());
+        Tree tree = treeService.interactTree(savedTree.getId(), savedUser.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
