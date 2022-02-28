@@ -9,6 +9,7 @@ import org.setana.treenity.entity.Tree;
 public class TreeFetchDto {
 
     private Long treeId;
+    private String cloudAnchorId;
     private Double longitude;
     private Double latitude;
     private String description;
@@ -25,6 +26,7 @@ public class TreeFetchDto {
     @QueryProjection
     public TreeFetchDto(Tree tree) {
         this.treeId = tree.getId();
+        this.cloudAnchorId = tree.getCloudAnchorId();
         this.longitude = tree.getLocation().getLongitude();
         this.latitude = tree.getLocation().getLatitude();
         this.description = tree.getDescription();

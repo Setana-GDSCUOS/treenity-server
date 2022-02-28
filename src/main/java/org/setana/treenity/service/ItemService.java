@@ -23,6 +23,32 @@ public class ItemService {
     private String imageUrl;
 
     private final ItemRepository itemRepository;
+    private final UserItemRepository userItemRepository;
+
+    @Transactional
+    public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
+
+        UserItemSearchCondition condition = new UserItemSearchCondition();
+        condition.setUserId(userId);
+        condition.setItemName(itemName);
+
+        Optional<UserItem> findUserItem = userItemRepository.search(condition);
+        UserItem userItem = findUserItem.orElseGet(() -> createUserItem(itemName, userId));
+
+        userItem.purchase();
+        return userItem;
+    }
+
+    private UserItem createUserItem(String itemName, Long userId) throws IllegalStateException {
+        Item item = itemRepository.findByName(itemName)
+            .orElseThrow(IllegalStateException::new);
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(IllegalStateException::new);
+
+        UserItem userItem = new UserItem(user, item);
+        return userItemRepository.save(userItem);
+    }
 
     public List<ItemFetchDto> fetchItems() {
         List<ItemFetchDto> dtos = itemRepository.findAllItems();

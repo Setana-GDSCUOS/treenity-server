@@ -7,6 +7,7 @@ import lombok.Data;
 public class TreeListFetchDto {
 
     private Long treeId;
+    private String cloudAnchorId;
     private Double longitude;
     private Double latitude;
     private String treeName;
@@ -18,9 +19,10 @@ public class TreeListFetchDto {
     private Long userId;
     private String username;
 
-    public TreeListFetchDto(Long treeId, Double longitude, Double latitude, String treeName,
-        LocalDate createdDate, Long userId, String username, Double distance) {
+    public TreeListFetchDto(Long treeId, String cloudAnchorId, Double longitude, Double latitude,
+        String treeName, LocalDate createdDate, Long userId, String username, Double distance) {
         this.treeId = treeId;
+        this.cloudAnchorId = cloudAnchorId;
         this.longitude = longitude;
         this.latitude = latitude;
         this.treeName = treeName;

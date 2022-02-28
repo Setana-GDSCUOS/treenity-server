@@ -1,4 +1,4 @@
-package org.setana.treenity.config;
+package org.setana.treenity.config.swagger;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;

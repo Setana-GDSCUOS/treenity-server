@@ -1,5 +1,6 @@
 package org.setana.treenity.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -24,8 +25,13 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
-    private Long googleId;
+    @Column(unique = true)
+    private String uid;
 
+    @Column(unique = true)
+    private String email;
+
+    @Column(unique = true)
     private String username;
 
     private Integer point = 0;
@@ -33,6 +39,8 @@ public class User extends BaseEntity {
     private Integer dailyWalks = 0;
 
     private Integer totalWalks = 0;
+
+    private LocalDateTime lastLogin;
 
     @OneToMany(mappedBy = "user")
     List<WalkLog> walkLogs = new ArrayList<>();
@@ -43,19 +51,15 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     List<Tree> trees = new ArrayList<>();
 
-    public User(Long googleId, String username) {
-        this(googleId, username, 0);
+    public User(String uid, String email, String username) {
+        this(uid, email, username, 0);
     }
 
-    public User(Long googleId, String username, Integer point) {
-        this.googleId = googleId;
+    public User(String uid, String email, String username, Integer point) {
+        this.uid = uid;
+        this.email = email;
         this.username = username;
         this.point = point;
-    }
-
-    public UserItem createUserItem(Item item) {
-        purchaseItem(item);
-        return new UserItem(this, item);
     }
 
     public void purchaseItem(Item item) {
@@ -79,4 +83,7 @@ public class User extends BaseEntity {
         this.dailyWalks = walkLog.getWalks();
     }
 
+    public void updateLastLogin() {
+        lastLogin = LocalDateTime.now();
+    }
 }

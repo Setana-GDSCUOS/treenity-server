@@ -49,6 +49,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
 
         Query query = em.createNativeQuery(
             "SELECT tree.tree_id,"
+                + " tree.cloud_anchor_id,"
                 + " ST_X(tree.point),"
                 + " ST_Y(tree.point),"
                 + " tree.tree_name,"
@@ -64,13 +65,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return resultList.stream()
             .map(result -> new TreeListFetchDto(
                 ((BigInteger) result[0]).longValue(),
-                (Double) result[1],
+                (String) result[1],
                 (Double) result[2],
-                (String) result[3],
-                ((Timestamp) result[4]).toLocalDateTime().toLocalDate(),
-                ((BigInteger) result[5]).longValue(),
-                (String) result[6],
-                (Double) result[7]
+                (Double) result[3],
+                (String) result[4],
+                ((Timestamp) result[5]).toLocalDateTime().toLocalDate(),
+                ((BigInteger) result[6]).longValue(),
+                (String) result[7],
+                (Double) result[8]
             )).collect(Collectors.toList());
     }
 

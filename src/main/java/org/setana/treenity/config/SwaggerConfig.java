@@ -2,6 +2,7 @@ package org.setana.treenity.config;
 
 import com.fasterxml.classmate.TypeResolver;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.config.swagger.Page;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
