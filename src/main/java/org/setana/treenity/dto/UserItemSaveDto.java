@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class UserItemSaveDto {
 
-    private String itemName;
+    private Long itemId;
 
 }

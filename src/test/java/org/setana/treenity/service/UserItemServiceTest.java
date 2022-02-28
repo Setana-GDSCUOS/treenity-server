@@ -42,7 +42,7 @@ class UserItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -70,8 +70,8 @@ class UserItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem_A = userItemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_B = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_A = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_B = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -99,13 +99,13 @@ class UserItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        userItemService.purchaseItem(itemName, savedUser.getId());
-        userItemService.purchaseItem(itemName, savedUser.getId());
-        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> userItemService.purchaseItem(itemName, savedUser.getId()));
+            () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
     }
 
     @Test
@@ -123,10 +123,10 @@ class UserItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        UserItem userItem_A = userItemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_B = userItemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_C = userItemService.purchaseItem(itemName, savedUser.getId());
-        UserItem userItem_D = userItemService.purchaseItem(itemName, savedUser.getId());
+        UserItem userItem_A = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_B = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_C = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_D = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -155,13 +155,13 @@ class UserItemServiceTest {
         User savedUser = userRepository.save(user);
 
         // when
-        userItemService.purchaseItem(itemName, savedUser.getId());
-        userItemService.purchaseItem(itemName, savedUser.getId());
-        userItemService.purchaseItem(itemName, savedUser.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> userItemService.purchaseItem(itemName, savedUser.getId()));
+            () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
     }
 
 }

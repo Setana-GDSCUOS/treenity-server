@@ -28,31 +28,27 @@ public class UserItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public UserItem purchaseItem(String itemName, Long userId) throws IllegalStateException {
+    public UserItem purchaseItem(Long userId, Long itemId) throws IllegalStateException {
 
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
-        condition.setItemName(itemName);
+        condition.setItemId(itemId);
 
         Optional<UserItem> findUserItem = userItemRepository.search(condition);
+        UserItem userItem = findUserItem.orElseGet(() -> createUserItem(userId, itemId));
 
-        if (findUserItem.isPresent()) {
-            UserItem userItem = findUserItem.get();
-            userItem.purchase();
-            return userItem;
-        } else {
-            return createUserItem(itemName, userId);
-        }
+        userItem.purchase();
+        return userItem;
     }
 
-    private UserItem createUserItem(String itemName, Long userId) throws IllegalStateException {
-        Item item = itemRepository.findByName(itemName)
-            .orElseThrow(IllegalStateException::new);
-
+    private UserItem createUserItem(Long userId, Long itemId) throws IllegalStateException {
         User user = userRepository.findById(userId)
             .orElseThrow(IllegalStateException::new);
 
-        UserItem userItem = user.createUserItem(item);
+        Item item = itemRepository.findById(itemId)
+            .orElseThrow(IllegalStateException::new);
+
+        UserItem userItem = new UserItem(user, item);
         return userItemRepository.save(userItem);
     }
 

@@ -56,7 +56,7 @@ public class UserController {
         @PathVariable(value = "id") Long userId,
         @RequestBody UserItemSaveDto dto
     ) {
-        userItemService.purchaseItem(dto.getItemName(), userId);
+        userItemService.purchaseItem(userId, dto.getItemId());
     }
 
     @GetMapping("/{id}/trees")

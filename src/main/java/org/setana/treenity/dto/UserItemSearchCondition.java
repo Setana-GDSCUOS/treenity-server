@@ -7,7 +7,7 @@ import org.setana.treenity.entity.ItemType;
 public class UserItemSearchCondition {
 
     private Long userId;
-    private String itemName;
+    private Long itemId;
     private ItemType itemType;
 
 }

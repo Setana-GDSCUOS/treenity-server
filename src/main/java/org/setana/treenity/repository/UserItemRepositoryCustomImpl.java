@@ -27,6 +27,7 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
             .select(new QUserItemFetchDto(
                 userItem.id,
                 userItem.item,
+                userItem.totalCount,
                 userItem.createdDate
             ))
             .from(userItem)
@@ -44,7 +45,7 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
             .join(userItem.user, user)
             .join(userItem.item, item)
             .where(userIdEq(condition.getUserId()),
-                itemNameEq(condition.getItemName()),
+                itemIdEq(condition.getItemId()),
                 itemTypeEq(condition.getItemType()))
             .fetchOne());
     }
@@ -53,8 +54,8 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
         return userId == null ? null : userItem.user.id.eq(userId);
     }
 
-    private BooleanExpression itemNameEq(String itemName) {
-        return isEmpty(itemName) ? null : userItem.item.name.eq(itemName);
+    private BooleanExpression itemIdEq(Long itemId) {
+        return itemId == null ? null : userItem.item.id.eq(itemId);
     }
 
     private BooleanExpression itemTypeEq(ItemType itemType) {
