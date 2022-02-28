@@ -43,12 +43,12 @@ class TreeServiceTest {
         Location location = new Location(Random.randomLong(), Random.randomLat());
 
         Item item = new Item("아이템A", ItemType.SEED, 100);
-        User user = new User(100_000L, "유저A");
+        User user = new User("test", "test@example.com", "유저A");
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
-        UserItem userItem = new UserItem(savedUser, savedItem);
+        UserItem userItem = new UserItem(savedUser, savedItem, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
@@ -68,14 +68,14 @@ class TreeServiceTest {
 
         Item water = new Item("아이템A", ItemType.WATER, 100);
         Item seed = new Item("아이템B", ItemType.SEED, 200);
-        User user = new User(100_000L, "유저A");
+        User user = new User("test", "test@example.com", "유저A");
 
         Item savedWater = itemRepository.save(water);
         Item savedSeed = itemRepository.save(seed);
         User savedUser = userRepository.save(user);
         Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
 
-        UserItem userItem = new UserItem(savedUser, savedWater);
+        UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
@@ -97,14 +97,14 @@ class TreeServiceTest {
 
         Item water = new Item("아이템A", ItemType.WATER, 100);
         Item seed = new Item("아이템B", ItemType.SEED, 100);
-        User user = new User(100_000L, "유저A");
+        User user = new User("test", "test@example.com", "유저A");
 
         Item savedWater = itemRepository.save(water);
         Item savedSeed = itemRepository.save(seed);
         User savedUser = userRepository.save(user);
         Tree savedTree = treeRepository.save(new Tree(location, user, savedSeed));
 
-        UserItem userItem = new UserItem(savedUser, savedWater);
+        UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when

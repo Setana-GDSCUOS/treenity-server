@@ -36,7 +36,7 @@ class ItemServiceTest {
         Integer userPoint = 300;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost, null, 3);
-        User user = new User(100_000L, "유저A", userPoint);
+        User user = new User("example_uid", "uid@example.com", "유저A", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -64,7 +64,7 @@ class ItemServiceTest {
         Integer userPoint = 300;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost, null, 3);
-        User user = new User(100_000L, "유저A", userPoint);
+        User user = new User("example_uid", "uid@example.com", "유저A", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -93,7 +93,7 @@ class ItemServiceTest {
         Integer userPoint = 300;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost, null, 3);
-        User user = new User(100_000L, "유저A", userPoint);
+        User user = new User("example_uid", "uid@example.com", "유저A", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -117,7 +117,7 @@ class ItemServiceTest {
         Integer userPoint = 400;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost);
-        User user = new User(100_000L, "유저A", userPoint);
+        User user = new User("example_uid", "uid@example.com", "유저A", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
@@ -149,7 +149,7 @@ class ItemServiceTest {
         Integer userPoint = 300;
 
         Item item = new Item(itemName, ItemType.SEED, itemCost, null, 5);
-        User user = new User(100_000L, "유저A", userPoint);
+        User user = new User("test", "test@example.com", "유저A", userPoint);
 
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);

@@ -41,3 +41,4 @@ application-local.yml
 application-prod.yml
 docker-compose.prod.yml
 images/
+firebaseKey.json

@@ -52,6 +52,10 @@ dependencies {
     // mysql spatial
     implementation 'org.hibernate:hibernate-spatial:5.6.5.Final'
 
+    // firebase + spring security
+    implementation 'com.google.firebase:firebase-admin:8.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
     // sql logger
     // implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 }
