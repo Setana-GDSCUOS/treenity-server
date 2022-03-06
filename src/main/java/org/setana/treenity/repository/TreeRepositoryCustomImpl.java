@@ -29,10 +29,10 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
     @Override
     public List<TreeListFetchDto> searchByLocation(Location location) {
 
-        // TODO: 현재 범위를 100km 단위로 설정, 이후 0.005km 로 변경 필요
-        Location northEast = GeometryUtil.makeLocation(location, 100,
+        // TODO: 현재 범위를 1km 단위로 설정, 이후 0.005km 로 변경 필요
+        Location northEast = GeometryUtil.makeLocation(location, 1,
             Direction.NORTHEAST.getBearing());
-        Location southWest = GeometryUtil.makeLocation(location, 100,
+        Location southWest = GeometryUtil.makeLocation(location, 1,
             Direction.SOUTHWEST.getBearing());
 
         String line = String.format("ST_GEOMFROMTEXT('LINESTRING(%f %f, %f %f)')",

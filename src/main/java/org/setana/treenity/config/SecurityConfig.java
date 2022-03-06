@@ -35,8 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
             .disable()
             .authorizeRequests()
-            .anyRequest()
-            .permitAll()
+            .antMatchers(HttpMethod.GET, "/auth")
+            .authenticated()
             .and()
             .addFilterBefore(new JwtFilter(userDetailsService, firebaseAuth),
                 UsernamePasswordAuthenticationFilter.class)
