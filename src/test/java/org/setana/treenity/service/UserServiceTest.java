@@ -7,9 +7,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
@@ -186,6 +188,22 @@ class UserServiceTest {
 
         assertThat(findWalkLogs).extracting("walks")
             .containsExactly(100, 100, 200, 200, 300);
+    }
+
+    @Test
+    @DisplayName("유저 정보 업데이트")
+    public void userUpdateTest() {
+        // given
+        User user = new User("test", "test@example.com", "유저A");
+        UserUpdateDto dto = new UserUpdateDto("username");
+
+        userRepository.save(user);
+
+        // when
+        User updatedUser = userService.updateUser(user.getId(), dto);
+
+        // then
+        assertThat(updatedUser.getUsername()).isEqualTo(dto.getUsername());
     }
 
 }
