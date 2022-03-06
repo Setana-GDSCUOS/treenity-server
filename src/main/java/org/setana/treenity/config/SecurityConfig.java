@@ -21,7 +21,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -37,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .disable()
             .authorizeRequests()
             .anyRequest()
-            .authenticated()
+            .permitAll()
             .and()
             .addFilterBefore(new JwtFilter(userDetailsService, firebaseAuth),
                 UsernamePasswordAuthenticationFilter.class)
@@ -46,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
             // temporary
             .antMatchers("/items/**", "/trees/**", "/users/**")
