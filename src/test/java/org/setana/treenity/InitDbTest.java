@@ -44,7 +44,7 @@ public class InitDbTest {
             double latitude = baseLat + random.nextDouble() / 1_000;
 
             Location location = new Location(longitude, latitude);
-            trees.add(new Tree(location, String.format("트리_%d에 대한 설명", ind), user, item));
+            trees.add(new Tree(location, String.format("cloudAnchorId_%d", ind), user, item));
         }
         return trees;
     }

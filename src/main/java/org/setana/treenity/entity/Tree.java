@@ -60,10 +60,10 @@ public class Tree extends BaseEntity {
         this(location, cloudAnchorId, null, user, item);
     }
 
-    public Tree(Location location, String cloudAnchorId, String description, User user, Item item) {
+    public Tree(Location location, String cloudAnchorId, String name, User user, Item item) {
         this.point = location.toPoint();
         this.cloudAnchorId = cloudAnchorId;
-        this.description = description;
+        this.name = name;
         this.user = user;
         this.item = item;
     }
