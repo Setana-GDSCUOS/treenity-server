@@ -65,7 +65,7 @@ public class InitDbTest {
         trees.forEach(em::persist);
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<TreeFetchDto> dtos = treeRepository.findByUserId(user.getId(), pageable);
+        List<TreeFetchDto> dtos = treeRepository.searchByUserId(user.getId(), pageable);
 
         assertTrue(dtos.stream().anyMatch(
             dto -> dto.getLongitude() > baseLoc.getLongitude()

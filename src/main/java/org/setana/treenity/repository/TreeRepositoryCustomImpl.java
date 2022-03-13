@@ -81,7 +81,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return new TreeCluster(dtos, location);
     }
 
-    public List<TreeFetchDto> findByUserId(Long userId, Pageable pageable) {
+    public List<TreeFetchDto> searchByUserId(Long userId, Pageable pageable) {
         return queryFactory.
             select(new QTreeFetchDto(tree))
             .from(tree)
@@ -90,5 +90,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
+    }
+
+    public TreeFetchDto searchByTreeId(Long treeId) {
+        return queryFactory
+            .select(new QTreeFetchDto(tree))
+            .from(tree)
+            .join(tree.item, item).fetchJoin()
+            .where(tree.id.eq(treeId))
+            .fetchOne();
     }
 }

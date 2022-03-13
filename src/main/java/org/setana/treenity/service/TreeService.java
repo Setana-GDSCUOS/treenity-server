@@ -67,12 +67,18 @@ public class TreeService {
     }
 
     public List<TreeFetchDto> fetchUserTrees(Long userId, Pageable pageable) {
-        List<TreeFetchDto> dtos = treeRepository.findByUserId(userId, pageable);
+        List<TreeFetchDto> dtos = treeRepository.searchByUserId(userId, pageable);
 
         for (TreeFetchDto dto : dtos) {
             dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
         }
         return dtos;
+    }
+
+    public TreeFetchDto fetchTree(Long treeId) {
+        TreeFetchDto dto = treeRepository.searchByTreeId(treeId);
+        dto.setImagePath(imageUrl + dto.getItem().getImagePath());
+        return dto;
     }
 
 }
