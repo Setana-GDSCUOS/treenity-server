@@ -52,7 +52,7 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.plantTree(location, null, savedUserItem.getId());
+        Tree tree = treeService.plantTree(location, null, "트리A", savedUserItem.getId());
 
         // then
         assertEquals(location, tree.getLocation());

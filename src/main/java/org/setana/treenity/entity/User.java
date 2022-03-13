@@ -86,4 +86,8 @@ public class User extends BaseEntity {
     public void updateLastLogin() {
         lastLogin = LocalDateTime.now();
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

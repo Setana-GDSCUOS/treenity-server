@@ -6,7 +6,11 @@ import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.dto.UserItemFetchDto;
+import org.setana.treenity.dto.UserItemSaveDto;
+import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.dto.WalkLogFetchDto;
+import org.setana.treenity.dto.WalkLogSaveDto;
+import org.setana.treenity.service.ItemService;
 import org.setana.treenity.service.TreeService;
 import org.setana.treenity.service.UserItemService;
 import org.setana.treenity.service.UserService;
@@ -15,6 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +53,14 @@ public class UserController {
         return userItemService.fetchUserItems(userId, pageable);
     }
 
+    @PostMapping("/{id}/items")
+    public void postUserItem(
+        @PathVariable(value = "id") Long userId,
+        @RequestBody UserItemSaveDto dto
+    ) {
+        userItemService.purchaseItem(userId, dto.getItemId());
+    }
+
     @GetMapping("/{id}/trees")
     public List<TreeFetchDto> getUserTrees(
         @PathVariable(value = "id") Long userId,
@@ -60,6 +75,22 @@ public class UserController {
         @PageableDefault Pageable pageable
     ) {
         return walkLogService.fetchUserWalkLogs(userId, pageable);
+    }
+
+    @PostMapping("/{id}/walk-logs")
+    public void postUserWalkLogs(
+        @PathVariable(value = "id") Long userId,
+        @RequestBody WalkLogSaveDto dto
+    ) {
+        userService.convertToPoint(userId, dto.getDateWalks());
+    }
+
+    @PutMapping("/{id}")
+    public void putUser(
+        @PathVariable(value = "id") Long userId,
+        @RequestBody UserUpdateDto dto
+    ) {
+        userService.updateUser(userId, dto);
     }
 
 }

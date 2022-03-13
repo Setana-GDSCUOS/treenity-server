@@ -11,12 +11,14 @@ import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.dto.UserSearchCondition;
+import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -117,6 +119,17 @@ public class UserService {
             treeDto.getItem().setImagePath(imageUrl + treeDto.getItem().getImagePath());
         }
         return myPageDto;
+    }
+
+    @Transactional
+    public User updateUser(Long userId, UserUpdateDto dto) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(IllegalArgumentException::new);
+
+        if (StringUtils.hasText(dto.getUsername())) {
+            user.setUsername(dto.getUsername());
+        }
+        return userRepository.save(user);
     }
 
 }

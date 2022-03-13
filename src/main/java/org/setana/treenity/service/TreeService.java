@@ -28,7 +28,7 @@ public class TreeService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public Tree plantTree(Location location, String cloudAnchorId, Long userItemId)
+    public Tree plantTree(Location location, String cloudAnchorId, String name, Long userItemId)
         throws IllegalArgumentException {
 
         TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
@@ -39,7 +39,7 @@ public class TreeService {
             .orElseThrow(IllegalArgumentException::new);
         userItem.consume();
 
-        Tree tree = new Tree(location, cloudAnchorId, userItem.getUser(), userItem.getItem());
+        Tree tree = new Tree(location, cloudAnchorId, name, userItem.getUser(), userItem.getItem());
         return treeRepository.save(tree);
     }
 
@@ -67,12 +67,18 @@ public class TreeService {
     }
 
     public List<TreeFetchDto> fetchUserTrees(Long userId, Pageable pageable) {
-        List<TreeFetchDto> dtos = treeRepository.findByUserId(userId, pageable);
+        List<TreeFetchDto> dtos = treeRepository.searchByUserId(userId, pageable);
 
         for (TreeFetchDto dto : dtos) {
             dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
         }
         return dtos;
+    }
+
+    public TreeFetchDto fetchTree(Long treeId) {
+        TreeFetchDto dto = treeRepository.searchByTreeId(treeId);
+        dto.setImagePath(imageUrl + dto.getItem().getImagePath());
+        return dto;
     }
 
 }

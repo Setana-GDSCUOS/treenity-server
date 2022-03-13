@@ -13,5 +13,7 @@ public interface TreeRepositoryCustom {
 
     TreeCluster searchTreeCluster(Location location);
 
-    List<TreeFetchDto> findByUserId(Long userId, Pageable pageable);
+    List<TreeFetchDto> searchByUserId(Long userId, Pageable pageable);
+
+    TreeFetchDto searchByTreeId(Long treeId);
 }

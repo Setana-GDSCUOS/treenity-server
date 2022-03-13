@@ -29,10 +29,10 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
     @Override
     public List<TreeListFetchDto> searchByLocation(Location location) {
 
-        // TODO: 현재 범위를 100km 단위로 설정, 이후 0.005km 로 변경 필요
-        Location northEast = GeometryUtil.makeLocation(location, 100,
+        // TODO: 현재 범위를 1km 단위로 설정, 이후 0.005km 로 변경 필요
+        Location northEast = GeometryUtil.makeLocation(location, 1,
             Direction.NORTHEAST.getBearing());
-        Location southWest = GeometryUtil.makeLocation(location, 100,
+        Location southWest = GeometryUtil.makeLocation(location, 1,
             Direction.SOUTHWEST.getBearing());
 
         String line = String.format("ST_GEOMFROMTEXT('LINESTRING(%f %f, %f %f)')",
@@ -81,7 +81,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return new TreeCluster(dtos, location);
     }
 
-    public List<TreeFetchDto> findByUserId(Long userId, Pageable pageable) {
+    public List<TreeFetchDto> searchByUserId(Long userId, Pageable pageable) {
         return queryFactory.
             select(new QTreeFetchDto(tree))
             .from(tree)
@@ -90,5 +90,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
+    }
+
+    public TreeFetchDto searchByTreeId(Long treeId) {
+        return queryFactory
+            .select(new QTreeFetchDto(tree))
+            .from(tree)
+            .join(tree.item, item).fetchJoin()
+            .where(tree.id.eq(treeId))
+            .fetchOne();
     }
 }

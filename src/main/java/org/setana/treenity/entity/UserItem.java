@@ -75,7 +75,7 @@ public class UserItem extends BaseEntity {
         totalCount += 1;
         purchaseCount = Objects.isNull(item.getPurchaseLimit())
             ? (purchaseCount + 1)
-            : (purchaseCount + 1) % item.getPurchaseLimit();
+            : (purchaseCount + 1) % (item.getPurchaseLimit() + 1);
         purchaseDate = LocalDate.now();
     }
 

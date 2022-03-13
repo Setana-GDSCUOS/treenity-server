@@ -39,7 +39,7 @@ public class InitDb {
 
         public void init() {
             // user
-            User user0 = new User("init", "email@example.com", "유저0", 1_000);
+            User user0 = new User("init", "email@example.com", "유저0", 1_000_000);
 
             em.persist(user0);
 
@@ -86,12 +86,12 @@ public class InitDb {
             WalkLog walkLogC = new WalkLog(LocalDate.now().minusDays(3), 8_000, user0);
             WalkLog walkLogD = new WalkLog(LocalDate.now().minusDays(2), 9_000, user0);
             WalkLog walkLogE = new WalkLog(LocalDate.now().minusDays(1), 10_000, user0);
-            WalkLog walkLogF = new WalkLog(LocalDate.now(), 10_000, user0);
-            WalkLog walkLogG = new WalkLog(LocalDate.now().plusDays(1), 11_000, user0);
-            WalkLog walkLogH = new WalkLog(LocalDate.now().plusDays(2), 12_000, user0);
-            WalkLog walkLogI = new WalkLog(LocalDate.now().plusDays(3), 13_000, user0);
-            WalkLog walkLogJ = new WalkLog(LocalDate.now().plusDays(4), 14_000, user0);
-            WalkLog walkLogK = new WalkLog(LocalDate.now().plusDays(5), 15_000, user0);
+            WalkLog walkLogF = new WalkLog(LocalDate.now(), 11_000, user0);
+            WalkLog walkLogG = new WalkLog(LocalDate.now().plusDays(1), 12_000, user0);
+            WalkLog walkLogH = new WalkLog(LocalDate.now().plusDays(2), 13_000, user0);
+            WalkLog walkLogI = new WalkLog(LocalDate.now().plusDays(3), 14_000, user0);
+            WalkLog walkLogJ = new WalkLog(LocalDate.now().plusDays(4), 15_000, user0);
+            WalkLog walkLogK = new WalkLog(LocalDate.now().plusDays(5), 16_000, user0);
 
             em.persist(walkLogA);
             em.persist(walkLogB);
@@ -118,7 +118,10 @@ public class InitDb {
                 double latitude = baseLat + random.nextDouble() / 1_000;
 
                 Location location = new Location(longitude, latitude);
-                trees.add(new Tree(location, String.format("트리_%d에 대한 설명", ind), user, item));
+                trees.add(new Tree(location,
+                    String.format("cloudAnchorId_%d", ind),
+                    String.format("tree_%d", ind),
+                    user, item));
             }
             return trees;
         }

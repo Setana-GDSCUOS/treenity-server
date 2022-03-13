@@ -2,6 +2,7 @@ package org.setana.treenity.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeInteractDto;
 import org.setana.treenity.dto.TreeListFetchDto;
 import org.setana.treenity.dto.TreeSaveDto;
@@ -23,17 +24,22 @@ public class TreeController {
     private final TreeService treeService;
 
     @GetMapping
-    public List<TreeListFetchDto> getTreeByLocation(
+    public List<TreeListFetchDto> getTreesByLocation(
         @RequestParam Double longitude,
         @RequestParam Double latitude
     ) {
         return treeService.fetchByLocation(new Location(longitude, latitude));
     }
 
+    @GetMapping("{id}")
+    public TreeFetchDto getTree(@PathVariable(value = "id") Long treeId) {
+        return treeService.fetchTree(treeId);
+    }
+
     @PostMapping
     public void postTreePlant(@RequestBody TreeSaveDto dto) {
         Location location = new Location(dto.getLongitude(), dto.getLatitude());
-        treeService.plantTree(location, dto.getCloudAnchorId(), dto.getUserItemId());
+        treeService.plantTree(location, dto.getCloudAnchorId(), dto.getName(), dto.getUserItemId());
     }
 
     @PostMapping("/{id}/interact")
