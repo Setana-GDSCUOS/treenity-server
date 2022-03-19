@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.dto.QTreeListFetchDto;
+import org.setana.treenity.dto.QTreeFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.entity.QTree;
 import org.setana.treenity.model.Direction;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
@@ -86,7 +87,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
 
     public List<TreeFetchDto> searchByUserId(Long userId, Pageable pageable) {
         return queryFactory.
-            select(new QTreeListFetchDto(tree))
+            select(new QTreeFetchDto(tree))
             .from(tree)
             .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))
@@ -97,7 +98,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
 
     public TreeFetchDto searchByTreeId(Long treeId) {
         return queryFactory
-            .select(new QTreeListFetchDto(tree))
+            .select(new QTreeFetchDto(tree))
             .from(tree)
             .join(tree.user, user).fetchJoin()
             .join(tree.item, item).fetchJoin()
