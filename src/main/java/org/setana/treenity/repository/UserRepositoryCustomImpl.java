@@ -71,7 +71,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         List<TreeFetchDto> treeFetchDtos = queryFactory
             .select(new QTreeFetchDto(tree))
             .from(tree)
-            .join(tree.item, item).fetchJoin()
+            .join(tree.item, item)
             .where(tree.user.id.eq(userId))
             .fetch();
 

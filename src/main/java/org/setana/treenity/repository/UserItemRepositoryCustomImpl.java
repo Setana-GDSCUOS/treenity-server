@@ -31,8 +31,8 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
                 userItem.createdDate
             ))
             .from(userItem)
-            .join(userItem.user, user).fetchJoin()
-            .join(userItem.item, item).fetchJoin()
+            .join(userItem.user, user)
+            .join(userItem.item, item)
             .where(userItem.user.id.eq(userId))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -42,8 +42,8 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
     public Optional<UserItem> search(UserItemSearchCondition condition) {
         return Optional.ofNullable(queryFactory
             .selectFrom(userItem)
-            .join(userItem.user, user).fetchJoin()
-            .join(userItem.item, item).fetchJoin()
+            .join(userItem.user, user)
+            .join(userItem.item, item)
             .where(userItemEq(condition.getUserItemId()),
                 userIdEq(condition.getUserId()),
                 itemIdEq(condition.getItemId()),

@@ -89,7 +89,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return queryFactory.
             select(new QTreeFetchDto(tree))
             .from(tree)
-            .join(tree.item, item).fetchJoin()
+            .join(tree.item, item)
             .where(tree.user.id.eq(userId))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -100,8 +100,8 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return queryFactory
             .select(new QTreeFetchDto(tree))
             .from(tree)
-            .join(tree.user, user).fetchJoin()
-            .join(tree.item, item).fetchJoin()
+            .join(tree.user, user)
+            .join(tree.item, item)
             .where(tree.id.eq(treeId))
             .fetchOne();
     }
