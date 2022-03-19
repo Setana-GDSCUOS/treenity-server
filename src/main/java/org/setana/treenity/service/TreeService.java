@@ -33,8 +33,12 @@ public class TreeService {
         TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
         treeCluster.validatePlant();
 
-        // TODO: UserItem 에서 아이템 타입이 SEED 인 아이템 중 하나를 선택해 나무 심기 필요
-        UserItem userItem = userItemRepository.findById(userItemId)
+        // 클라이언트에서 유저가 가진 아이템 중 아이템 타입이 SEED 인 아이템 하나를 선택해 나무 심기
+        UserItemSearchCondition condition = new UserItemSearchCondition();
+        condition.setUserItemId(userItemId);
+        condition.setItemType(ItemType.SEED);
+
+        UserItem userItem = userItemRepository.search(condition)
             .orElseThrow(IllegalArgumentException::new);
         userItem.consume();
 
@@ -50,13 +54,14 @@ public class TreeService {
             .orElseThrow(IllegalArgumentException::new);
         tree.updateCloudAnchorId(cloudAnchorId);
 
+        // 데이터베이스에서 유저가 가진 아이템 중 아이템 타입이 WATER 인 아이템 가져오기
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
         condition.setItemType(ItemType.WATER);
 
         UserItem userItem = userItemRepository.search(condition)
             .orElseThrow(IllegalArgumentException::new);
-        userItem.consume(tree);
+        userItem.apply(tree);
 
         return tree;
     }

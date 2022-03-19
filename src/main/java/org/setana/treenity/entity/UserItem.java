@@ -52,11 +52,13 @@ public class UserItem extends BaseEntity {
         this.purchaseCount = purchaseCount;
     }
 
-    public void consume(Tree tree) {
+    // tree 가 이미 존재하는 경우, 해당 아이템을 차감하고 tree 에 적용
+    public void apply(Tree tree) {
         consume();
         item.apply(tree);
     }
 
+    // tree 가 존재하지 않는 경우, 해당 아이템의 차감만 적용
     public void consume() {
         validateCount();
         totalCount -= 1;
