@@ -37,9 +37,6 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_description")
     private String description;
 
-    @Column(name = "tree_image_path")
-    private String imagePath;
-
     private Integer level = 1;
 
     private Integer bucket = 0;

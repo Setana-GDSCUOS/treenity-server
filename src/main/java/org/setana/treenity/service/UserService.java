@@ -112,10 +112,6 @@ public class UserService {
         MyPageFetchDto myPageDto = userRepository.searchMyPageById(userId);
 
         for (TreeFetchDto treeDto : myPageDto.getTrees()) {
-            if (treeDto.getImagePath() != null) {
-                treeDto.setImagePath(imageUrl + treeDto.getImagePath());
-            }
-
             treeDto.getItem().setImagePath(imageUrl + treeDto.getItem().getImagePath());
         }
         return myPageDto;

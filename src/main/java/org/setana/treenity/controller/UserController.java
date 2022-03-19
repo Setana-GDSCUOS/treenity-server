@@ -10,7 +10,6 @@ import org.setana.treenity.dto.UserItemSaveDto;
 import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.dto.WalkLogFetchDto;
 import org.setana.treenity.dto.WalkLogSaveDto;
-import org.setana.treenity.service.ItemService;
 import org.setana.treenity.service.TreeService;
 import org.setana.treenity.service.UserItemService;
 import org.setana.treenity.service.UserService;

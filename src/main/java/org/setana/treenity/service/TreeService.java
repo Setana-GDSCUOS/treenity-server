@@ -4,7 +4,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.TreeFetchDto;
-import org.setana.treenity.dto.TreeListFetchDto;
 import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
@@ -62,7 +61,7 @@ public class TreeService {
         return tree;
     }
 
-    public List<TreeListFetchDto> fetchByLocation(Location location) {
+    public List<TreeFetchDto> fetchByLocation(Location location) {
         return treeRepository.searchByLocation(location);
     }
 
@@ -77,7 +76,7 @@ public class TreeService {
 
     public TreeFetchDto fetchTree(Long treeId) {
         TreeFetchDto dto = treeRepository.searchByTreeId(treeId);
-        dto.setImagePath(imageUrl + dto.getItem().getImagePath());
+        dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
         return dto;
     }
 

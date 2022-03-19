@@ -14,7 +14,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.QMyPageFetchDto;
-import org.setana.treenity.dto.QTreeFetchDto;
+import org.setana.treenity.dto.QTreeListFetchDto;
 import org.setana.treenity.dto.QUserFetchDto;
 import org.setana.treenity.dto.QWalkLogFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
@@ -69,7 +69,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
         // TODO: user 데이터 쿼리와 함께 작성 필요
         List<TreeFetchDto> treeFetchDtos = queryFactory
-            .select(new QTreeFetchDto(tree))
+            .select(new QTreeListFetchDto(tree))
             .from(tree)
             .join(tree.item, item).fetchJoin()
             .where(tree.user.id.eq(userId))

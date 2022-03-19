@@ -2,9 +2,8 @@ package org.setana.treenity.controller;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeInteractDto;
-import org.setana.treenity.dto.TreeListFetchDto;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.service.TreeService;
@@ -24,7 +23,7 @@ public class TreeController {
     private final TreeService treeService;
 
     @GetMapping
-    public List<TreeListFetchDto> getTreesByLocation(
+    public List<TreeFetchDto> getTreesByLocation(
         @RequestParam Double longitude,
         @RequestParam Double latitude
     ) {

@@ -10,32 +10,46 @@ public class TreeFetchDto {
 
     private Long treeId;
     private String cloudAnchorId;
+    private String treeName;
     private Double longitude;
     private Double latitude;
-    private String description;
-    private String imagePath;
     private Integer level;
     private Integer bucket;
-
-    // item
-    private ItemFetchDto item;
-
-    // base entity
     private LocalDateTime createdDate;
+    private Double distance;
+
+    // relation
+    private UserFetchDto user;
+    private ItemFetchDto item;
 
     @QueryProjection
     public TreeFetchDto(Tree tree) {
         this.treeId = tree.getId();
         this.cloudAnchorId = tree.getCloudAnchorId();
+        this.treeName = tree.getName();
         this.longitude = tree.getLocation().getLongitude();
         this.latitude = tree.getLocation().getLatitude();
-        this.description = tree.getDescription();
-        this.imagePath = tree.getImagePath();
         this.level = tree.getLevel();
         this.bucket = tree.getBucket();
         this.createdDate = tree.getCreatedDate();
 
+        this.user = new UserFetchDto(tree.getUser());
         this.item = new ItemFetchDto(tree.getItem());
+    }
+
+    public TreeFetchDto(Long treeId, String cloudAnchorId, String treeName, Double longitude,
+        Double latitude, Integer level, LocalDateTime createdDate, Double distance, Long userId,
+        String username) {
+        this.treeId = treeId;
+        this.cloudAnchorId = cloudAnchorId;
+        this.treeName = treeName;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.level = level;
+        this.createdDate = createdDate;
+        this.distance = distance;
+
+        this.user = new UserFetchDto(userId, username);
     }
 
 }
