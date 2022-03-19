@@ -3,6 +3,8 @@ package org.setana.treenity.model;
 import java.util.List;
 import lombok.Getter;
 import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 
 @Getter
 public class TreeCluster {
@@ -19,7 +21,7 @@ public class TreeCluster {
         for (TreeFetchDto tree : trees) {
             // TODO: 나무 사이의 간격을 1M 로 변경 필요
             if (tree.getDistance() < 0) {
-                throw new IllegalStateException();
+                throw new NotAcceptableException(ErrorCode.LOCATION_NOT_VALID);
             }
         }
     }

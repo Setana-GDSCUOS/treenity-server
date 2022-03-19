@@ -15,6 +15,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -66,7 +68,7 @@ public class UserItem extends BaseEntity {
 
     private void validateCount() {
         if (totalCount <= 0) {
-            throw new IllegalStateException();
+            throw new NotAcceptableException(ErrorCode.USER_ITEM_NOT_ENOUGH);
         }
     }
 
@@ -87,7 +89,7 @@ public class UserItem extends BaseEntity {
         if (!Objects.isNull(purchaseLimit)
             && purchaseCount >= purchaseLimit
             && purchaseDate.isEqual(LocalDate.now())) {
-            throw new IllegalStateException();
+            throw new NotAcceptableException(ErrorCode.USER_ITEM_LIMIT);
         }
     }
 

@@ -8,6 +8,8 @@ import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
@@ -27,8 +29,7 @@ public class TreeService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public Tree plantTree(Location location, String cloudAnchorId, String name, Long userItemId)
-        throws IllegalArgumentException {
+    public Tree plantTree(Location location, String cloudAnchorId, String name, Long userItemId) {
 
         TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
         treeCluster.validatePlant();
@@ -39,7 +40,7 @@ public class TreeService {
         condition.setItemType(ItemType.SEED);
 
         UserItem userItem = userItemRepository.search(condition)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ITEM_NOT_FOUND));
         userItem.consume();
 
         Tree tree = new Tree(location, cloudAnchorId, name, userItem.getUser(), userItem.getItem());
@@ -47,12 +48,13 @@ public class TreeService {
     }
 
     @Transactional
-    public Tree interactTree(Long treeId, String cloudAnchorId, Long userId)
-        throws IllegalArgumentException {
+    public Tree interactTree(Long treeId, String cloudAnchorId, Long userId) {
 
         Tree tree = treeRepository.findById(treeId)
-            .orElseThrow(IllegalArgumentException::new);
-        tree.updateCloudAnchorId(cloudAnchorId);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
+
+        // 나무에 물을 줄 때 새로운 cloud anchor 아이디 업데이트
+        updateCloudAnchorId(tree, cloudAnchorId);
 
         // 데이터베이스에서 유저가 가진 아이템 중 아이템 타입이 WATER 인 아이템 가져오기
         UserItemSearchCondition condition = new UserItemSearchCondition();
@@ -60,10 +62,16 @@ public class TreeService {
         condition.setItemType(ItemType.WATER);
 
         UserItem userItem = userItemRepository.search(condition)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ITEM_NOT_FOUND));
         userItem.apply(tree);
 
         return tree;
+    }
+
+    private void updateCloudAnchorId(Tree tree, String cloudAnchorId) {
+        if (cloudAnchorId != null) {
+            tree.setCloudAnchorId(cloudAnchorId);
+        }
     }
 
     public List<TreeFetchDto> fetchByLocation(Location location) {

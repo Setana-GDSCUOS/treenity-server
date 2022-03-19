@@ -11,6 +11,7 @@ import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.exception.NotAcceptableException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,7 @@ class UserItemServiceTest {
         userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
 
         // then
-        assertThrows(IllegalStateException.class,
+        assertThrows(NotAcceptableException.class,
             () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
     }
 
@@ -160,7 +161,7 @@ class UserItemServiceTest {
         userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
 
         // then
-        assertThrows(IllegalStateException.class,
+        assertThrows(NotAcceptableException.class,
             () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
     }
 

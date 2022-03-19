@@ -77,7 +77,7 @@ public class Tree extends BaseEntity {
         bucket += (bucket + 1) % perLevel;
     }
 
-    public void updateCloudAnchorId(String cloudAnchorId) {
+    public void setCloudAnchorId(String cloudAnchorId) {
         this.cloudAnchorId = cloudAnchorId;
     }
 }

@@ -14,6 +14,9 @@ import org.setana.treenity.dto.UserSearchCondition;
 import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
+import org.setana.treenity.exception.BusinessException;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,32 +34,30 @@ public class UserService {
     private final WalkLogRepository walkLogRepository;
 
     @Transactional
-    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks) {
 
         User user = userRepository.findById(userId)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         upsertWalkLogs(user, dateWalks);
 
         Integer totalWalks = dateWalks.values().stream()
             .reduce(Integer::sum)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         user.updateTotalWalksAndPoint(totalWalks);
     }
 
     @Transactional
-    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks) {
 
         LocalDate startDate = dateWalks.keySet().stream()
             .min(LocalDate::compareTo)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         LocalDate endDate = dateWalks.keySet().stream()
             .max(LocalDate::compareTo)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         return walkLogRepository.findByUser_IdAndDateBetween(
             userId, startDate, endDate);
@@ -71,8 +72,7 @@ public class UserService {
     }
 
     @Transactional
-    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) {
 
         List<WalkLog> walkLogs = findWalkLogs(user.getId(), dateWalks);
 
@@ -105,7 +105,7 @@ public class UserService {
         condition.setUserId(userId);
 
         return userRepository.searchUserByCondition(condition)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     public MyPageFetchDto fetchMyPage(Long userId) {
@@ -120,7 +120,7 @@ public class UserService {
     @Transactional
     public User updateUser(Long userId, UserUpdateDto dto) {
         User user = userRepository.findById(userId)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         if (StringUtils.hasText(dto.getUsername())) {
             user.setUsername(dto.getUsername());

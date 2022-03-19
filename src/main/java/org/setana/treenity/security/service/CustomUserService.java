@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
@@ -58,14 +60,14 @@ public class CustomUserService implements UserDetailsService {
 
     private void createItem(User user, String itemName) {
         Item item = itemRepository.findByName(itemName)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.ITEM_NOT_FOUND));
 
         provide(new UserItem(user, item));
     }
 
     private void updateItem(User user, String itemName) {
         UserItem userItem = userItemRepository.findByUserAndItem_Name(user, itemName)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ITEM_NOT_FOUND));
 
         provide(userItem);
     }

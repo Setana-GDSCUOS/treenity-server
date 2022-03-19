@@ -9,6 +9,8 @@ import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
@@ -28,7 +30,7 @@ public class UserItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public UserItem purchaseItem(Long userId, Long itemId) throws IllegalStateException {
+    public UserItem purchaseItem(Long userId, Long itemId) {
 
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
@@ -41,12 +43,12 @@ public class UserItemService {
         return userItem;
     }
 
-    private UserItem createUserItem(Long userId, Long itemId) throws IllegalStateException {
+    private UserItem createUserItem(Long userId, Long itemId) {
         User user = userRepository.findById(userId)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         Item item = itemRepository.findById(itemId)
-            .orElseThrow(IllegalStateException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.ITEM_NOT_FOUND));
 
         UserItem userItem = new UserItem(user, item);
         return userItemRepository.save(userItem);

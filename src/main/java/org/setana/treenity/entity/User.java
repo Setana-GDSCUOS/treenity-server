@@ -13,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -69,7 +71,7 @@ public class User extends BaseEntity {
 
     private void validatePoint(Item item) {
         if (point < item.getCost()) {
-            throw new IllegalStateException();
+            throw new NotAcceptableException(ErrorCode.POINT_NOT_ENOUGH);
         }
     }
 
