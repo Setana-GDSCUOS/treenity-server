@@ -56,9 +56,9 @@ public class InitDb {
             em.persist(itemC);
 
             // userItem (3 buckets, 2 sprout, 1 bud tree)
-            UserItem userItemA = new UserItem(user0, itemA, 1, 0);
-            UserItem userItemB = new UserItem(user0, itemB, 1, 0);
-            UserItem userItemC = new UserItem(user0, itemC, 1, 0);
+            UserItem userItemA = new UserItem(user0, itemA, 1_000, 0);
+            UserItem userItemB = new UserItem(user0, itemB, 1_000, 0);
+            UserItem userItemC = new UserItem(user0, itemC, 1_000, 0);
 
             em.persist(userItemA);
             em.persist(userItemB);
