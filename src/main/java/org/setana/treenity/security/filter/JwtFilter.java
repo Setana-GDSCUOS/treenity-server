@@ -28,24 +28,22 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-        FirebaseToken decodedToken = null;
-
         try {
+            // decode token
             String header = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
-            decodedToken = firebaseAuth.verifyIdToken(header);
+            FirebaseToken decodedToken = firebaseAuth.verifyIdToken(header);
+
+            // get user
+            UserDetails userDetails = userDetailsService.loadUserByUsername(decodedToken.getUid());
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (IllegalArgumentException | FirebaseAuthException e) {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter()
                 .write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
-        }
-
-        try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(decodedToken.getUid());
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (UsernameNotFoundException e) {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
