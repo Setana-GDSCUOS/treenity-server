@@ -3,6 +3,7 @@ package org.setana.treenity.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -91,5 +92,11 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void checkUserId(Long userId) {
+        if (!Objects.equals(this.id, userId)) {
+            throw new NotAcceptableException(ErrorCode.USER_CHECK_FAIL);
+        }
     }
 }

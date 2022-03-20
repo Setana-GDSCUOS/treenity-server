@@ -42,7 +42,7 @@ public class TreeController {
     @PostMapping
     public void postTreePlant(@RequestBody TreeSaveDto dto) {
         Location location = new Location(dto.getLongitude(), dto.getLatitude());
-        treeService.plantTree(location, dto.getCloudAnchorId(), dto.getName(), dto.getUserItemId());
+        treeService.plantTree(location, dto);
     }
 
     @PostMapping("/{id}/interact")

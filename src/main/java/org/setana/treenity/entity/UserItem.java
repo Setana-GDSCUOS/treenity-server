@@ -101,4 +101,8 @@ public class UserItem extends BaseEntity {
             totalCount += 1;
         }
     }
+
+    public void checkUserId(Long userId) {
+        user.checkUserId(userId);
+    }
 }

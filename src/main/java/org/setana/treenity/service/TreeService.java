@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeListDto;
+import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
@@ -30,21 +31,29 @@ public class TreeService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public Tree plantTree(Location location, String cloudAnchorId, String name, Long userItemId) {
-
-        TreeCluster treeCluster = treeRepository.searchTreeCluster(location);
+    public Tree plantTree(Location location, TreeSaveDto dto) {
+        TreeCluster treeCluster = treeRepository.searchTreeCluster(dto.getUserId(), location);
         treeCluster.validatePlant();
 
         // 클라이언트에서 유저가 가진 아이템 중 아이템 타입이 SEED 인 아이템 하나를 선택해 나무 심기
         UserItemSearchCondition condition = new UserItemSearchCondition();
-        condition.setUserItemId(userItemId);
+        condition.setUserItemId(dto.getUserItemId());
         condition.setItemType(ItemType.SEED);
 
         UserItem userItem = userItemRepository.search(condition)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_ITEM_NOT_FOUND));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.ITEM_TYPE_CHECK_FAIL));
+
+        // 요청한 아이템이 유저의 소유인지 검증
+        userItem.checkUserId(dto.getUserId());
         userItem.consume();
 
-        Tree tree = new Tree(location, cloudAnchorId, name, userItem.getUser(), userItem.getItem());
+        Tree tree = new Tree(
+            location,
+            dto.getCloudAnchorId(),
+            dto.getTreeName(),
+            userItem.getUser(),
+            userItem.getItem()
+        );
         return treeRepository.save(tree);
     }
 
