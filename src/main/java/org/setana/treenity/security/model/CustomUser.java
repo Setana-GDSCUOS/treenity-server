@@ -60,11 +60,6 @@ public class CustomUser implements UserDetails {
     }
 
     public void checkUserId(Long userId) {
-        System.out.println("customUserId=" + this.userId + ", userId=" + userId);
-
-        System.out.println(
-            "Object.equals(this.userId, userId) = " + Objects.equals(this.userId, userId));
-
         // TODO: 샘플 유저 userId != 1 조건 제거 필요
         if (userId != 1 && !Objects.equals(this.userId, userId)) {
             throw new NotAcceptableException(ErrorCode.USER_CHECK_FAIL);
