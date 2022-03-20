@@ -4,6 +4,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
 import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.dto.TreeInteractDto;
+import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.dto.TreeUpdateDto;
 import org.setana.treenity.dto.UserFetchDto;
 import org.setana.treenity.dto.UserItemFetchDto;
@@ -11,6 +13,7 @@ import org.setana.treenity.dto.UserItemSaveDto;
 import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.dto.WalkLogFetchDto;
 import org.setana.treenity.dto.WalkLogSaveDto;
+import org.setana.treenity.model.Location;
 import org.setana.treenity.security.model.CustomUser;
 import org.setana.treenity.service.TreeService;
 import org.setana.treenity.service.UserItemService;
@@ -87,6 +90,15 @@ public class UserController {
         return treeService.fetchUserTrees(customUser, userId, pageable);
     }
 
+    @PostMapping("/{id}/trees")
+    public void postTreePlant(
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
+        @PathVariable(value = "id") Long userId,
+        @RequestBody TreeSaveDto dto) {
+        Location location = new Location(dto.getLongitude(), dto.getLatitude());
+        treeService.plantTree(customUser, userId, location, dto);
+    }
+
     @PutMapping("/{userId}/trees/{treeId}")
     public void putTree(
         @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
@@ -94,6 +106,16 @@ public class UserController {
         @PathVariable(value = "treeId") Long treeId,
         @RequestBody TreeUpdateDto dto) {
         treeService.updateTree(customUser, userId, treeId, dto);
+    }
+
+    @PostMapping("/{userId}/trees/{treeId}/interact")
+    public void postTreeInteract(
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "treeId") Long treeId,
+        @RequestBody TreeInteractDto dto) {
+        // TODO: cloud anchor 아이디 포함된 DTO 제거 필요
+        treeService.interactTree(customUser, userId, treeId);
     }
 
     // walk-logs

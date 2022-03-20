@@ -56,9 +56,8 @@ class TreeServiceTest {
         CustomUser customUser = new CustomUser(user);
 
         // when
-        TreeSaveDto dto = new TreeSaveDto("cloudAnchorId", "트리A", savedUser.getId(),
-            savedUserItem.getId());
-        Tree tree = treeService.plantTree(customUser, location, dto);
+        TreeSaveDto dto = new TreeSaveDto("cloudAnchorId", "트리A", savedUserItem.getId());
+        Tree tree = treeService.plantTree(customUser, savedUser.getId(), location, dto);
 
         // then
         assertEquals(location, tree.getLocation());

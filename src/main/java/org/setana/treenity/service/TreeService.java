@@ -38,11 +38,11 @@ public class TreeService {
     private final UserTreeRepository userTreeRepository;
 
     @Transactional
-    public Tree plantTree(CustomUser customUser, Location location, TreeSaveDto dto) {
+    public Tree plantTree(CustomUser customUser, Long userId, Location location, TreeSaveDto dto) {
         // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
-        customUser.checkUserId(dto.getUserId());
+        customUser.checkUserId(userId);
 
-        TreeCluster treeCluster = treeRepository.searchTreeCluster(dto.getUserId(), location);
+        TreeCluster treeCluster = treeRepository.searchTreeCluster(userId, location);
         treeCluster.validatePlant();
 
         // 클라이언트에서 유저가 가진 아이템 중 아이템 타입이 SEED 인 아이템 하나를 선택해 나무 심기
@@ -54,7 +54,7 @@ public class TreeService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.ITEM_TYPE_CHECK_FAIL));
 
         // 요청한 아이템이 유저의 소유인지 검증
-        userItem.checkUserId(dto.getUserId());
+        userItem.checkUserId(userId);
         userItem.consume();
 
         Tree tree = new Tree(
