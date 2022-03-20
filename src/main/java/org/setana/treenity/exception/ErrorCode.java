@@ -6,6 +6,7 @@ public enum ErrorCode {
 
     // user
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 정보를 찾을 수 없습니다."),
+    USER_DUPLICATE(HttpStatus.NOT_ACCEPTABLE, "중복된 유저입니다."),
     POINT_NOT_ENOUGH(HttpStatus.NOT_ACCEPTABLE, "유저가 보유한 포인트가 부족합니다."),
     USER_CHECK_FAIL(HttpStatus.NOT_ACCEPTABLE, "유저 검증에 실패해 처리할 수 없습니다"),
     // tree

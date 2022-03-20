@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
             .disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.GET, "/auth")
-            .authenticated()
+            .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtFilter(userDetailsService, firebaseAuth),
                 UsernamePasswordAuthenticationFilter.class)
@@ -47,8 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-            // temporary
-            .antMatchers("/items/**", "/trees/**", "/users/**")
             // default
             .antMatchers("/")
             // health check

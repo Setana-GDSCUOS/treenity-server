@@ -6,6 +6,7 @@ import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserItemRepository;
@@ -13,7 +14,6 @@ import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.security.model.CustomUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,10 +29,10 @@ public class CustomUserService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         // 데이터베이스에서 user 반환
         User user = userRepository.findByUid(username)
-            .orElseThrow(() -> new UsernameNotFoundException("USER NOT FOUND"));
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // 매일 로그인 시마다 water 아이템 제공
         updateItem(user, WATER_ITEM);
@@ -44,6 +44,12 @@ public class CustomUserService implements UserDetailsService {
 
     @Transactional
     public CustomUser register(String uid, String email, String nickname) {
+        // 데이터베이스에서 uid 로 중복 유저 찾기
+        userRepository.findByUid(uid)
+            .ifPresent((user) -> {
+                throw new NotAcceptableException(ErrorCode.USER_DUPLICATE);
+            });
+
         // 데이터베이스에서 user 반환
         User user = new User(uid, email, nickname);
         userRepository.save(user);

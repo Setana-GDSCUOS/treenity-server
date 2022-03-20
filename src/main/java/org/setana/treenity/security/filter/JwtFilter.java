@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.security.util.RequestUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
@@ -43,12 +43,16 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter()
-                .write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
+                .write(
+                    "{\"code\":\"INVALID_TOKEN\", \"message\":\"Invalid Authorization header.\"}");
+            return;
 
-        } catch (UsernameNotFoundException e) {
+        } catch (NotFoundException e) {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
-            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
+            response.getWriter()
+                .write("{\"code\":\"NOT_FOUND\", \"message\":\"Cannot find user.\"}");
+            return;
         }
 
         filterChain.doFilter(request, response);
