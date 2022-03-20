@@ -56,14 +56,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
                 + " ST_Y(tree.point),"
                 + " tree.level,"
                 + " ST_Distance_Sphere(" + centre + ", tree.point) AS distance,"
-                + (userId != null ? " user_tree.bookmark," : null)
+                + (userId != null ? " user_tree.bookmark," : "")
                 + " user.user_id,"
-                + " user.username "
+                + " user.username"
                 + " FROM tree"
                 + " JOIN user ON tree.user_id = user.user_id"
                 + (userId != null
                 ? " LEFT JOIN user_tree ON tree.tree_id = user_tree.tree_id AND user_tree.user_id = :userId"
-                : null)
+                : "")
                 + " WHERE MBRContains(" + line + ", tree.point)"
                 + " ORDER BY distance");
 
