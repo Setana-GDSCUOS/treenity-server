@@ -50,8 +50,8 @@ public class CustomUserService implements UserDetailsService {
                 throw new NotAcceptableException(ErrorCode.USER_DUPLICATE);
             });
 
-        // 데이터베이스에서 user 반환
-        User user = new User(uid, email, nickname);
+        // 가입 시 유저에게 1000 포인트 지급
+        User user = new User(uid, email, nickname, 1_000);
         userRepository.save(user);
 
         // 가입 시 water/tutorial 아이템 제공
