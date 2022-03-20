@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 import lombok.Data;
 import org.setana.treenity.entity.Tree;
+import org.setana.treenity.entity.User;
 
 @Data
 public class TreeFetchDto {
@@ -11,6 +12,7 @@ public class TreeFetchDto {
     private Long treeId;
     private String cloudAnchorId;
     private String treeName;
+    private String treeDescription;
     private Double longitude;
     private Double latitude;
     private Integer level;
@@ -27,6 +29,7 @@ public class TreeFetchDto {
         this.treeId = tree.getId();
         this.cloudAnchorId = tree.getCloudAnchorId();
         this.treeName = tree.getName();
+        this.treeDescription = tree.getDescription();
         this.longitude = tree.getLocation().getLongitude();
         this.latitude = tree.getLocation().getLatitude();
         this.level = tree.getLevel();
@@ -34,8 +37,13 @@ public class TreeFetchDto {
         this.createdDate = tree.getCreatedDate();
         this.bookmark = bookmark != null && bookmark;
 
-        this.user = new UserFetchDto(tree.getUser());
         this.item = new ItemFetchDto(tree.getItem());
+    }
+
+    @QueryProjection
+    public TreeFetchDto(Tree tree, User user, Boolean bookmark) {
+        this(tree, bookmark);
+        this.user = new UserFetchDto(user);
     }
 
 }

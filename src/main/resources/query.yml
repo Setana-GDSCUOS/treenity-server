@@ -1,4 +1,4 @@
-SEARCH_BY_LOCATION_WITH_USER: >
+SEARCH_BY_LOCATION: >
   SELECT tree.tree_id,
   tree.cloud_anchor_id,
   tree.tree_name,
