@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/users")
@@ -39,14 +40,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserFetchDto getUser(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId) {
         return userService.fetchUser(customUser, userId);
     }
 
     @PutMapping("/{id}")
     public void putUser(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @RequestBody UserUpdateDto dto) {
         userService.updateUser(customUser, userId, dto);
@@ -55,7 +56,7 @@ public class UserController {
     // my page
     @GetMapping("/{id}/my-page")
     public MyPageFetchDto getMyPage(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId) {
         return userService.fetchMyPage(customUser, userId);
     }
@@ -63,7 +64,7 @@ public class UserController {
     // item
     @GetMapping("/{id}/items")
     public List<UserItemFetchDto> getUserItems(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @PageableDefault Pageable pageable) {
         return userItemService.fetchUserItems(customUser, userId, pageable);
@@ -71,7 +72,7 @@ public class UserController {
 
     @PostMapping("/{id}/items")
     public void postUserItem(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @RequestBody UserItemSaveDto dto) {
         userItemService.purchaseItem(customUser, userId, dto.getItemId());
@@ -80,7 +81,7 @@ public class UserController {
     // tree
     @GetMapping("/{id}/trees")
     public List<TreeFetchDto> getUserTrees(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @PageableDefault Pageable pageable) {
         return treeService.fetchUserTrees(customUser, userId, pageable);
@@ -88,7 +89,7 @@ public class UserController {
 
     @PutMapping("/{userId}/trees/{treeId}")
     public void putTree(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "userId") Long userId,
         @PathVariable(value = "treeId") Long treeId,
         @RequestBody TreeUpdateDto dto) {
@@ -98,7 +99,7 @@ public class UserController {
     // walk-logs
     @GetMapping("/{id}/walk-logs")
     public List<WalkLogFetchDto> getUserWalkLogs(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @PageableDefault Pageable pageable) {
         return walkLogService.fetchUserWalkLogs(customUser, userId, pageable);
@@ -106,7 +107,7 @@ public class UserController {
 
     @PostMapping("/{id}/walk-logs")
     public void postUserWalkLogs(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @RequestBody WalkLogSaveDto dto) {
         userService.convertToPoint(customUser, userId, dto.getDateWalks());

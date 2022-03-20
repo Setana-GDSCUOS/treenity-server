@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/trees")
@@ -36,14 +37,14 @@ public class TreeController {
 
     @GetMapping("{id}")
     public TreeFetchDto getTree(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long treeId) {
         return treeService.fetchTree(customUser, treeId);
     }
 
     @PostMapping
     public void postTreePlant(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @RequestBody TreeSaveDto dto) {
         Location location = new Location(dto.getLongitude(), dto.getLatitude());
         treeService.plantTree(customUser, location, dto);
@@ -51,7 +52,7 @@ public class TreeController {
 
     @PostMapping("/interact")
     public void postTreeInteract(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @RequestBody TreeInteractDto dto) {
         treeService.interactTree(customUser, dto.getUserId(), dto.getTreeId());
     }
