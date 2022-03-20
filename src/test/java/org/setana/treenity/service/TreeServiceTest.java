@@ -6,7 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.setana.treenity.dto.TreeFetchDto;
+import org.setana.treenity.dto.TreeListDto;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
@@ -123,7 +123,7 @@ class TreeServiceTest {
 
         Location location = new Location(127.02988185288436, 37.55637513168705);
 
-        List<TreeFetchDto> dtos = treeService.fetchByLocation(location);
+        List<TreeListDto> dtos = treeService.fetchByLocation(1L, location);
 
         System.out.println("treeListFetchDtos=" + dtos);
     }
