@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.setana.treenity.dto.TreeListDto;
+import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
@@ -52,7 +53,8 @@ class TreeServiceTest {
         UserItem savedUserItem = userItemRepository.save(userItem);
 
         // when
-        Tree tree = treeService.plantTree(location, null, "트리A", savedUserItem.getId());
+        TreeSaveDto dto = new TreeSaveDto(null, "트리A", savedUser.getId(), savedUserItem.getId());
+        Tree tree = treeService.plantTree(location, dto);
 
         // then
         assertEquals(location, tree.getLocation());

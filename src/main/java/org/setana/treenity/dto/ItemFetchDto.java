@@ -10,7 +10,7 @@ public class ItemFetchDto {
 
     // item
     private Long itemId;
-    private String name;
+    private String itemName;
     private String description;
     private ItemType itemType;
     private Integer cost;
@@ -19,7 +19,7 @@ public class ItemFetchDto {
     @QueryProjection
     public ItemFetchDto(Item item) {
         this.itemId = item.getId();
-        this.name = item.getName();
+        this.itemName = item.getName();
         this.description = item.getDescription();
         this.itemType = item.getItemType();
         this.cost = item.getCost();
