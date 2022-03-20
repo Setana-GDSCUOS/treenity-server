@@ -32,15 +32,8 @@ public class UserFetchDto {
     }
 
     @QueryProjection
-    public UserFetchDto(Long userId, String uid, String email, String username, Integer point,
-        Integer dailyWalks, Integer totalWalks, Integer buckets) {
-        this.userId = userId;
-        this.uid = uid;
-        this.email = email;
-        this.username = username;
-        this.point = point;
-        this.dailyWalks = dailyWalks;
-        this.totalWalks = totalWalks;
+    public UserFetchDto(User user, int buckets) {
+        this(user);
         this.buckets = buckets;
     }
 }

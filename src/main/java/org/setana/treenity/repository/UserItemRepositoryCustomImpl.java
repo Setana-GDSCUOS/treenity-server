@@ -24,15 +24,9 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
 
     public List<UserItemFetchDto> findByUserId(Long userId, Pageable pageable) {
         return queryFactory
-            .select(new QUserItemFetchDto(
-                userItem.id,
-                userItem.item,
-                userItem.totalCount,
-                userItem.createdDate
-            ))
+            .select(new QUserItemFetchDto(userItem))
             .from(userItem)
-            .join(userItem.user, user)
-            .join(userItem.item, item)
+            .join(userItem.item, item).fetchJoin()
             .where(userItem.user.id.eq(userId))
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
@@ -42,8 +36,8 @@ public class UserItemRepositoryCustomImpl implements UserItemRepositoryCustom {
     public Optional<UserItem> search(UserItemSearchCondition condition) {
         return Optional.ofNullable(queryFactory
             .selectFrom(userItem)
-            .join(userItem.user, user)
-            .join(userItem.item, item)
+            .join(userItem.user, user).fetchJoin()
+            .join(userItem.item, item).fetchJoin()
             .where(userItemEq(condition.getUserItemId()),
                 userIdEq(condition.getUserId()),
                 itemIdEq(condition.getItemId()),

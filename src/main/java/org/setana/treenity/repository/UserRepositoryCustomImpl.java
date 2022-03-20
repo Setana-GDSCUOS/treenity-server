@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.MyPageFetchDto;
-import org.setana.treenity.dto.QMyPageFetchDto;
 import org.setana.treenity.dto.QTreeFetchDto;
 import org.setana.treenity.dto.QUserFetchDto;
 import org.setana.treenity.dto.QWalkLogFetchDto;
@@ -31,16 +30,9 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
     @Override
     public Optional<UserFetchDto> searchUserByCondition(UserSearchCondition condition) {
+        // WARNING: 유저 별로 ItemType 이 WATER 인 userItem 이 반드시 1개씩만 존재
         return Optional.ofNullable(queryFactory
-            .select(new QUserFetchDto(
-                user.id,
-                user.uid,
-                user.email,
-                user.username,
-                user.point,
-                user.dailyWalks,
-                user.totalWalks,
-                userItem.totalCount))
+            .select(new QUserFetchDto(user, userItem.totalCount))
             .from(user)
             .leftJoin(user.userItems, userItem)
             .join(userItem.item, item).on(item.itemType.eq(ItemType.WATER))
@@ -54,31 +46,23 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         int DEFAULT_PAGE_SIZE = 10;
 
         // WARNING: 유저 별로 ItemType 이 WATER 인 userItem 이 반드시 1개씩만 존재
-        MyPageFetchDto myPageFetchDto = queryFactory
-            .select(new QMyPageFetchDto(
-                user.id,
-                user.username,
-                user.point,
-                user.dailyWalks,
-                user.totalWalks,
-                userItem.totalCount))
+        UserFetchDto userFetchDto = queryFactory
+            .select(new QUserFetchDto(user, userItem.totalCount))
             .from(user)
             .leftJoin(user.userItems, userItem)
             .join(userItem.item, item).on(item.itemType.eq(ItemType.WATER))
             .where(user.id.eq(userId))
             .fetchOne();
 
-        // TODO: user 데이터 쿼리와 함께 작성 필요
         List<TreeFetchDto> treeFetchDtos = queryFactory
             .select(new QTreeFetchDto(tree, userTree.bookmark))
             .from(tree)
-            .join(tree.item, item)
+            .join(tree.item, item).fetchJoin()
             .leftJoin(tree.userTrees, userTree).on(userTree.user.id.eq(userId))
             .where(tree.user.id.eq(userId))
             .fetch();
 
-        // TODO: user 데이터 쿼리와 함께 작성 필요
-        List<WalkLogFetchDto> walkLogs = queryFactory
+        List<WalkLogFetchDto> walkLogDtos = queryFactory
             .select(new QWalkLogFetchDto(walkLog.id, walkLog.walks, walkLog.date))
             .from(walkLog)
             .where(walkLog.user.id.eq(userId))
@@ -86,9 +70,10 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
             .limit(DEFAULT_PAGE_SIZE)
             .fetch();
 
+        MyPageFetchDto myPageFetchDto = new MyPageFetchDto();
+        myPageFetchDto.setUser(userFetchDto);
         myPageFetchDto.setTrees(treeFetchDtos);
-        myPageFetchDto.setWalkLogs(walkLogs);
-
+        myPageFetchDto.setWalkLogs(walkLogDtos);
         return myPageFetchDto;
     }
 

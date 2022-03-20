@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -93,7 +94,7 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
         return queryFactory.
             select(new QTreeFetchDto(tree, userTree.bookmark))
             .from(tree)
-            .join(tree.item, item)
+            .join(tree.item, item).fetchJoin()
             .leftJoin(tree.userTrees, userTree).on(userTree.user.id.eq(userId))
             .where(tree.user.id.eq(userId))
             .offset(pageable.getOffset())
@@ -101,14 +102,14 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
             .fetch();
     }
 
-    public TreeFetchDto searchByTreeId(Long userId, Long treeId) {
-        return queryFactory
-            .select(new QTreeFetchDto(tree, userTree.bookmark))
+    public Optional<TreeFetchDto> searchByTreeId(Long userId, Long treeId) {
+        return Optional.ofNullable(queryFactory
+            .select(new QTreeFetchDto(tree, user, userTree.bookmark))
             .from(tree)
             .join(tree.user, user)
-            .join(tree.item, item)
+            .join(tree.item, item).fetchJoin()
             .leftJoin(tree.userTrees, userTree).on(userTree.user.id.eq(userId))
             .where(tree.id.eq(treeId))
-            .fetchOne();
+            .fetchOne());
     }
 }

@@ -1,6 +1,7 @@
 package org.setana.treenity.repository;
 
 import java.util.List;
+import java.util.Optional;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeListDto;
 import org.setana.treenity.model.Location;
@@ -15,5 +16,5 @@ public interface TreeRepositoryCustom {
 
     List<TreeFetchDto> searchByUserId(Long userId, Pageable pageable);
 
-    TreeFetchDto searchByTreeId(Long userId, Long treeId);
+    Optional<TreeFetchDto> searchByTreeId(Long userId, Long treeId);
 }
