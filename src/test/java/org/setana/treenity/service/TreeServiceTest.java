@@ -18,6 +18,7 @@ import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.setana.treenity.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,9 +53,12 @@ class TreeServiceTest {
         UserItem userItem = new UserItem(savedUser, savedItem, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
+        CustomUser customUser = new CustomUser(user);
+
         // when
-        TreeSaveDto dto = new TreeSaveDto(null, "트리A", savedUser.getId(), savedUserItem.getId());
-        Tree tree = treeService.plantTree(location, dto);
+        TreeSaveDto dto = new TreeSaveDto("cloudAnchorId", "트리A", savedUser.getId(),
+            savedUserItem.getId());
+        Tree tree = treeService.plantTree(customUser, location, dto);
 
         // then
         assertEquals(location, tree.getLocation());
@@ -80,8 +84,10 @@ class TreeServiceTest {
         UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
+        CustomUser customUser = new CustomUser(user);
+
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), null, savedUser.getId());
+        Tree tree = treeService.interactTree(customUser, savedUser.getId(), savedTree.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
@@ -109,8 +115,10 @@ class TreeServiceTest {
         UserItem userItem = new UserItem(savedUser, savedWater, 1, 0);
         UserItem savedUserItem = userItemRepository.save(userItem);
 
+        CustomUser customUser = new CustomUser(user);
+
         // when
-        Tree tree = treeService.interactTree(savedTree.getId(), null, savedUser.getId());
+        Tree tree = treeService.interactTree(customUser, savedUser.getId(), savedTree.getId());
         UserItem findUserItem = userItemRepository.findById(userItem.getId()).get();
 
         // then
@@ -122,10 +130,15 @@ class TreeServiceTest {
     @Test
     @DisplayName("위치정보로 주변 나무 조회하기")
     public void searchByLocationTest() {
-
+        // given
+        User user = new User("test", "test@example.com", "유저A");
         Location location = new Location(127.02988185288436, 37.55637513168705);
 
-        List<TreeListDto> dtos = treeService.fetchByLocation(1L, location);
+        User savedUser = userRepository.save(user);
+        CustomUser customUser = new CustomUser(user);
+
+        // when
+        List<TreeListDto> dtos = treeService.fetchByLocation(customUser, location);
 
         System.out.println("treeListFetchDtos=" + dtos);
     }

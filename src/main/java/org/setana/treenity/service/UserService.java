@@ -19,6 +19,7 @@ import org.setana.treenity.exception.ErrorCode;
 import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,7 +35,10 @@ public class UserService {
     private final WalkLogRepository walkLogRepository;
 
     @Transactional
-    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks) {
+    public void convertToPoint(CustomUser customUser, Long userId,
+        Map<LocalDate, Integer> dateWalks) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
 
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -100,7 +104,10 @@ public class UserService {
 
     }
 
-    public UserFetchDto fetchUser(Long userId) {
+    public UserFetchDto fetchUser(CustomUser customUser, Long userId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         UserSearchCondition condition = new UserSearchCondition();
         condition.setUserId(userId);
 
@@ -108,7 +115,10 @@ public class UserService {
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public MyPageFetchDto fetchMyPage(Long userId) {
+    public MyPageFetchDto fetchMyPage(CustomUser customUser, Long userId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         MyPageFetchDto myPageDto = userRepository.searchMyPageById(userId);
 
         for (TreeFetchDto treeDto : myPageDto.getTrees()) {
@@ -118,7 +128,10 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Long userId, UserUpdateDto dto) {
+    public User updateUser(CustomUser customUser, Long userId, UserUpdateDto dto) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 

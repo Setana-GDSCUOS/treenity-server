@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,7 @@ import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,6 +37,7 @@ class UserServiceTest {
         // given
         User user = new User("test", "test@example.com", "유저A");
         User savedUser = userRepository.save(user);
+        CustomUser customUser = new CustomUser(savedUser);
 
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
             put(LocalDate.now().minusDays(1), 100);
@@ -53,7 +54,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertToPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(customUser, savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(
@@ -84,6 +85,7 @@ class UserServiceTest {
         // given
         User user = new User("test", "test@example.com", "유저A");
         User savedUser = userRepository.save(user);
+        CustomUser customUser = new CustomUser(savedUser);
 
         // 각 날짜마다 걷기 100 저장
         Map<LocalDate, Integer> baseDateWalks = new HashMap<>() {{
@@ -92,7 +94,7 @@ class UserServiceTest {
             put(LocalDate.now().plusDays(1), 100);
         }};
 
-        userService.convertToPoint(savedUser.getId(), baseDateWalks);
+        userService.convertToPoint(customUser, savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -110,7 +112,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertToPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(customUser, savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(
@@ -140,6 +142,7 @@ class UserServiceTest {
         // given
         User user = new User("test", "test@example.com", "유저A");
         User savedUser = userRepository.save(user);
+        CustomUser customUser = new CustomUser(savedUser);
 
         // 각 날짜마다 걷기 100 저장
         Map<LocalDate, Integer> baseDateWalks = new HashMap<>() {{
@@ -148,7 +151,7 @@ class UserServiceTest {
             put(LocalDate.now().minusDays(1), 100);
         }};
 
-        userService.convertToPoint(savedUser.getId(), baseDateWalks);
+        userService.convertToPoint(customUser, savedUser.getId(), baseDateWalks);
 
         // 각 날짜마다 아래 만큼 걷기 기록 추가
         Map<LocalDate, Integer> dateWalks = new HashMap<>() {{
@@ -166,7 +169,7 @@ class UserServiceTest {
             .orElseThrow(IllegalStateException::new);
 
         // when
-        userService.convertToPoint(savedUser.getId(), dateWalks);
+        userService.convertToPoint(customUser, savedUser.getId(), dateWalks);
 
         User findUser = userRepository.findById(savedUser.getId()).get();
         List<WalkLog> findWalkLogs = walkLogRepository.findByUser_IdAndDateBetween(
@@ -197,10 +200,12 @@ class UserServiceTest {
         User user = new User("test", "test@example.com", "유저A");
         UserUpdateDto dto = new UserUpdateDto("username");
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        CustomUser customUser = new CustomUser(savedUser);
 
         // when
-        User updatedUser = userService.updateUser(user.getId(), dto);
+        User updatedUser = userService.updateUser(customUser, user.getId(), dto);
 
         // then
         assertThat(updatedUser.getUsername()).isEqualTo(dto.getUsername());

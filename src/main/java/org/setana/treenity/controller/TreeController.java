@@ -7,7 +7,9 @@ import org.setana.treenity.dto.TreeInteractDto;
 import org.setana.treenity.dto.TreeListDto;
 import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.model.Location;
+import org.setana.treenity.security.model.CustomUser;
 import org.setana.treenity.service.TreeService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,30 +27,32 @@ public class TreeController {
 
     @GetMapping
     public List<TreeListDto> getTreesByLocation(
+        @AuthenticationPrincipal CustomUser customUser,
         @RequestParam Double longitude,
-        @RequestParam Double latitude,
-        @RequestParam Long userId
+        @RequestParam Double latitude
     ) {
-        return treeService.fetchByLocation(userId, new Location(longitude, latitude));
+        return treeService.fetchByLocation(customUser, new Location(longitude, latitude));
     }
 
     @GetMapping("{id}")
     public TreeFetchDto getTree(
-        @PathVariable(value = "id") Long treeId,
-        @RequestParam Long userId) {
-        return treeService.fetchTree(userId, treeId);
+        @AuthenticationPrincipal CustomUser customUser,
+        @PathVariable(value = "id") Long treeId) {
+        return treeService.fetchTree(customUser, treeId);
     }
 
     @PostMapping
-    public void postTreePlant(@RequestBody TreeSaveDto dto) {
+    public void postTreePlant(
+        @AuthenticationPrincipal CustomUser customUser,
+        @RequestBody TreeSaveDto dto) {
         Location location = new Location(dto.getLongitude(), dto.getLatitude());
-        treeService.plantTree(location, dto);
+        treeService.plantTree(customUser, location, dto);
     }
 
-    @PostMapping("/{id}/interact")
+    @PostMapping("/interact")
     public void postTreeInteract(
-        @PathVariable(value = "id") Long treeId,
+        @AuthenticationPrincipal CustomUser customUser,
         @RequestBody TreeInteractDto dto) {
-        treeService.interactTree(treeId, dto.getCloudAnchorId(), dto.getUserId());
+        treeService.interactTree(customUser, dto.getUserId(), dto.getTreeId());
     }
 }

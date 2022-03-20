@@ -14,6 +14,7 @@ import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserItemRepository;
 import org.setana.treenity.repository.UserRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,9 @@ public class UserItemService {
     private final UserItemRepository userItemRepository;
 
     @Transactional
-    public UserItem purchaseItem(Long userId, Long itemId) {
+    public UserItem purchaseItem(CustomUser customUser, Long userId, Long itemId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
 
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
@@ -54,7 +57,11 @@ public class UserItemService {
         return userItemRepository.save(userItem);
     }
 
-    public List<UserItemFetchDto> fetchUserItems(Long userId, Pageable pageable) {
+    public List<UserItemFetchDto> fetchUserItems(CustomUser customUser, Long userId,
+        Pageable pageable) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         List<UserItemFetchDto> dtos = userItemRepository.findByUserId(userId, pageable);
 
         for (UserItemFetchDto dto : dtos) {

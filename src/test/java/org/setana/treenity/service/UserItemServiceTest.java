@@ -14,6 +14,7 @@ import org.setana.treenity.entity.UserItem;
 import org.setana.treenity.exception.NotAcceptableException;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.UserRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -42,8 +43,11 @@ class UserItemServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
+        CustomUser customUser = new CustomUser(savedUser);
+
         // when
-        UserItem userItem = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -70,9 +74,13 @@ class UserItemServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
+        CustomUser customUser = new CustomUser(savedUser);
+
         // when
-        UserItem userItem_A = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        UserItem userItem_B = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_A = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
+        UserItem userItem_B = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -99,14 +107,16 @@ class UserItemServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
+        CustomUser customUser = new CustomUser(savedUser);
+
         // when
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
 
         // then
         assertThrows(NotAcceptableException.class,
-            () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
+            () -> userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId()));
     }
 
     @Test
@@ -123,11 +133,17 @@ class UserItemServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
+        CustomUser customUser = new CustomUser(savedUser);
+
         // when
-        UserItem userItem_A = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        UserItem userItem_B = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        UserItem userItem_C = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        UserItem userItem_D = userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        UserItem userItem_A = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
+        UserItem userItem_B = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
+        UserItem userItem_C = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
+        UserItem userItem_D = userItemService.purchaseItem(customUser, savedUser.getId(),
+            savedItem.getId());
         User findUser = userRepository.findById(savedUser.getId()).get();
 
         // then
@@ -155,14 +171,16 @@ class UserItemServiceTest {
         Item savedItem = itemRepository.save(item);
         User savedUser = userRepository.save(user);
 
+        CustomUser customUser = new CustomUser(savedUser);
+
         // when
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
-        userItemService.purchaseItem(savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
+        userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId());
 
         // then
         assertThrows(NotAcceptableException.class,
-            () -> userItemService.purchaseItem(savedUser.getId(), savedItem.getId()));
+            () -> userItemService.purchaseItem(customUser, savedUser.getId(), savedItem.getId()));
     }
 
 }

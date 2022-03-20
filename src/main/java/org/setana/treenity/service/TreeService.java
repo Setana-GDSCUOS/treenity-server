@@ -20,8 +20,8 @@ import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
-import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.UserTreeRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,11 +35,13 @@ public class TreeService {
 
     private final TreeRepository treeRepository;
     private final UserItemRepository userItemRepository;
-    private final UserRepository userRepository;
     private final UserTreeRepository userTreeRepository;
 
     @Transactional
-    public Tree plantTree(Location location, TreeSaveDto dto) {
+    public Tree plantTree(CustomUser customUser, Location location, TreeSaveDto dto) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(dto.getUserId());
+
         TreeCluster treeCluster = treeRepository.searchTreeCluster(dto.getUserId(), location);
         treeCluster.validatePlant();
 
@@ -66,13 +68,15 @@ public class TreeService {
     }
 
     @Transactional
-    public Tree interactTree(Long treeId, String cloudAnchorId, Long userId) {
+    public Tree interactTree(CustomUser customUser, Long userId, Long treeId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
 
         Tree tree = treeRepository.findByIdWithinUser(treeId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
-        // 나무에 물을 줄 때 새로운 cloud anchor 아이디 업데이트
-        updateCloudAnchorId(tree, cloudAnchorId);
+        // TODO: 나무에 물을 줄 때 새로운 cloud anchor 아이디 업데이트 제거 필요
+        // updateCloudAnchorId(tree, dto.getCloudAnchorId());
 
         // 데이터베이스에서 유저가 가진 아이템 중 아이템 타입이 WATER 인 아이템 가져오기
         UserItemSearchCondition condition = new UserItemSearchCondition();
@@ -86,17 +90,22 @@ public class TreeService {
         return tree;
     }
 
+    // TODO: cloud anchor 아이디 업데이트 메서드 제거 필요
     private void updateCloudAnchorId(Tree tree, String cloudAnchorId) {
         if (cloudAnchorId != null) {
             tree.setCloudAnchorId(cloudAnchorId);
         }
     }
 
-    public List<TreeListDto> fetchByLocation(Long userId, Location location) {
-        return treeRepository.searchByLocation(userId, location);
+    public List<TreeListDto> fetchByLocation(CustomUser customUser, Location location) {
+        return treeRepository.searchByLocation(customUser.getUserId(), location);
     }
 
-    public List<TreeFetchDto> fetchUserTrees(Long userId, Pageable pageable) {
+    public List<TreeFetchDto> fetchUserTrees(CustomUser customUser, Long userId,
+        Pageable pageable) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         List<TreeFetchDto> dtos = treeRepository.searchByUserId(userId, pageable);
 
         for (TreeFetchDto dto : dtos) {
@@ -105,15 +114,18 @@ public class TreeService {
         return dtos;
     }
 
-    public TreeFetchDto fetchTree(Long userId, Long treeId) {
-        TreeFetchDto dto = treeRepository.searchByTreeId(userId, treeId)
+    public TreeFetchDto fetchTree(CustomUser customUser, Long treeId) {
+        TreeFetchDto dto = treeRepository.searchByTreeId(customUser.getUserId(), treeId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
         dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
         return dto;
     }
 
-    public void updateTree(Long userId, Long treeId, TreeUpdateDto dto) {
+    public void updateTree(CustomUser customUser, Long userId, Long treeId, TreeUpdateDto dto) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         Tree tree = treeRepository.findByIdAndUser_Id(treeId, userId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
