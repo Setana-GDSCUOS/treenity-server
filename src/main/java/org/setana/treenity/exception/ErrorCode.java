@@ -20,6 +20,9 @@ public enum ErrorCode {
     USER_ITEM_NOT_ENOUGH(HttpStatus.NOT_ACCEPTABLE, "유저가 보유한 아이템의 개수가 부족합니다."),
     USER_ITEM_LIMIT(HttpStatus.CONFLICT, "아이템 구매 개수 제한으로 아이템을 구매할 수 없습니다."),
 
+    // user tree
+    USER_TREE_DUPLICATE(HttpStatus.CONFLICT, "이미 유저가 등록한 북마크입니다."),
+
     // system
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "요청을 처리할 수 없습니다.");
 

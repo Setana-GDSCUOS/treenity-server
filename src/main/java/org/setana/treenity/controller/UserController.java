@@ -13,9 +13,11 @@ import org.setana.treenity.dto.WalkLogSaveDto;
 import org.setana.treenity.service.TreeService;
 import org.setana.treenity.service.UserItemService;
 import org.setana.treenity.service.UserService;
+import org.setana.treenity.service.UserTreeService;
 import org.setana.treenity.service.WalkLogService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserItemService userItemService;
+    private final UserTreeService userTreeService;
     private final TreeService treeService;
     private final WalkLogService walkLogService;
 
@@ -90,6 +93,22 @@ public class UserController {
         @RequestBody UserUpdateDto dto
     ) {
         userService.updateUser(userId, dto);
+    }
+
+    @PostMapping("/{userId}/trees/{treeId}/bookmark")
+    public void postBookmark(
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "treeId") Long treeId
+    ) {
+        userTreeService.addBookmark(userId, treeId);
+    }
+
+    @DeleteMapping("/{userId}/trees/{treeId}/bookmark")
+    public void deleteBookmark(
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "treeId") Long treeId
+    ) {
+        userTreeService.deleteBookmark(userId, treeId);
     }
 
 }
