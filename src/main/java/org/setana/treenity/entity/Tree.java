@@ -80,7 +80,7 @@ public class Tree extends BaseEntity {
         int perLevel = multiple * level;
 
         level += (bucket + 1) / perLevel;
-        bucket += (bucket + 1) % perLevel;
+        bucket = (bucket + 1) % perLevel;
     }
 
     public void setCloudAnchorId(String cloudAnchorId) {
