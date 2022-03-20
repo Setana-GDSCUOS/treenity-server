@@ -6,16 +6,22 @@ import lombok.RequiredArgsConstructor;
 import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeListDto;
 import org.setana.treenity.dto.TreeSaveDto;
+import org.setana.treenity.dto.TreeUpdateDto;
 import org.setana.treenity.dto.UserItemSearchCondition;
 import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
+import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.entity.UserTree;
 import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
+import org.setana.treenity.repository.UserRepository;
+import org.setana.treenity.repository.UserTreeRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +35,8 @@ public class TreeService {
 
     private final TreeRepository treeRepository;
     private final UserItemRepository userItemRepository;
+    private final UserRepository userRepository;
+    private final UserTreeRepository userTreeRepository;
 
     @Transactional
     public Tree plantTree(Location location, TreeSaveDto dto) {
@@ -60,7 +68,7 @@ public class TreeService {
     @Transactional
     public Tree interactTree(Long treeId, String cloudAnchorId, Long userId) {
 
-        Tree tree = treeRepository.findById(treeId)
+        Tree tree = treeRepository.findByIdWithinUser(treeId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
         // 나무에 물을 줄 때 새로운 cloud anchor 아이디 업데이트
@@ -98,9 +106,43 @@ public class TreeService {
     }
 
     public TreeFetchDto fetchTree(Long userId, Long treeId) {
-        TreeFetchDto dto = treeRepository.searchByTreeId(userId, treeId);
+        TreeFetchDto dto = treeRepository.searchByTreeId(userId, treeId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
+
         dto.getItem().setImagePath(imageUrl + dto.getItem().getImagePath());
         return dto;
+    }
+
+    public void updateTree(Long userId, Long treeId, TreeUpdateDto dto) {
+        Tree tree = treeRepository.findByIdAndUser_Id(treeId, userId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
+
+        if (dto.getBookmark() == Boolean.TRUE) {
+            addBookmark(tree.getUser(), tree);
+        }
+        if (dto.getBookmark() == Boolean.FALSE) {
+            deleteBookmark(tree.getUser(), tree);
+        }
+        if (dto.getTreeName() != null) {
+            tree.setName(dto.getTreeName());
+        }
+        if (dto.getTreeDescription() != null) {
+            tree.setDescription(dto.getTreeDescription());
+        }
+        treeRepository.save(tree);
+    }
+
+    private void addBookmark(User user, Tree tree) {
+        userTreeRepository.findByUserAndTree(user, tree)
+            .ifPresent((userTree) -> {
+                throw new NotAcceptableException(ErrorCode.USER_TREE_DUPLICATE);
+            });
+
+        userTreeRepository.save(new UserTree(user, tree));
+    }
+
+    private void deleteBookmark(User user, Tree tree) {
+        userTreeRepository.deleteByUserAndTree(user, tree);
     }
 
 }

@@ -86,4 +86,13 @@ public class Tree extends BaseEntity {
     public void setCloudAnchorId(String cloudAnchorId) {
         this.cloudAnchorId = cloudAnchorId;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }
