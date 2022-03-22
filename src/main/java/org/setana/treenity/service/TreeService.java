@@ -20,6 +20,7 @@ import org.setana.treenity.model.Location;
 import org.setana.treenity.model.TreeCluster;
 import org.setana.treenity.repository.TreeRepository;
 import org.setana.treenity.repository.UserItemRepository;
+import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.UserTreeRepository;
 import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,7 @@ public class TreeService {
     @Value("${spring.upload.url:${user.home}}")
     private String imageUrl;
 
+    private final UserRepository userRepository;
     private final TreeRepository treeRepository;
     private final UserItemRepository userItemRepository;
     private final UserTreeRepository userTreeRepository;
@@ -129,12 +131,6 @@ public class TreeService {
         Tree tree = treeRepository.findByIdAndUser_Id(treeId, userId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
-        if (dto.getBookmark() == Boolean.TRUE) {
-            addBookmark(tree.getUser(), tree);
-        }
-        if (dto.getBookmark() == Boolean.FALSE) {
-            deleteBookmark(tree.getUser(), tree);
-        }
         if (dto.getTreeName() != null) {
             tree.setName(dto.getTreeName());
         }
@@ -144,7 +140,15 @@ public class TreeService {
         treeRepository.save(tree);
     }
 
-    private void addBookmark(User user, Tree tree) {
+    public void addBookmark(CustomUser customUser, Long userId, Long treeId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        Tree tree = treeRepository.findById(treeId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
+
         userTreeRepository.findByUserAndTree(user, tree)
             .ifPresent((userTree) -> {
                 throw new NotAcceptableException(ErrorCode.USER_TREE_DUPLICATE);
@@ -153,7 +157,15 @@ public class TreeService {
         userTreeRepository.save(new UserTree(user, tree));
     }
 
-    private void deleteBookmark(User user, Tree tree) {
+    public void deleteBookmark(CustomUser customUser, Long userId, Long treeId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        Tree tree = treeRepository.findById(treeId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
+
         userTreeRepository.deleteByUserAndTree(user, tree);
     }
 

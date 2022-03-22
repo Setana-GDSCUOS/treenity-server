@@ -22,6 +22,7 @@ import org.setana.treenity.service.WalkLogService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,7 +65,7 @@ public class UserController {
         return userService.fetchMyPage(customUser, userId);
     }
 
-    // item
+    // user-item
     @GetMapping("/{id}/items")
     public List<UserItemFetchDto> getUserItems(
         @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
@@ -81,7 +82,7 @@ public class UserController {
         userItemService.purchaseItem(customUser, userId, dto.getItemId());
     }
 
-    // tree
+    // user-tree
     @GetMapping("/{id}/trees")
     public List<TreeFetchDto> getUserTrees(
         @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
@@ -118,7 +119,23 @@ public class UserController {
         treeService.interactTree(customUser, userId, treeId);
     }
 
-    // walk-logs
+    @PostMapping("/{userId}/trees/{treeId}/bookmark")
+    public void postTreeBookmark(
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "treeId") Long treeId) {
+        treeService.addBookmark(customUser, userId, treeId);
+    }
+
+    @DeleteMapping("/{userId}/trees/{treeId}/bookmark")
+    public void deleteTreeBookmark(
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "treeId") Long treeId) {
+        treeService.deleteBookmark(customUser, userId, treeId);
+    }
+
+    // user-walk-logs
     @GetMapping("/{id}/walk-logs")
     public List<WalkLogFetchDto> getUserWalkLogs(
         @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
