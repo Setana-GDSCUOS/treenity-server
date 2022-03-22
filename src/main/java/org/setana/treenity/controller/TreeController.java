@@ -24,7 +24,7 @@ public class TreeController {
 
     @GetMapping
     public List<TreeListDto> getTreesByLocation(
-        @AuthenticationPrincipal CustomUser customUser,
+        @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @RequestParam Double longitude,
         @RequestParam Double latitude
     ) {
