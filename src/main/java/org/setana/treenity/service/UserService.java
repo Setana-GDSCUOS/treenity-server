@@ -21,6 +21,7 @@ import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
 import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -139,6 +140,12 @@ public class UserService {
             user.setUsername(dto.getUsername());
         }
         return userRepository.save(user);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void resetDailyWalksScheduled() {
+        userRepository.resetDailyWalks();
     }
 
 }
