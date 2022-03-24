@@ -77,9 +77,6 @@ public class TreeService {
         Tree tree = treeRepository.findByIdWithinUser(treeId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
-        // TODO: 나무에 물을 줄 때 새로운 cloud anchor 아이디 업데이트 제거 필요
-        // updateCloudAnchorId(tree, dto.getCloudAnchorId());
-
         // 데이터베이스에서 유저가 가진 아이템 중 아이템 타입이 WATER 인 아이템 가져오기
         UserItemSearchCondition condition = new UserItemSearchCondition();
         condition.setUserId(userId);
@@ -90,13 +87,6 @@ public class TreeService {
         userItem.apply(tree);
 
         return tree;
-    }
-
-    // TODO: cloud anchor 아이디 업데이트 메서드 제거 필요
-    private void updateCloudAnchorId(Tree tree, String cloudAnchorId) {
-        if (cloudAnchorId != null) {
-            tree.setCloudAnchorId(cloudAnchorId);
-        }
     }
 
     public List<TreeListDto> fetchByLocation(CustomUser customUser, Location location) {
