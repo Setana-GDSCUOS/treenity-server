@@ -24,8 +24,8 @@ public class TreeFetchDto {
     private UserFetchDto user;
     private ItemFetchDto item;
 
-    @QueryProjection
-    public TreeFetchDto(Tree tree, Boolean bookmark) {
+
+    public TreeFetchDto(Tree tree) {
         this.treeId = tree.getId();
         this.cloudAnchorId = tree.getCloudAnchorId();
         this.treeName = tree.getName();
@@ -35,8 +35,12 @@ public class TreeFetchDto {
         this.level = tree.getLevel();
         this.bucket = tree.getBucket();
         this.createdDate = tree.getCreatedDate();
-        this.bookmark = bookmark != null && bookmark;
+    }
 
+    @QueryProjection
+    public TreeFetchDto(Tree tree, Boolean bookmark) {
+        this(tree);
+        this.bookmark = bookmark != null && bookmark;
         this.item = new ItemFetchDto(tree.getItem());
     }
 

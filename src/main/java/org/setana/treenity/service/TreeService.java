@@ -40,7 +40,8 @@ public class TreeService {
     private final UserTreeRepository userTreeRepository;
 
     @Transactional
-    public Tree plantTree(CustomUser customUser, Long userId, Location location, TreeSaveDto dto) {
+    public TreeFetchDto plantTree(CustomUser customUser, Long userId, Location location,
+        TreeSaveDto dto) {
         // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
         customUser.checkUserId(userId);
 
@@ -66,7 +67,7 @@ public class TreeService {
             userItem.getUser(),
             userItem.getItem()
         );
-        return treeRepository.save(tree);
+        return new TreeFetchDto(treeRepository.save(tree));
     }
 
     @Transactional

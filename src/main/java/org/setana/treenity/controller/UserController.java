@@ -92,12 +92,12 @@ public class UserController {
     }
 
     @PostMapping("/{id}/trees")
-    public void postTreePlant(
+    public TreeFetchDto postTreePlant(
         @ApiIgnore @AuthenticationPrincipal CustomUser customUser,
         @PathVariable(value = "id") Long userId,
         @RequestBody TreeSaveDto dto) {
         Location location = new Location(dto.getLongitude(), dto.getLatitude());
-        treeService.plantTree(customUser, userId, location, dto);
+        return treeService.plantTree(customUser, userId, location, dto);
     }
 
     @PutMapping("/{userId}/trees/{treeId}")

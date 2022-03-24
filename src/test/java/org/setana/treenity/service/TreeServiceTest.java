@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.setana.treenity.dto.TreeFetchDto;
 import org.setana.treenity.dto.TreeListDto;
 import org.setana.treenity.dto.TreeSaveDto;
 import org.setana.treenity.entity.Item;
@@ -13,6 +14,8 @@ import org.setana.treenity.entity.ItemType;
 import org.setana.treenity.entity.Tree;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.UserItem;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.model.Location;
 import org.setana.treenity.repository.ItemRepository;
 import org.setana.treenity.repository.TreeRepository;
@@ -55,14 +58,18 @@ class TreeServiceTest {
 
         CustomUser customUser = new CustomUser(user);
 
+        TreeSaveDto saveDto = new TreeSaveDto("cloudAnchorId", "트리A", savedUserItem.getId());
+        TreeFetchDto fetchDto = treeService.plantTree(customUser, savedUser.getId(), location,
+            saveDto);
+
         // when
-        TreeSaveDto dto = new TreeSaveDto("cloudAnchorId", "트리A", savedUserItem.getId());
-        Tree tree = treeService.plantTree(customUser, savedUser.getId(), location, dto);
+        Tree savedTree = treeRepository.findById(fetchDto.getTreeId())
+            .orElseThrow(() -> new NotFoundException(ErrorCode.TREE_NOT_FOUND));
 
         // then
-        assertEquals(location, tree.getLocation());
-        assertEquals(savedUser.getId(), tree.getUser().getId());
-        assertEquals(savedItem.getId(), tree.getItem().getId());
+        assertEquals(location, savedTree.getLocation());
+        assertEquals(savedUser.getId(), savedTree.getUser().getId());
+        assertEquals(savedItem.getId(), savedTree.getItem().getId());
     }
 
     @Test
