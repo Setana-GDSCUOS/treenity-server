@@ -22,7 +22,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequiredArgsConstructor
 public class UserItemController {
 
-    private UserItemService userItemService;
+    private final UserItemService userItemService;
 
     // user-item
     @GetMapping("/{id}/items")
