@@ -78,7 +78,8 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
                     (Double) result[7],
                     (Boolean) result[8],
                     ((BigInteger) result[9]).longValue(),
-                    (String) result[10]
+                    (String) result[10],
+                    ((BigInteger) result[11]).longValue()
                 )).collect(Collectors.toList());
         } catch (ParseException e) {
             throw new BusinessException(ErrorCode.INTERNAL_ERROR);

@@ -19,10 +19,11 @@ public class TreeListDto {
 
     // relation
     private User user;
+    private Long itemId;
 
     public TreeListDto(Long treeId, String cloudAnchorId, String treeName, Double longitude,
         Double latitude, Integer level, LocalDateTime createdDate, Double distance,
-        Boolean bookmark, Long userId, String username) {
+        Boolean bookmark, Long userId, String username, Long itemId) {
         this.treeId = treeId;
         this.cloudAnchorId = cloudAnchorId;
         this.treeName = treeName;
@@ -32,6 +33,7 @@ public class TreeListDto {
         this.createdDate = createdDate;
         this.distance = distance;
         this.bookmark = bookmark != null && bookmark;
+        this.itemId = itemId;
 
         this.user = new User(userId, username);
     }

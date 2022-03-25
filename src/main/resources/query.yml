@@ -9,9 +9,11 @@ SEARCH_BY_LOCATION: >
   ST_Distance_Sphere(:centre, tree.point) AS distance,
   user_tree.bookmark,
   user.user_id,
-  user.username
+  user.username,
+  item.item_id
   FROM tree
   JOIN user ON tree.user_id = user.user_id
   LEFT JOIN user_tree ON tree.tree_id = user_tree.tree_id AND user_tree.user_id = :userId
+  LEFT JOIN item ON tree.item_id = item.item_id
   WHERE MBRContains(:line, tree.point)
   ORDER BY distance
