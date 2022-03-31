@@ -19,8 +19,7 @@ public class TreeCluster {
 
     public void validatePlant() {
         for (TreeListDto tree : trees) {
-            // TODO: 나무 사이의 간격을 1M 로 변경 필요
-            if (tree.getDistance() < 0) {
+            if (tree.getDistance() < 1) {
                 throw new NotAcceptableException(ErrorCode.LOCATION_NOT_VALID);
             }
         }

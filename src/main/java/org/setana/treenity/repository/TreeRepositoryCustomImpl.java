@@ -41,10 +41,10 @@ public class TreeRepositoryCustomImpl implements TreeRepositoryCustom {
     @Override
     public List<TreeListDto> searchByLocation(Long userId, Location location) {
         try {
-            // TODO: 현재 범위를 1km 단위로 설정, 이후 0.005km 로 변경 필요
-            Location northEast = GeometryUtil.makeLocation(location, 1,
+            // TODO: 현재 범위를 0.1km 로 설정, 거리를 클라이언트에서 요청하도록 변경 필요
+            Location northEast = GeometryUtil.makeLocation(location, 0.1,
                 Direction.NORTHEAST.getBearing());
-            Location southWest = GeometryUtil.makeLocation(location, 1,
+            Location southWest = GeometryUtil.makeLocation(location, 0.1,
                 Direction.SOUTHWEST.getBearing());
 
             // https://www.baeldung.com/hibernate-spatial
