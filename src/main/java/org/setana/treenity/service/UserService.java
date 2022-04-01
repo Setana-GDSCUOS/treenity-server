@@ -14,9 +14,14 @@ import org.setana.treenity.dto.UserSearchCondition;
 import org.setana.treenity.dto.UserUpdateDto;
 import org.setana.treenity.entity.User;
 import org.setana.treenity.entity.WalkLog;
+import org.setana.treenity.exception.BusinessException;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.repository.UserRepository;
 import org.setana.treenity.repository.WalkLogRepository;
+import org.setana.treenity.security.model.CustomUser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -31,32 +36,33 @@ public class UserService {
     private final WalkLogRepository walkLogRepository;
 
     @Transactional
-    public void convertToPoint(Long userId, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public void convertToPoint(CustomUser customUser, Long userId,
+        Map<LocalDate, Integer> dateWalks) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
 
         User user = userRepository.findById(userId)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         upsertWalkLogs(user, dateWalks);
 
         Integer totalWalks = dateWalks.values().stream()
             .reduce(Integer::sum)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         user.updateTotalWalksAndPoint(totalWalks);
     }
 
     @Transactional
-    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public List<WalkLog> findWalkLogs(Long userId, Map<LocalDate, Integer> dateWalks) {
 
         LocalDate startDate = dateWalks.keySet().stream()
             .min(LocalDate::compareTo)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         LocalDate endDate = dateWalks.keySet().stream()
             .max(LocalDate::compareTo)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new BusinessException(ErrorCode.INTERNAL_ERROR));
 
         return walkLogRepository.findByUser_IdAndDateBetween(
             userId, startDate, endDate);
@@ -71,8 +77,7 @@ public class UserService {
     }
 
     @Transactional
-    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks)
-        throws IllegalArgumentException {
+    public void upsertWalkLogs(User user, Map<LocalDate, Integer> dateWalks) {
 
         List<WalkLog> walkLogs = findWalkLogs(user.getId(), dateWalks);
 
@@ -100,36 +105,47 @@ public class UserService {
 
     }
 
-    public UserFetchDto fetchUser(Long userId) {
+    public UserFetchDto fetchUser(CustomUser customUser, Long userId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         UserSearchCondition condition = new UserSearchCondition();
         condition.setUserId(userId);
 
         return userRepository.searchUserByCondition(condition)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
-    public MyPageFetchDto fetchMyPage(Long userId) {
+    public MyPageFetchDto fetchMyPage(CustomUser customUser, Long userId) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         MyPageFetchDto myPageDto = userRepository.searchMyPageById(userId);
 
         for (TreeFetchDto treeDto : myPageDto.getTrees()) {
-            if (treeDto.getImagePath() != null) {
-                treeDto.setImagePath(imageUrl + treeDto.getImagePath());
-            }
-
             treeDto.getItem().setImagePath(imageUrl + treeDto.getItem().getImagePath());
         }
         return myPageDto;
     }
 
     @Transactional
-    public User updateUser(Long userId, UserUpdateDto dto) {
+    public User updateUser(CustomUser customUser, Long userId, UserUpdateDto dto) {
+        // 인증된 유저의 id 와 요청한 userId 가 일치하는지 확인
+        customUser.checkUserId(userId);
+
         User user = userRepository.findById(userId)
-            .orElseThrow(IllegalArgumentException::new);
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         if (StringUtils.hasText(dto.getUsername())) {
             user.setUsername(dto.getUsername());
         }
         return userRepository.save(user);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    @Transactional
+    public void resetDailyWalksScheduled() {
+        userRepository.resetDailyWalks();
     }
 
 }

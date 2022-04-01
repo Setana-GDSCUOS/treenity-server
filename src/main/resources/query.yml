@@ -1,0 +1,19 @@
+SEARCH_BY_LOCATION: >
+  SELECT tree.tree_id,
+  tree.cloud_anchor_id,
+  tree.tree_name,
+  ST_X(tree.point),
+  ST_Y(tree.point),
+  tree.level,
+  tree.created_date,
+  ST_Distance_Sphere(:centre, tree.point) AS distance,
+  user_tree.bookmark,
+  user.user_id,
+  user.username,
+  item.item_id
+  FROM tree
+  JOIN user ON tree.user_id = user.user_id
+  LEFT JOIN user_tree ON tree.tree_id = user_tree.tree_id AND user_tree.user_id = :userId
+  LEFT JOIN item ON tree.item_id = item.item_id
+  WHERE MBRContains(:line, tree.point)
+  ORDER BY distance

@@ -3,7 +3,6 @@ package org.setana.treenity.controller;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
 import org.setana.treenity.security.message.RegisterInfo;
 import org.setana.treenity.security.message.ResponseInfo;
@@ -30,7 +29,8 @@ public class AuthController {
     private final CustomUserService customUserService;
 
     @PostMapping
-    public ResponseInfo register(@RequestHeader("Authorization") String authorization,
+    public ResponseInfo register(
+        @ApiIgnore @RequestHeader("Authorization") String authorization,
         @RequestBody RegisterInfo registerInfo) {
 
         FirebaseToken decodedToken;
@@ -50,7 +50,6 @@ public class AuthController {
     }
 
     @GetMapping
-    @ApiImplicitParam(name = "Authorization", required = true, paramType = "header", dataTypeClass = String.class)
     public ResponseInfo login(@ApiIgnore Authentication authentication) {
         CustomUser customUser = (CustomUser) authentication.getPrincipal();
         return new ResponseInfo(customUser);

@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
+import org.setana.treenity.exception.NotFoundException;
 import org.setana.treenity.security.util.RequestUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
@@ -28,29 +28,31 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-        FirebaseToken decodedToken = null;
-
         try {
+            // decode token
             String header = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
-            decodedToken = firebaseAuth.verifyIdToken(header);
+            FirebaseToken decodedToken = firebaseAuth.verifyIdToken(header);
 
-        } catch (IllegalArgumentException | FirebaseAuthException e) {
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter()
-                .write("{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
-        }
-
-        try {
+            // get user
             UserDetails userDetails = userDetailsService.loadUserByUsername(decodedToken.getUid());
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (UsernameNotFoundException e) {
+        } catch (IllegalArgumentException | FirebaseAuthException e) {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
-            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
+            response.getWriter()
+                .write(
+                    "{\"code\":\"INVALID_TOKEN\", \"message\":\"Invalid Authorization header.\"}");
+            return;
+
+        } catch (NotFoundException e) {
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter()
+                .write("{\"code\":\"NOT_FOUND\", \"message\":\"Cannot find user.\"}");
+            return;
         }
 
         filterChain.doFilter(request, response);

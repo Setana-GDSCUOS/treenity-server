@@ -3,6 +3,7 @@ package org.setana.treenity.entity;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -69,7 +72,7 @@ public class User extends BaseEntity {
 
     private void validatePoint(Item item) {
         if (point < item.getCost()) {
-            throw new IllegalStateException();
+            throw new NotAcceptableException(ErrorCode.POINT_NOT_ENOUGH);
         }
     }
 
@@ -89,5 +92,11 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void checkUserId(Long userId) {
+        if (!Objects.equals(this.id, userId)) {
+            throw new NotAcceptableException(ErrorCode.USER_CHECK_FAIL);
+        }
     }
 }

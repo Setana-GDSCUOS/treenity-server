@@ -44,21 +44,28 @@ public class InitDb {
             em.persist(user0);
 
             // item
-            Item itemA = new Item("water", "water 에 대한 설명", ItemType.WATER, 100, "bucket.jpg",
-                3);
-            Item itemB = new Item("tutorial", "tutorial 아이템에 대한 설명", ItemType.SEED, 100,
+            Item itemA = new Item("water",
+                "Water bucket for growing your trees.\n"
+                    + "You can water the trees with this item.",
+                ItemType.WATER, 100, "bucket.jpg", 3);
+            Item itemB = new Item("tutorial",
+                "Tutorial seed for beginners.\n"
+                    + "You can plant your tree with this item.",
+                ItemType.SEED, 100,
                 "tutorial.png", null);
-            Item itemC = new Item("basic", "basic 아이템에 대한 설명", ItemType.SEED, 300, "basic.jpg",
-                null);
+            Item itemC = new Item("basic",
+                "Basic seed for beginners.\n"
+                    + "Basic seed with the tree that has pink leaves, growing to 3.5m high.",
+                ItemType.SEED, 300, "basic.jpg", null);
 
             em.persist(itemA);
             em.persist(itemB);
             em.persist(itemC);
 
             // userItem (3 buckets, 2 sprout, 1 bud tree)
-            UserItem userItemA = new UserItem(user0, itemA, 1, 0);
-            UserItem userItemB = new UserItem(user0, itemB, 1, 0);
-            UserItem userItemC = new UserItem(user0, itemC, 1, 0);
+            UserItem userItemA = new UserItem(user0, itemA, 1_000, 0);
+            UserItem userItemB = new UserItem(user0, itemB, 1_000, 0);
+            UserItem userItemC = new UserItem(user0, itemC, 1_000, 0);
 
             em.persist(userItemA);
             em.persist(userItemB);

@@ -1,5 +1,7 @@
 package org.setana.treenity.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,9 +40,6 @@ public class Tree extends BaseEntity {
     @Column(name = "tree_description")
     private String description;
 
-    @Column(name = "tree_image_path")
-    private String imagePath;
-
     private Integer level = 1;
 
     private Integer bucket = 0;
@@ -51,6 +51,9 @@ public class Tree extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @OneToMany(mappedBy = "tree")
+    List<UserTree> userTrees = new ArrayList<>();
 
     public Tree(Location location, User user, Item item) {
         this(location, null, user, item);
@@ -77,10 +80,19 @@ public class Tree extends BaseEntity {
         int perLevel = multiple * level;
 
         level += (bucket + 1) / perLevel;
-        bucket += (bucket + 1) % perLevel;
+        bucket = (bucket + 1) % perLevel;
     }
 
-    public void updateCloudAnchorId(String cloudAnchorId) {
+    public void setCloudAnchorId(String cloudAnchorId) {
         this.cloudAnchorId = cloudAnchorId;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

@@ -1,8 +1,11 @@
 package org.setana.treenity.security.model;
 
 import java.util.Collection;
+import java.util.Objects;
 import lombok.Data;
 import org.setana.treenity.entity.User;
+import org.setana.treenity.exception.ErrorCode;
+import org.setana.treenity.exception.NotAcceptableException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -54,5 +57,12 @@ public class CustomUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public void checkUserId(Long userId) {
+        // TODO: 샘플 유저 userId != 1 조건 제거 필요
+        if (userId != 1 && !Objects.equals(this.userId, userId)) {
+            throw new NotAcceptableException(ErrorCode.USER_CHECK_FAIL);
+        }
     }
 }

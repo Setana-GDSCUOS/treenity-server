@@ -3,8 +3,8 @@ package org.setana.treenity.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 import lombok.Data;
-import org.setana.treenity.entity.Item;
 import org.setana.treenity.entity.ItemType;
+import org.setana.treenity.entity.UserItem;
 
 @Data
 public class UserItemFetchDto {
@@ -21,14 +21,15 @@ public class UserItemFetchDto {
     private LocalDateTime createdDate;
 
     @QueryProjection
-    public UserItemFetchDto(Long userItemId, Item item, int totalCount, LocalDateTime createdDate) {
-        this.userItemId = userItemId;
-        this.itemId = item.getId();
-        this.itemName = item.getName();
-        this.itemType = item.getItemType();
-        this.imagePath = item.getImagePath();
-        this.count = totalCount;
-        this.createdDate = createdDate;
+    public UserItemFetchDto(UserItem userItem) {
+        this.userItemId = userItem.getId();
+        this.count = userItem.getTotalCount();
+        this.createdDate = userItem.getCreatedDate();
+
+        this.itemId = userItem.getItem().getId();
+        this.itemName = userItem.getItem().getName();
+        this.itemType = userItem.getItem().getItemType();
+        this.imagePath = userItem.getItem().getImagePath();
     }
 
 }
