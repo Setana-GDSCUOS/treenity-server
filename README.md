@@ -7,7 +7,13 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white)
 ![Google-Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat-square&logo=Google-Cloud&logoColor=white)
 
-video coming soon!
+</br>
+
+Client Repo Link (You can see our demo video and usage)
+
+<https://github.com/Setana-GDSCUOS/treenity-android>
+
+</br>
 
 This is an application that provides an AR-based social networking/exercising experience.
 
@@ -91,18 +97,6 @@ Below is our project's HTTP REST API server swagger UI endpoint.
 
 - Swagger
   - `springfox-boot-starter`
-
-## Client Usage
-
-- Screenshots coming soon!
-
-### 🔭 Future Visions
-
-**<details><summary>Expand the possibility of interaction between users.</summary>** Even though society is one of the main components of our project, related features are currently reduced than initially thought. In the next step, interactions between users will take place with trees in between as they are now. For example, we can add features like users picking fruits from another user’s tree, or cutting another user’s tree. And if the obtained item could configure the tree to grow again from the item, not only the interaction but also the completeness of the app will increase.</details>
-
-**<details><summary>Add motivating elements by creating a rewarding system.</summary>** Currently, points that users could get from the number of steps and trees that could be purchased with points are the only ways to motivate users to walk. Suppose that we have added an achievement system that gives rewards to users when they find new kinds of trees and fruits. Users will try to discover more trees for rewards, and this could be another motivation for them to walk more. The more users walk, the fewer carbon emissions will occur than using transportation. Additionally, the quality of individual health and the overall health of society will be improved.</details>
-
-**<details><summary> Provide users rich experience</summary>** With a variety of types of seeds such as flowers or crops. It could make users’ experience richer when planting plants.</details>
 
 #### Contributors
 
